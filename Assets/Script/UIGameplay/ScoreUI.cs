@@ -28,7 +28,7 @@ public class ScoreUI : MonoBehaviour
     {
         if (_scoreText != null)
         {
-            _scoreText.text = "Score: " + _currentScore;
+            _scoreText.text = "Очки: " + _currentScore;
         }
     }
 

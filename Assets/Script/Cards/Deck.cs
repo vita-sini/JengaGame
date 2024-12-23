@@ -59,7 +59,7 @@ public class Deck : MonoBehaviour
             _cards.RemoveAt(0);
 
             // Показываем карту в UI
-            _cardUI.ShowCard(drawnCard);
+            //_cardUI.ShowCard(drawnCard);
 
             // Выполняем эффект карты
             drawnCard.Execute();
