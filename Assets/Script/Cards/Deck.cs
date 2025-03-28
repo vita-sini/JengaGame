@@ -1,33 +1,48 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using Random = System.Random;
 
 public class Deck : MonoBehaviour
 {
-    private WindCard _WindCard;
-    private EarthquakeCard _Card;
-    private Random _random = new Random();
-    private List<Card> _cards = new List<Card>();
-    private int _turnCounter = 0;
-    [SerializeField] private int _turnsUntilNextCard = 3;
     [SerializeField] private CardUI _cardUI;
-    private Effects _effects;
+    [SerializeField] private float _probability;
+    
+    private List<Card> _cards = new List<Card>();
+    private Random _random = new Random();
 
     private void Awake()
     {
-        _WindCard = new WindCard(_effects);
-        _Card = new EarthquakeCard(_effects);
-        _effects = GetComponent<Effects>();
         InitializeDeck();
         ShuffleDeck();
     }
 
     private void InitializeDeck()
     {
-        // Добавляем карты в колоду
-        _cards.Add(new WindCard(_effects));
-        _cards.Add(new EarthquakeCard(_effects));
+        // Получаем ссылки на эффекты
+        WindEffect windEffect = GetComponent<WindEffect>();
+        EarthquakeEffect earthquakeEffect = GetComponent<EarthquakeEffect>();
+        Glitch glitchEffect = GetComponent<Glitch>();
+        RotatingPlatform rotatingPlatformEffect = GetComponent<RotatingPlatform>();
+        Magnetic magneticEffect = GetComponent<Magnetic>();
+        Ghost ghostEffect = GetComponent<Ghost>();
+        Heavy heavyEffect = GetComponent<Heavy>();
+        Slippery slipperyEffect = GetComponent<Slippery>();
+        Explosive explosiveEffect = GetComponent<Explosive>();
+        Smoke smokeEffect = GetComponent<Smoke>();
+
+        // Создаем карты с эффектами
+        _cards.Add(new WindCard(windEffect));
+        _cards.Add(new EarthquakeCard(earthquakeEffect));
+        _cards.Add(new GlitchCard(glitchEffect));
+        _cards.Add(new RotatingPlatformCard(rotatingPlatformEffect));
+        _cards.Add(new MagneticCard(magneticEffect));
+        _cards.Add(new GhostCard(ghostEffect));
+        _cards.Add(new HeavyCard(heavyEffect));
+        _cards.Add(new SlipperyCard(slipperyEffect));
+        _cards.Add(new ExplosiveCard(explosiveEffect));
+        _cards.Add(new SmokeCard(smokeEffect));
     }
 
     private void ShuffleDeck()
@@ -43,11 +58,11 @@ public class Deck : MonoBehaviour
 
     public void OnTurnEnd()
     {
-        _turnCounter++;
-        if (_turnCounter >= _turnsUntilNextCard)
+        float chance = UnityEngine.Random.Range(0f, 1f); // Генерируем число от 0 до 1
+        Debug.Log(chance);
+        if (chance <= _probability) // вероятность
         {
             DrawCard();
-            _turnCounter = 0;
         }
     }
 
@@ -58,8 +73,8 @@ public class Deck : MonoBehaviour
             Card drawnCard = _cards[0];
             _cards.RemoveAt(0);
 
-            // Показываем карту в UI
-            //_cardUI.ShowCard(drawnCard);
+            //Показываем карту в UI
+            _cardUI.ShowCard(drawnCard);
 
             // Выполняем эффект карты
             drawnCard.Execute();

@@ -38,13 +38,6 @@ public class Pick
             return false; // Блок верхний — запретить выбор
         }
 
-        // Проверяем, не двигается ли блок (чтобы избежать повторного выбора)
-        if (rb.velocity.magnitude > 0.1f || rb.angularVelocity.magnitude > 0.1f)
-        {
-            Debug.Log("Блок ещё движется, его нельзя выбрать!");
-            return false;
-        }
-
         Debug.Log("CanBlockBeSelected");
         return true;
     }
@@ -52,7 +45,6 @@ public class Pick
     private void ConfigureSelectedBlock(ref Rigidbody selectedBlock, Rigidbody rb, ref Vector3 initialBlockPosition, ref Plane movementPlane, ref Vector3 offset, RaycastHit hit)
     {
         selectedBlock = rb;
-
         initialBlockPosition = selectedBlock.position;
         _zDistanceFromCamera = Vector3.Distance(_mainCamera.transform.position, selectedBlock.position);
         movementPlane = new Plane(-_mainCamera.transform.forward, hit.point);

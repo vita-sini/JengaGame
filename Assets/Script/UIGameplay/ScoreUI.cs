@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using YG;
 
 public class ScoreUI : MonoBehaviour
 {
@@ -26,16 +28,21 @@ public class ScoreUI : MonoBehaviour
 
     private void UpdateScoreText()
     {
+        Scene currentScene = SceneManager.GetActiveScene();
+
         if (_scoreText != null)
         {
             _scoreText.text = "Очки: " + _currentScore;
-        }
-    }
 
-    // Метод для проверки, лежит ли блок в покое (скорость близка к нулю)
-    public bool IsBlockAtRest(Rigidbody block)
-    {
-        return block.velocity.magnitude < 0.01f && block.angularVelocity.magnitude < 0.01f;
+            if (currentScene.name == "GameplayNewChallenges")
+            {
+                YandexGame.NewLeaderboardScores("NewChallenges", _currentScore);
+            }
+            else if (currentScene.name == "GameplayClassic")
+            {
+                YandexGame.NewLeaderboardScores("Classic", _currentScore);
+            }
+        }
     }
 
     public void CalculateScore(Vector3 initialPosition, Vector3 currentPosition, Rigidbody block)
@@ -48,7 +55,8 @@ public class ScoreUI : MonoBehaviour
         }
 
         // Если все условия выполнены, начисляем очки
-        AddScore(10);
-        Debug.Log("Очки начислены за успешное перемещение блока.");
+        AddScore(1);
+        Debug.Log("Ход засчитан.");
+        GameEvents.InvokeTurnEnd();
     }
 }

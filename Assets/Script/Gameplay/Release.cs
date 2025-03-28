@@ -7,6 +7,7 @@ public class Release
 {
     public void FreeBlock(Rigidbody selectedBlock)
     {
+        selectedBlock.constraints = RigidbodyConstraints.None;
         selectedBlock = null;
         Debug.Log("Release: FreeBlock");
     }

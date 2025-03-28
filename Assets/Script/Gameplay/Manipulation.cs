@@ -12,7 +12,9 @@ public class Manipulation : MonoBehaviour
     private CheckingUpperBlock _checkingUpperBlock;
     private ScoreUI _scoreUI;
     private Deck _deck;
+    private IPauseManager _pauseManager;
 
+    private bool _blockScored = false;
     private Vector3 _offset; // Смещение мыши относительно центра блока
     private Plane _movementPlane; // Плоскость движения для блока
     private Rigidbody _selectedBlock;
@@ -20,6 +22,7 @@ public class Manipulation : MonoBehaviour
 
     private void Awake()
     {
+        _pauseManager = FindObjectOfType<PauseMenu>();
         _checkingUpperBlock = new CheckingUpperBlock();
         _mouseWorldPosition = new MouseWorldPosition();
         _pick = new Pick(_mouseWorldPosition, _checkingUpperBlock);
@@ -32,6 +35,11 @@ public class Manipulation : MonoBehaviour
 
     private void Update()
     {
+        if (_pauseManager.IsPaused)
+        {
+            return; 
+        }
+
         ClickLeftMouseButton();
         ClickRightMouseButton();
     }
@@ -40,6 +48,7 @@ public class Manipulation : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
+            _blockScored = false;
             _pick.Select(ref _selectedBlock, ref _offset, ref _movementPlane, ref _initialBlockPosition);
         }
 
@@ -63,12 +72,6 @@ public class Manipulation : MonoBehaviour
     // Корутина для ожидания, пока блок перестанет двигаться
     private IEnumerator WaitForBlockToSettle(Rigidbody block, Vector3 initialPosition)
     {
-        // Ждём, пока блок перестанет двигаться
-        while (!_scoreUI.IsBlockAtRest(block))
-        {
-            yield return null; // Ждём один кадр
-        }
-
         // Дополнительно ждём, пока блок не окажется на другом блоке
         ContactMonitor monitor = block.GetComponent<ContactMonitor>();
 
@@ -77,14 +80,20 @@ public class Manipulation : MonoBehaviour
             yield return null; // Ждём один кадр
         }
 
-        yield return new WaitForSeconds(1f);
+        //yield return new WaitForSeconds(1f);
 
         // Проверяем, был ли блок установлен выше начальной позиции
-        if (block.transform.position.y > initialPosition.y + 1)
+        if (block.transform.position.y > initialPosition.y + 1 && !_blockScored)
         {
             //Начисляем очки только если блок выше начальной позиции
             _scoreUI.CalculateScore(initialPosition, block.transform.position, block);
-            _deck.OnTurnEnd();
+
+            if (SceneManager.GetActiveScene().name == Scenes.GAMEPLAYNEWCHALLENGES)
+            {
+                _deck.OnTurnEnd();
+            }
+
+            _blockScored = true;
         }
         else
         {
@@ -94,6 +103,25 @@ public class Manipulation : MonoBehaviour
 
     private void ClickRightMouseButton()
     {
+        if (Input.GetMouseButtonDown(1))
+        {
+            // Используем луч для определения блока, на который направлена мышь
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
 
+            if (Physics.Raycast(ray, out hit))
+            {
+                Rigidbody hitBlock = hit.rigidbody;
+                if (hitBlock != null)
+                {
+                    // Применяем толчок по осям Z и X, учитывая направление камеры
+                    Vector3 forceDirection = Camera.main.transform.forward;
+                    forceDirection.y = 0.5f; // Убираем компонент по оси Y
+                    forceDirection.Normalize(); // Нормализуем вектор
+                    Vector3 force = forceDirection * 3000f;
+                    hitBlock.AddForce(force, ForceMode.Impulse);
+                }
+            }
+        }
     }
 }

@@ -4,12 +4,11 @@ using UnityEngine;
 
 public class Movement
 {
-    private float _maxMoveSpeed = 5f; // Максимальная скорость перемещения
+    private float _maxMoveSpeed = 7f; // Максимальная скорость перемещения
  
     private MouseWorldPosition _mouseWorldPosition;
-
     private Manipulation _manipulation;
-    
+
     public Movement(MouseWorldPosition mouseWorldPosition, Manipulation manipulation)
     {
         _mouseWorldPosition = mouseWorldPosition;

@@ -5,36 +5,46 @@ using UnityEngine.UI;
 public class UIMainMenu : MonoBehaviour
 {
     [SerializeField] private GameObject _settingsCanvas;
-    [SerializeField] private Button _newGameButton;
+    [SerializeField] private GameObject _leaderboardCanvas;
+    [SerializeField] private GameObject _shopCanvas;
+    [SerializeField] private Button _newGameChallengesButton;
+    [SerializeField] private Button _newGameClassicButton;
     [SerializeField] private Button _settingsButton;
     [SerializeField] private Button _closeSettingsButton;
+    [SerializeField] private Button _leaderboardButton;
+    [SerializeField] private Button _closeLeaderboardButton;
+    [SerializeField] private Button _shopButton;
+    [SerializeField] private Button _closeShopButton;
 
     private void Start()
     {
+        SetCanvasActive(_settingsCanvas, false);
+        SetCanvasActive(_leaderboardCanvas, false);
+        SetCanvasActive(_shopCanvas, false);
+
         // Привязываем методы к кнопкам
-        _newGameButton.onClick.AddListener(StartNewGame);
-        _settingsButton.onClick.AddListener(OpenSettings);
-        _closeSettingsButton.onClick.AddListener(CloseSettings);
-
-        // Убедимся, что Canvas настроек изначально неактивен
-        _settingsCanvas.SetActive(false);
+        _shopButton.onClick.AddListener(() => SetCanvasActive(_shopCanvas, true));
+        _settingsButton.onClick.AddListener(() => SetCanvasActive(_settingsCanvas, true));
+        _closeSettingsButton.onClick.AddListener(() => SetCanvasActive(_settingsCanvas, false));
+        _closeShopButton.onClick.AddListener(() => SetCanvasActive(_shopCanvas, false));
+        _leaderboardButton.onClick.AddListener(() => SetCanvasActive(_leaderboardCanvas, true));
+        _closeLeaderboardButton.onClick.AddListener(() => SetCanvasActive(_leaderboardCanvas, false));
+        _newGameChallengesButton.onClick.AddListener(StartNewGameChallenges);
+        _newGameClassicButton.onClick.AddListener(StartNewGameClassic);
     }
 
-    public void StartNewGame()
+    public void StartNewGameChallenges()
     {
-        // Загружаем сцену игрового процесса
-        SceneManager.LoadScene("GAMEPLAY");
+        SceneManager.LoadScene("GAMEPLAYNEWCHALLENGES");
     }
 
-    public void OpenSettings()
+    public void StartNewGameClassic()
     {
-        // Активируем Canvas настроек
-        _settingsCanvas.SetActive(true);
+        SceneManager.LoadScene("GAMEPLAYCLASSIC");
     }
 
-    public void CloseSettings()
+    private void SetCanvasActive(GameObject canvas, bool isActive)
     {
-        // Деактивируем Canvas настроек
-        _settingsCanvas.SetActive(false);
+        canvas.SetActive(isActive);
     }
 }

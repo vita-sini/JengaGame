@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameOverTrigger : MonoBehaviour
 {
@@ -34,13 +35,8 @@ public class GameOverTrigger : MonoBehaviour
             // ≈сли блок не €вл€етс€ частью основани€, завершаем игру
             if (!baseBlocks.Contains(other.gameObject))
             {
-                GameOver();
+                GameEvents.InvokeGameOver();
             }
         }
-    }
-
-    private void GameOver()
-    {
-        Debug.Log("Game Over!");
     }
 }

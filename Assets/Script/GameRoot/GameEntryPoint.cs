@@ -3,18 +3,20 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class GameEntryPoint : MonoBehaviour
+public class GameEntryPoint
 {
-    [SerializeField] private float _minLoadTime = 2f; // Минимальное время показа экрана загрузки
-    [SerializeField] private GameObject _loadingScreen; // Ссылка на объект экрана загрузки
-    [SerializeField] private Slider _loadingBar; // Опциональный прогресс-бар
+     private float _minLoadTime = 2f; 
+     private GameObject _loadingScreen; 
+     private Slider _loadingBar;
 
-    private void Start()
+    public GameEntryPoint(float minLoadTime, GameObject loadingScreen, Slider loadingBar)
     {
-        StartCoroutine(LoadGame());
+        _minLoadTime = minLoadTime;
+        _loadingScreen = loadingScreen;
+        _loadingBar = loadingBar;
     }
 
-    private IEnumerator LoadGame()
+    public IEnumerator LoadGame()
     {
         // Показываем экран загрузки
         if (_loadingScreen != null)
