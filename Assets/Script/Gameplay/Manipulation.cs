@@ -4,6 +4,8 @@ using UnityEngine.SceneManagement;
 
 public class Manipulation : MonoBehaviour
 {
+    [SerializeField] private PauseMenu _pauseMenu;
+
     private Pick _pick;
     private Release _release;
     private MouseWorldPosition _mouseWorldPosition;
@@ -22,7 +24,7 @@ public class Manipulation : MonoBehaviour
 
     private void Awake()
     {
-        _pauseManager = FindObjectOfType<PauseMenu>();
+        _pauseManager = _pauseMenu;
         _checkingUpperBlock = new CheckingUpperBlock();
         _mouseWorldPosition = new MouseWorldPosition();
         _pick = new Pick(_mouseWorldPosition, _checkingUpperBlock);

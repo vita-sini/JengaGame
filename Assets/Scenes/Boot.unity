@@ -280,8 +280,79 @@ PrefabInstance:
     - {fileID: 1140200420422519081, guid: 041a7ca1b35a74749b80f3046ee0325f, type: 3}
     - {fileID: 7999425445271248747, guid: 041a7ca1b35a74749b80f3046ee0325f, type: 3}
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 872775833349259230, guid: 041a7ca1b35a74749b80f3046ee0325f, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 182654783}
   m_SourcePrefab: {fileID: 100100000, guid: 041a7ca1b35a74749b80f3046ee0325f, type: 3}
+--- !u!1 &182654781 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 872775833349259230, guid: 041a7ca1b35a74749b80f3046ee0325f, type: 3}
+  m_PrefabInstance: {fileID: 182654780}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &182654782 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2499235866868106664, guid: 041a7ca1b35a74749b80f3046ee0325f, type: 3}
+  m_PrefabInstance: {fileID: 182654780}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 182654781}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &182654783
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 182654781}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f34f36451b093ee4c83ad4aa5459d2ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textMPComponent: {fileID: 182654782}
+  uniqueFontTMP: {fileID: 0}
+  textLComponent: {fileID: 0}
+  infoYG: {fileID: 11400000, guid: 162644796a8b0d044bce3d6fda0641e3, type: 2}
+  text: 
+  ru: "\u0417\u0430\u0433\u0440\u0443\u0437\u043A\u0430..."
+  en: Loading...
+  tr: "Y\xFCkleme ..."
+  az: 
+  be: 
+  he: 
+  hy: 
+  ka: 
+  et: 
+  fr: 
+  kk: 
+  ky: 
+  lt: 
+  lv: 
+  ro: 
+  tg: 
+  tk: 
+  uk: 
+  uz: 
+  es: 
+  pt: 
+  ar: 
+  id: 
+  ja: 
+  it: 
+  de: 
+  hi: 
+  changeOnlyFont: 0
+  fontNumber: 0
+  uniqueFont: {fileID: 0}
+  additionalText: {fileID: 0}
+  textHeight: 20
+  processTranslateLabel: 3/3 completed
+  componentTextField: 1
+  countLang: 3
 --- !u!1 &544929198
 GameObject:
   m_ObjectHideFlags: 0
