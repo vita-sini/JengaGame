@@ -57,9 +57,11 @@ public class GameOverUI : MonoBehaviour
 
     private void RestartGame()
     {
-        Scene currentScene = SceneManager.GetActiveScene();
+        Time.timeScale = 1; // Возобновляем время
 
-        Time.timeScale = 1f; 
+        ScoreManager.Instance.ResetScore();
+
+        Scene currentScene = SceneManager.GetActiveScene();
 
         if (currentScene.name == "GameplayNewChallenges")
         {

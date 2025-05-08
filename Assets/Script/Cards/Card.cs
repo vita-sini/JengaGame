@@ -11,7 +11,7 @@ public class WindCard : Card
 
     public WindCard(IEffect effects)
     {
-        Description = "Торнадо!!!";
+        Description = LocalizationManager.GetText(nameof(WindCard));
         _effects = effects;
     }
 
@@ -27,23 +27,7 @@ public class EarthquakeCard : Card
 
     public EarthquakeCard(IEffect effects)
     {
-        Description = "Земля дрожит!";
-        _effects = effects;
-    }
-
-    public override void Execute()
-    {
-        _effects.Execute();
-    }
-}
-
-public class MagicShieldCard : Card
-{
-    private readonly IEffect _effects;
-
-    public MagicShieldCard(IEffect effects)
-    {
-        Description = "Защищает башню от падения кубиков";
+        Description = LocalizationManager.GetText(nameof(EarthquakeCard));
         _effects = effects;
     }
 
@@ -59,7 +43,7 @@ public class GlitchCard : Card
 
     public GlitchCard(IEffect effects)
     {
-        Description = "Случайные блоки зависают и не поддаются извлечению";
+        Description = LocalizationManager.GetText(nameof(GlitchCard));
         _effects = effects;
     }
 
@@ -75,7 +59,7 @@ public class RotatingPlatformCard : Card
 
     public RotatingPlatformCard(IEffect effects)
     {
-        Description = "Башня начинает крутиться";
+        Description = LocalizationManager.GetText(nameof(RotatingPlatformCard));
         _effects = effects;
     }
 
@@ -91,7 +75,7 @@ public class MagneticCard : Card
 
     public MagneticCard(IEffect effects)
     {
-        Description = "Блоки притягиваются друг к другу";
+        Description = LocalizationManager.GetText(nameof(MagneticCard));
         _effects = effects;
     }
 
@@ -107,7 +91,7 @@ public class GhostCard : Card
 
     public GhostCard(IEffect effects)
     {
-        Description = "Блоки становятся невидимыми";
+        Description = LocalizationManager.GetText(nameof(GhostCard));
         _effects = effects;
     }
 
@@ -123,7 +107,7 @@ public class HeavyCard : Card
 
     public HeavyCard(IEffect effects)
     {
-        Description = "Блоки становятся тяжёлыми";
+        Description = LocalizationManager.GetText(nameof(HeavyCard));
         _effects = effects;
     }
 
@@ -139,7 +123,7 @@ public class SlipperyCard : Card
 
     public SlipperyCard(IEffect effects)
     {
-        Description = "Блоки становятся скользкими";
+        Description = LocalizationManager.GetText(nameof(SlipperyCard));
         _effects = effects;
     }
 
@@ -155,7 +139,7 @@ public class ExplosiveCard : Card
 
     public ExplosiveCard(IEffect effects)
     {
-        Description = "Один блок взорвется";
+        Description = LocalizationManager.GetText(nameof(ExplosiveCard));
         _effects = effects;
     }
 
@@ -171,7 +155,7 @@ public class SmokeCard : Card
 
     public SmokeCard(IEffect effects)
     {
-        Description = "Стало дымно";
+        Description = LocalizationManager.GetText(nameof(SmokeCard));
         _effects = effects;
     }
 

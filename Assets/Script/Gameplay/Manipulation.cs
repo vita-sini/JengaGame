@@ -22,6 +22,8 @@ public class Manipulation : MonoBehaviour
     private Rigidbody _selectedBlock;
     private Vector3 _initialBlockPosition;
 
+    public bool IsBlockHeld { get; private set; } = false;
+
     private void Awake()
     {
         _pauseManager = _pauseMenu;
@@ -52,11 +54,28 @@ public class Manipulation : MonoBehaviour
         {
             _blockScored = false;
             _pick.Select(ref _selectedBlock, ref _offset, ref _movementPlane, ref _initialBlockPosition);
+
+            if (_selectedBlock != null)
+            {
+                IsBlockHeld = true;
+                Debug.Log("了问 论列劳: " + _selectedBlock.name);
+            }
+            else
+            {
+                Debug.Log("岭铌 团 恹狃囗");
+            }
         }
 
         if (_selectedBlock != null && Input.GetMouseButton(0))
         {
-            _movement.MoveMouse(_selectedBlock, _offset, _movementPlane, _initialBlockPosition);
+            _movement.MoveMouse(
+                _selectedBlock,
+                _offset,
+                _movementPlane,
+                _initialBlockPosition,
+                _pick._initialCameraRight
+            );
+
             _rotate.Twist(_selectedBlock);
         }
 
@@ -68,6 +87,7 @@ public class Manipulation : MonoBehaviour
             StartCoroutine(WaitForBlockToSettle(_selectedBlock, _initialBlockPosition));
 
             _selectedBlock = null;
+            IsBlockHeld = false;
         }
     }
 

@@ -43,7 +43,7 @@ MonoBehaviour:
   leaderboardEnable: 1
   saveScoreAnonymousPlayers: 1
   leaderboardSimulation:
-  - technoName: advanced
+  - technoName: Classic
     entries: 'Test LeaderBoard
 
       Name: advanced
@@ -310,7 +310,7 @@ MonoBehaviour:
     imageURI: 
     price: 
     priceValue: 10
-    priceCurrencyCode: 
+    priceCurrencyCode: YAN
     currencyImageURL: 
     consumed: 1
   metricaEnable: 0

@@ -1,43 +1,27 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using YG;
 
 public class AudioPauseManager : MonoBehaviour
 {
-    private void OnApplicationFocus(bool hasFocus)
+    private void OnEnable()
     {
-        Debug.Log("Focus changed: " + hasFocus);
-
-        if (!hasFocus)
-        {
-            MuteAudio();
-        }
-        else
-        {
-            UnmuteAudio();
-        }
+        YandexGame.onShowWindowGame += OnShowWindowGame; // Подписываемся на открытие
+        YandexGame.onHideWindowGame += OnHideWindowGame; // Подписываемся на закрытие
+    }
+    private void OnDisable()
+    {
+        YandexGame.onShowWindowGame -= OnShowWindowGame; // Отписываемся от открытия
+        YandexGame.onHideWindowGame -= OnHideWindowGame; // Отписываемся от закрытия
     }
 
-    private void OnApplicationPause(bool isPaused)
+    void OnShowWindowGame()
     {
-        Debug.Log("Pause changed: " + isPaused);
-        if (isPaused)
-        {
-            MuteAudio();
-        }
-        else
-        {
-            UnmuteAudio();
-        }
+        AudioListener.pause = false;// Ваша логика при открытии вкладки игры
     }
-
-    private void MuteAudio()
+    void OnHideWindowGame()
     {
-        AudioListener.pause = true;
-    }
-
-    private void UnmuteAudio()
-    {
-        AudioListener.pause = false;
+        AudioListener.pause = true; // Ваша логика при закрытии вкладки игры
     }
 }

@@ -1,142 +1,110 @@
+п»їusing TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using YG;
+using YG.Utils.Pay;
 
 public class ImageSlider : MonoBehaviour
 {
     [SerializeField] private Image[] _images;
+    [SerializeField] private TMP_Text _priceText;
     [SerializeField] private Material[] _materials;
-    [SerializeField] private Button _leftButton; 
-    [SerializeField] private Button _rightButton; 
+    [SerializeField] private Button _leftButton;
+    [SerializeField] private Button _rightButton;
     [SerializeField] private Button _selectButton;
     [SerializeField] private Button _buyButton;
+    [SerializeField] private GameObject _textPrice;
     [SerializeField] private string _paidProductId;
+    [SerializeField] private int _paidMaterialIndex = 0;
+    [SerializeField] private int _freeMaterialIndex = 1;
 
     private const string SelectedMaterialKey = "SelectedMaterialIndex";
-    private int _currentIndex = 0;
+    private int _currentIndex;
 
-    private void Start()
+    private void Awake()
     {
-        if (_leftButton != null)
-            _leftButton.onClick.AddListener(OnLeftButtonClicked);
+        _leftButton.onClick.AddListener(OnLeft);
+        _rightButton.onClick.AddListener(OnRight);
+        _selectButton.onClick.AddListener(OnSelect);
+        _buyButton.onClick.AddListener(OnBuy);
+    }
 
-        if (_rightButton != null)
-            _rightButton.onClick.AddListener(OnRightButtonClicked);
+    private void OnEnable()
+    {
+        YandexGame.GetPaymentsEvent += OnPayments;
+        YandexGame.PurchaseSuccessEvent += OnPurchaseSuccess;
 
-        if (_selectButton != null)
-            _selectButton.onClick.AddListener(OnSelectButtonClicked);
-
-        YandexGame.GetPaymentsEvent += OnPaymentsReceived;
-
-        // Загружаем сохранённый индекс
         _currentIndex = YandexGame.savesData.selectedMaterialIndex;
+        ShowImage(_currentIndex);          // РѕС‚РѕР±СЂР°Р·РёР»Рё РЅСѓР¶РЅСѓСЋ РєР°СЂС‚РёРЅРєСѓ
+        UpdateSelectBuyButtons();          // Рё РєРЅРѕРїРєРё
 
-        // Показываем первую картинку
-        ShowImage(_currentIndex);
-
-        UpdateBuyButtonState();
+        YandexGame.GetPayments();          // Р·Р°РїСЂРѕСЃРёР»Рё СЃРїРёСЃРѕРє РїРѕРєСѓРїРѕРє
     }
 
-    private void OnDestroy()
+    private void OnDisable()
     {
-        YandexGame.GetPaymentsEvent -= OnPaymentsReceived;
+        YandexGame.GetPaymentsEvent -= OnPayments;
+        YandexGame.PurchaseSuccessEvent -= OnPurchaseSuccess;
     }
 
-    private void OnSelectButtonClicked()
-    {
-        // Сохраняем выбранный индекс
-        YandexGame.savesData.selectedMaterialIndex = _currentIndex;
-        YandexGame.SaveProgress();
-        Debug.Log("Сохранение отправлено: selectedMaterialIndex = " + _currentIndex);
-    }
-
-    private void OnPaymentsReceived()
-    {
-        Debug.Log("OnPaymentsReceived: Данные о покупках получены.");
-        // Обновляем кнопку, когда SDK получит данные о покупках
-        UpdateSelectButtonState();
-        UpdateBuyButtonState();
-    }
-
-    private void OnLeftButtonClicked()
-    {
-        _currentIndex = (_currentIndex - 1 + _images.Length) % _images.Length;
-        ShowImage(_currentIndex);
-    }
-
-    private void OnRightButtonClicked()
-    {
-        _currentIndex = (_currentIndex + 1) % _images.Length;
-        ShowImage(_currentIndex);
-    }
+    private void OnLeft() { _currentIndex = (_currentIndex - 1 + _images.Length) % _images.Length; ShowImage(_currentIndex); }
+    private void OnRight() { _currentIndex = (_currentIndex + 1) % _images.Length; ShowImage(_currentIndex); }
 
     private void ShowImage(int index)
     {
         for (int i = 0; i < _images.Length; i++)
-        {
             _images[i].gameObject.SetActive(i == index);
-        }
 
-        UpdateSelectButtonState();
+        UpdateSelectBuyButtons();
     }
 
-    private void UpdateSelectButtonState()
+    private void OnSelect() { YandexGame.savesData.selectedMaterialIndex = _currentIndex; YandexGame.SaveProgress(); }
+
+    private void OnBuy() { YandexGame.BuyPayments(_paidProductId); }
+
+    private void OnPurchaseSuccess(string productId)
     {
-        Debug.Log("UpdateSelectButtonState вызван!");
-
-        if (_currentIndex == 0)
+        if (!YandexGame.savesData.purchasedProductIds.Contains(productId))
         {
-            _selectButton.interactable = true;
-            Debug.Log("Первый материал, кнопка активна.");
-            return;
+            YandexGame.savesData.purchasedProductIds.Add(productId);
+            YandexGame.SaveProgress();
         }
 
-        var purchase = YandexGame.PurchaseByID(_paidProductId);
-
-        if (purchase != null && purchase.consumed == true)
-        {
-            _selectButton.interactable = true;
-            Debug.Log("Покупка подтверждена, кнопка активна.");
-        }
-        else
-        {
-            SetButtonState(_selectButton, false);
-            Debug.Log("Покупка не подтверждена, кнопка не активна.");
-        }
-
-        // Обновляем кнопку "Купить"
-        UpdateBuyButtonState();
+        UpdateSelectBuyButtons();
     }
 
-    private void UpdateBuyButtonState()
+    private void OnPayments()
     {
-        if (_buyButton == null)
-            return;
+        if (YandexGame.PurchaseByID(_paidProductId) != null &&
+            !YandexGame.savesData.purchasedProductIds.Contains(_paidProductId))
+        {
+            YandexGame.savesData.purchasedProductIds.Add(_paidProductId);
+            YandexGame.SaveProgress();
+        }
 
-        // Проверяем, куплен ли товар
-        var purchase = YandexGame.PurchaseByID(_paidProductId);
-        bool isPurchased = purchase != null && purchase.consumed;
-
-        // Кнопка остаётся видимой, но становится неактивной, если куплено
-        _buyButton.interactable = !isPurchased;
-        SetButtonState(_buyButton, !isPurchased); 
+        UpdateSelectBuyButtons();
     }
 
-    private void SetButtonState(Button button, bool isEnabled)
+    private void UpdateSelectBuyButtons()
     {
-        button.interactable = isEnabled;
+        bool isBought = YandexGame.savesData.purchasedProductIds.Contains(_paidProductId);
+        bool isFree = _currentIndex == _freeMaterialIndex;
+        bool canChoose = isFree || isBought;     
+        bool needBuy = !isFree && !isBought;  
 
-        ColorBlock colors = button.colors;
+        _selectButton.gameObject.SetActive(canChoose);
 
-        if (isEnabled)
+        _buyButton.gameObject.SetActive(needBuy);
+
+        _textPrice.SetActive(needBuy);
+
+        if (needBuy)
         {
-            colors.normalColor = Color.white; // Активная — белая
-        }
-        else
-        {
-            colors.normalColor = new Color(1f, 1f, 1f, 0.5f); 
-        }
+            Purchase purchase = YandexGame.PurchaseByID(_paidProductId);
 
-        button.colors = colors;
+            _priceText.text = purchase != null
+                ? $"{purchase.priceValue} {purchase.priceCurrencyCode}"   
+                : "вЂ”";
+        }
     }
 }

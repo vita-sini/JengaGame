@@ -6,39 +6,35 @@ using YG;
 
 public class StartSDK : MonoBehaviour
 {
-    [SerializeField] private float _minLoadTime = 2f;
-    [SerializeField] private GameObject _loadingScreen;
-    [SerializeField] private Slider _loadingBar;
+    //private void OnEnable()
+    //{
+    //    YandexGame.GetDataEvent += GetLoad;
+    //}
 
-    private GameEntryPoint _gameEntryPoint;
-
-    private void OnEnable()
-    {
-        YandexGame.GetDataEvent += GetLoad;
-    }
-
-    // Отписываемся от события GetDataEvent в OnDisable.
-    private void OnDisable()
-    {
-        YandexGame.GetDataEvent -= GetLoad;
-    }
-
-    private void Awake()
-    {
-        _gameEntryPoint = new GameEntryPoint(_minLoadTime, _loadingScreen, _loadingBar);
-    }
+    //// Отписываемся от события GetDataEvent в OnDisable.
+    //private void OnDisable()
+    //{
+    //    YandexGame.GetDataEvent -= GetLoad;
+    //}
 
     private void Start()
     {
-        if (YandexGame.SDKEnabled == true) // Проверяем, запустился ли плагин.
-        {
-            GetLoad();
-        }
+        //if (YandexGame.SDKEnabled == true) // Проверяем, запустился ли плагин.
+        //{
+        //    GetLoad();
+        //}
+
+        string lang = YandexGame.EnvironmentData.language;
+
+        // Приводим к стандартному формату (например: "tr", "ru", "en")
+        lang = lang.ToLower();
+
+        LocalizationManager.SetLanguage(lang);
     }
 
     // Ваш метод для загрузки, который будет запускаться после загрузки SDK.
-    public void GetLoad()
-    {
-        StartCoroutine(_gameEntryPoint.LoadGame());
-    }
+    //public void GetLoad()
+    //{
+    //    YandexGame.GameReadyAPI();
+    //}
 }

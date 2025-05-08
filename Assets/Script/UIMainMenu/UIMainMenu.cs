@@ -35,11 +35,13 @@ public class UIMainMenu : MonoBehaviour
 
     public void StartNewGameChallenges()
     {
+        ScoreManager.Instance.ResetScore();
         SceneManager.LoadScene("GAMEPLAYNEWCHALLENGES");
     }
 
     public void StartNewGameClassic()
     {
+        ScoreManager.Instance.ResetScore();
         SceneManager.LoadScene("GAMEPLAYCLASSIC");
     }
 

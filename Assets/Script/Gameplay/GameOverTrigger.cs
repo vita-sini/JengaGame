@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class GameOverTrigger : MonoBehaviour
 {
     public string blockTag = "Block"; // “ег, который используетс€ дл€ всех блоков
-    private HashSet<GameObject> baseBlocks = new HashSet<GameObject>(); // Ѕлоки, которые считаютс€ основанием
+    private HashSet<GameObject> _baseBlocks = new HashSet<GameObject>(); // Ѕлоки, которые считаютс€ основанием
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -14,7 +14,7 @@ public class GameOverTrigger : MonoBehaviour
         if (collision.gameObject.CompareTag(blockTag))
         {
             // ƒобавл€ем блок в список основани€
-            baseBlocks.Add(collision.gameObject);
+            _baseBlocks.Add(collision.gameObject);
         }
     }
 
@@ -23,7 +23,7 @@ public class GameOverTrigger : MonoBehaviour
         // ≈сли блок перестает касатьс€ стола, удал€ем его из основани€
         if (collision.gameObject.CompareTag(blockTag))
         {
-            baseBlocks.Remove(collision.gameObject);
+            _baseBlocks.Remove(collision.gameObject);
         }
     }
 
@@ -33,7 +33,7 @@ public class GameOverTrigger : MonoBehaviour
         if (other.CompareTag(blockTag))
         {
             // ≈сли блок не €вл€етс€ частью основани€, завершаем игру
-            if (!baseBlocks.Contains(other.gameObject))
+            if (!_baseBlocks.Contains(other.gameObject))
             {
                 GameEvents.InvokeGameOver();
             }

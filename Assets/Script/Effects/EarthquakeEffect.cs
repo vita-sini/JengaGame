@@ -38,8 +38,6 @@ public class EarthquakeEffect : MonoBehaviour, IEffect
         {
             _audioSource.Stop();
         }
-
-        Debug.Log("EarthquakeEffect");
     }
 
     private IEnumerator EarthquakeEffectCoroutine()
@@ -51,10 +49,13 @@ public class EarthquakeEffect : MonoBehaviour, IEffect
             _audioSource.Play();
         }
 
-        Debug.Log("EarthquakeEffect");
         float elapsedTime = 0f;
 
         Vector3 initialCameraPosition = Camera.main.transform.position;
+
+        CamRotate camRotate = Camera.main.GetComponent<CamRotate>();
+
+        if (camRotate) camRotate.enabled = false;
 
         while (elapsedTime < _effectDuration)
         {
@@ -73,17 +74,20 @@ public class EarthquakeEffect : MonoBehaviour, IEffect
                     rb.AddForce(shakeDirection * _earthquakeForce, ForceMode.Impulse);
                 }
             }
-            // Трясение камеры
+            // Тряска камеры
             Camera.main.transform.position = initialCameraPosition + new Vector3(
                 Mathf.Sin(Time.time * 20f) * 0.1f,
                 Mathf.Cos(Time.time * 20f) * 0.1f,
                 0
             );
+
             elapsedTime += Time.deltaTime;
-            Debug.Log("Elapsed Time: " + elapsedTime + ", Delta Time: " + Time.deltaTime);
+
             yield return null;
         }
         // Возвращение камеры в исходное положение
+        if (camRotate) camRotate.enabled = true;
+
         Camera.main.transform.position = initialCameraPosition;
 
         Stop();

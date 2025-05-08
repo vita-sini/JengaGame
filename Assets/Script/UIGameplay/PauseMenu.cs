@@ -56,6 +56,8 @@ public class PauseMenu : MonoBehaviour, IPauseManager
     {
         Time.timeScale = 1; // Возобновляем время
 
+        ScoreManager.Instance.ResetScore();
+
         Scene currentScene = SceneManager.GetActiveScene();
 
         if (currentScene.name == "GameplayNewChallenges")

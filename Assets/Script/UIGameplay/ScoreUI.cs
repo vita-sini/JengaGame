@@ -8,55 +8,45 @@ using YG;
 public class ScoreUI : MonoBehaviour
 {
     public TextMeshProUGUI _scoreText; // Текстовый элемент для отображения очков
-    private int _currentScore = 0;
 
-    public void Start()
+    private void OnEnable()
     {
-        UpdateScoreText();
+        // подписываемся при каждом включении
+        ScoreManager.Instance.OnScoreChanged += UpdateScoreText;
+        UpdateScoreText(ScoreManager.Instance.CurrentScore);
     }
 
-    public void AddScore(int points)
+    private void OnDisable()
     {
-        _currentScore += points;
-        UpdateScoreText();
+        // отписываемся, чтобы избежать утечки
+        if (ScoreManager.Instance != null)
+            ScoreManager.Instance.OnScoreChanged -= UpdateScoreText;
     }
 
-    public int GetCurrentScore()
+    private void UpdateScoreText(int score)
     {
-        return _currentScore;
-    }
+        _scoreText.text = $"{score}";
 
-    private void UpdateScoreText()
-    {
+        if (score <= 0)
+            return;
+
         Scene currentScene = SceneManager.GetActiveScene();
 
-        if (_scoreText != null)
+        if (currentScene.name == "GameplayNewChallenges")
         {
-            _scoreText.text = "Очки: " + _currentScore;
-
-            if (currentScene.name == "GameplayNewChallenges")
-            {
-                YandexGame.NewLeaderboardScores("NewChallenges", _currentScore);
-            }
-            else if (currentScene.name == "GameplayClassic")
-            {
-                YandexGame.NewLeaderboardScores("Classic", _currentScore);
-            }
+            YandexGame.NewLeaderboardScores("NewChallenges", score);
+        }
+        else if (currentScene.name == "GameplayClassic")
+        {
+            YandexGame.NewLeaderboardScores("Classic", score);
         }
     }
 
-    public void CalculateScore(Vector3 initialPosition, Vector3 currentPosition, Rigidbody block)
+    public void CalculateScore(Vector3 initialPos, Vector3 currentPos, Rigidbody block)
     {
-        // Если блок ниже начальной позиции, очки не начисляются
-        if (currentPosition.y <= initialPosition.y + 1)
-        {
-            Debug.Log("Блок опущен ниже или не перемещён, очки не начисляются.");
-            return;
-        }
+        if (currentPos.y <= initialPos.y + 1) return;
 
-        // Если все условия выполнены, начисляем очки
-        AddScore(1);
-        Debug.Log("Ход засчитан.");
+        ScoreManager.Instance.Add(1);   // вместо AddScore
         GameEvents.InvokeTurnEnd();
     }
 }

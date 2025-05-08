@@ -48,7 +48,7 @@ public class CheckingUpperBlock
 
         Vector3 blockSize = collider.bounds.size;
         Vector3 overlapCenter = block.transform.position + Vector3.up * blockSize.y / 2; // ÷ентр области над блоком
-        Vector3 overlapSize = new Vector3(blockSize.x * 0.9f, 0.1f, blockSize.z * 0.9f); // Ќебольша€ область над блоком (чуть меньше, чем сам блок)
+        Vector3 overlapSize = new Vector3(blockSize.x * 0.7f, 0.1f, blockSize.z * 0.7f); // Ќебольша€ область над блоком (чуть меньше, чем сам блок)
 
         // ѕровер€ем, есть ли коллайдеры в этой зоне, кроме самого блока
         Collider[] hits = Physics.OverlapBox(overlapCenter, overlapSize / 2, Quaternion.identity);
