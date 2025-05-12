@@ -19,7 +19,7 @@ GameObject:
   - component: {fileID: 5940543383820855610}
   - component: {fileID: -4417409196496539571}
   m_Layer: 0
-  m_Name: Block
+  m_Name: StartBlock
   m_TagString: Block
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -295,4 +295,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0930e94d163afe64d85c910854ad0400, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CurrentState: 1
+  CurrentState: 0

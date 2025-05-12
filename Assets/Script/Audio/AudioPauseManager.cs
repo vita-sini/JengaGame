@@ -16,11 +16,11 @@ public class AudioPauseManager : MonoBehaviour
         YandexGame.onHideWindowGame -= OnHideWindowGame; // Отписываемся от закрытия
     }
 
-    void OnShowWindowGame()
+    private void OnShowWindowGame()
     {
         AudioListener.pause = false;// Ваша логика при открытии вкладки игры
     }
-    void OnHideWindowGame()
+    private void OnHideWindowGame()
     {
         AudioListener.pause = true; // Ваша логика при закрытии вкладки игры
     }

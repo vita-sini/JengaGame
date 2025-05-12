@@ -5,7 +5,7 @@ using UnityEngine;
 public class Pick
 {
     private MouseWorldPosition _mouseWorldPosition;
-    private CheckingUpperBlock _checkingUpperBlock;
+    //private CheckingUpperBlock _checkingUpperBlock;
 
     private float _zDistanceFromCamera;
     private Camera _mainCamera;
@@ -13,11 +13,11 @@ public class Pick
     public Ray InitialMouseRay { get; private set; }
     public Vector3 _initialCameraRight { get; private set; }
 
-    public Pick(MouseWorldPosition mouseWorldPosition, CheckingUpperBlock checkingUpperBlock)
+    public Pick(MouseWorldPosition mouseWorldPosition)
     {
         _mainCamera = Camera.main;
         _mouseWorldPosition = mouseWorldPosition;
-        _checkingUpperBlock = checkingUpperBlock;
+        //_checkingUpperBlock = checkingUpperBlock;
     }
 
     public void Select(ref Rigidbody selectedBlock, ref Vector3 offset, ref Plane movementPlane, ref Vector3 initialBlockPosition)
@@ -57,13 +57,16 @@ public class Pick
 
         GameObject blockObject = rb.gameObject;
 
-        // Обновляем список верхних блоков
-        _checkingUpperBlock.UpdateTopBlock();
-
-        // Проверка: если блок верхний — запрещаем выбор
-        if (_checkingUpperBlock.IsBlockOnTop(blockObject))
+        BlockState blockState = blockObject.GetComponent<BlockState>();
+        if (blockState == null)
         {
-            Debug.Log("Block is on top and cannot be selected.");
+            Debug.Log("BlockState is missing");
+            return false;
+        }
+
+        if (blockState.CurrentState != BlockState.State.Spawning)
+        {
+            Debug.Log("Block is not in Spawning state");
             return false;
         }
 

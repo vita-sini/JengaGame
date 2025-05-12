@@ -5,13 +5,14 @@ using UnityEngine.SceneManagement;
 public class Manipulation : MonoBehaviour
 {
     [SerializeField] private PauseMenu _pauseMenu;
+    [SerializeField] private BlockSpawner _blockSpawner;
 
     private Pick _pick;
     private Release _release;
     private MouseWorldPosition _mouseWorldPosition;
     private Rotate _rotate;
     private Movement _movement;
-    private CheckingUpperBlock _checkingUpperBlock;
+    //private CheckingUpperBlock _checkingUpperBlock;
     private ScoreUI _scoreUI;
     private Deck _deck;
     private IPauseManager _pauseManager;
@@ -27,9 +28,9 @@ public class Manipulation : MonoBehaviour
     private void Awake()
     {
         _pauseManager = _pauseMenu;
-        _checkingUpperBlock = new CheckingUpperBlock();
+        //_checkingUpperBlock = new CheckingUpperBlock();
         _mouseWorldPosition = new MouseWorldPosition();
-        _pick = new Pick(_mouseWorldPosition, _checkingUpperBlock);
+        _pick = new Pick(_mouseWorldPosition);
         _release = new Release();
         _rotate = new Rotate();
         _movement = new Movement(_mouseWorldPosition, this);
@@ -57,6 +58,14 @@ public class Manipulation : MonoBehaviour
 
             if (_selectedBlock != null)
             {
+                // Проверяем, можно ли брать только текущий заспавненный блок
+                if (_blockSpawner.CurrentSpawnedBlock == null || _selectedBlock.gameObject != _blockSpawner.CurrentSpawnedBlock)
+                {
+                    Debug.Log("Можно брать только свежий блок");
+                    _selectedBlock = null;
+                    return;
+                }
+
                 IsBlockHeld = true;
                 Debug.Log("БЛОК ВЫБРАН: " + _selectedBlock.name);
             }
@@ -82,7 +91,7 @@ public class Manipulation : MonoBehaviour
         if (Input.GetMouseButtonUp(0) && _selectedBlock != null)
         {
             _release.FreeBlock(_selectedBlock);
-            _checkingUpperBlock.UpdateTopBlock();
+            //_checkingUpperBlock.UpdateTopBlock();
             // Запускаем корутину, чтобы дождаться остановки блока
             StartCoroutine(WaitForBlockToSettle(_selectedBlock, _initialBlockPosition));
 
