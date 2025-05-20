@@ -1,96 +1,56 @@
-using System.Collections.Generic;
+п»їusing System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
 public class Pick
 {
     private MouseWorldPosition _mouseWorldPosition;
-    //private CheckingUpperBlock _checkingUpperBlock;
-
-    private float _zDistanceFromCamera;
     private Camera _mainCamera;
-    public Vector3 InitialMouseWorldPosition { get; private set; }
-    public Ray InitialMouseRay { get; private set; }
-    public Vector3 _initialCameraRight { get; private set; }
 
     public Pick(MouseWorldPosition mouseWorldPosition)
     {
         _mainCamera = Camera.main;
         _mouseWorldPosition = mouseWorldPosition;
-        //_checkingUpperBlock = checkingUpperBlock;
     }
 
-    public void Select(ref Rigidbody selectedBlock, ref Vector3 offset, ref Plane movementPlane, ref Vector3 initialBlockPosition)
+    public void Select(ref Rigidbody selectedBlock, ref Vector3 offset, ref Vector3 initialBlockPosition)
     {
         Debug.Log("Select() called");
 
         if (TryGetRaycastHitBlock(out RaycastHit hit, out Rigidbody rb, out ContactMonitor monitor))
         {
-            Debug.Log("TryGetRaycastHitBlock success");
-
             if (CanBlockBeSelected(rb, monitor, hit))
             {
-                Debug.Log("CanBlockBeSelected success");
+                selectedBlock = rb;
+                initialBlockPosition = selectedBlock.position;
 
-                ConfigureSelectedBlock(ref selectedBlock, rb, ref initialBlockPosition, ref movementPlane, ref offset, hit);
+                // Р“РѕСЂРёР·РѕРЅС‚Р°Р»СЊРЅР°СЏ РїР»РѕСЃРєРѕСЃС‚СЊ
+                Plane movementPlane = new Plane(Vector3.up, selectedBlock.position);
+                Vector3 mouseWorldPos = _mouseWorldPosition.GetMouseWorldPosition(movementPlane);
+
+                offset = selectedBlock.position - mouseWorldPos;
+
+                selectedBlock.constraints = RigidbodyConstraints.FreezeRotation;
+                selectedBlock.GetComponent<ContactMonitor>().ClearContacts();
 
                 Debug.Log("Selected block: " + selectedBlock.name);
             }
-            else
-            {
-                Debug.Log("CanBlockBeSelected failed");
-            }
-        }
-        else
-        {
-            Debug.Log("TryGetRaycastHitBlock failed");
         }
     }
 
     private bool CanBlockBeSelected(Rigidbody rb, ContactMonitor monitor, RaycastHit hit)
     {
-        if (rb == null)
-        {
-            Debug.Log("Rigidbody is null");
-            return false;
-        }
+        if (rb == null) return false;
 
-        GameObject blockObject = rb.gameObject;
+        BlockState blockState = rb.GetComponent<BlockState>();
+        if (blockState == null) return false;
 
-        BlockState blockState = blockObject.GetComponent<BlockState>();
-        if (blockState == null)
-        {
-            Debug.Log("BlockState is missing");
-            return false;
-        }
-
-        if (blockState.CurrentState != BlockState.State.Spawning)
-        {
-            Debug.Log("Block is not in Spawning state");
-            return false;
-        }
-
-        Debug.Log("CanBlockBeSelected passed");
-        return true;
-    }
-
-    private void ConfigureSelectedBlock(ref Rigidbody selectedBlock, Rigidbody rb, ref Vector3 initialBlockPosition, ref Plane movementPlane, ref Vector3 offset, RaycastHit hit)
-    {
-        selectedBlock = rb;
-        initialBlockPosition = selectedBlock.position;
-        _zDistanceFromCamera = Vector3.Distance(_mainCamera.transform.position, selectedBlock.position);
-        movementPlane = new Plane(-_mainCamera.transform.forward, hit.point);
-        offset = selectedBlock.position - _mouseWorldPosition.GetMouseWorldPosition(movementPlane);
-        _initialCameraRight = _mainCamera.transform.right;
-
-
-        selectedBlock.constraints = RigidbodyConstraints.FreezeRotation;
-        selectedBlock.GetComponent<ContactMonitor>().ClearContacts();
+        return blockState.CurrentState == BlockState.State.Spawning ||
+       blockState.CurrentState == BlockState.State.Placed;
     }
 
     private bool TryGetRaycastHitBlock(out RaycastHit hit, out Rigidbody rb, out ContactMonitor monitor)
     {
-        // если старая камера ушла вместе со сценой – берём новую
         if (_mainCamera == null)
             _mainCamera = Camera.main;
 
@@ -100,13 +60,11 @@ public class Pick
         {
             rb = hit.collider.GetComponent<Rigidbody>();
             monitor = hit.collider.GetComponent<ContactMonitor>();
-            Debug.Log("Raycast попал в блок: " + hit.collider.gameObject.name);
             return true;
         }
 
         rb = null;
         monitor = null;
-        Debug.Log("Raycast не попал в блок");
         return false;
     }
 }

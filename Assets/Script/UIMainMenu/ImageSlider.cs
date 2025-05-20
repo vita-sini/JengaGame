@@ -15,8 +15,8 @@ public class ImageSlider : MonoBehaviour
     [SerializeField] private Button _buyButton;
     [SerializeField] private GameObject _textPrice;
     [SerializeField] private string _paidProductId;
-    [SerializeField] private int _paidMaterialIndex = 0;
-    [SerializeField] private int _freeMaterialIndex = 1;
+    [SerializeField] private int _paidMaterialIndex;
+    [SerializeField] private int _freeMaterialIndex;
 
     private const string SelectedMaterialKey = "SelectedMaterialIndex";
     private int _currentIndex;

@@ -44,7 +44,7 @@ public class ScoreUI : MonoBehaviour
 
     public void CalculateScore(Vector3 initialPos, Vector3 currentPos, Rigidbody block)
     {
-        if (currentPos.y <= initialPos.y + 1) return;
+        //if (currentPos.y <= initialPos.y + 1) return;
 
         ScoreManager.Instance.Add(1);   // גלוסעמ AddScore
         GameEvents.InvokeTurnEnd();

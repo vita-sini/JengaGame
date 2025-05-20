@@ -25,12 +25,11 @@ public class ContactMonitor : MonoBehaviour
         _contacts.Remove(collision.collider);
     }
 
-    public bool IsOnBlock()
+    public bool IsOnValidSurface()
     {
-        // ѕровер€ем, есть ли контакты с другими блоками
         foreach (var contact in _contacts)
         {
-            if (contact.gameObject.CompareTag("Block"))
+            if (contact.gameObject.CompareTag("Block") || contact.gameObject.CompareTag("Base"))
             {
                 return true;
             }

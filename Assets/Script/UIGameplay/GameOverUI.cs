@@ -52,7 +52,7 @@ public class GameOverUI : MonoBehaviour
     private void LoadMainMenu()
     {
         Time.timeScale = 1f;
-        SceneManager.LoadScene("MainMenu");
+        Advertisement.LoadSceneWithAd("MainMenu");
     }
 
     private void RestartGame()
@@ -65,11 +65,11 @@ public class GameOverUI : MonoBehaviour
 
         if (currentScene.name == "GameplayNewChallenges")
         {
-            SceneManager.LoadScene("GameplayNewChallenges");
+            Advertisement.LoadSceneWithAd("GameplayNewChallenges");
         }
         else if (currentScene.name == "GameplayClassic")
         {
-            SceneManager.LoadScene("GameplayClassic");
+            Advertisement.LoadSceneWithAd("GameplayClassic");
         }
     }
 }

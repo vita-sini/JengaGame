@@ -78,13 +78,14 @@ public class UIMainMenu : MonoBehaviour
     public void StartNewGameChallenges()
     {
         ScoreManager.Instance.ResetScore();
-        SceneManager.LoadScene("GAMEPLAYNEWCHALLENGES");
+        Advertisement.LoadSceneWithAd("GameplayNewChallenges");
     }
 
     public void StartNewGameClassic()
     {
+        Debug.Log("Нажата кнопка 'Новая игра (Классика)'");
         ScoreManager.Instance.ResetScore();
-        SceneManager.LoadScene("GAMEPLAYCLASSIC");
+        Advertisement.LoadSceneWithAd("GameplayClassic");
     }
 
     private void SetCanvasActive(GameObject canvas, bool isActive)

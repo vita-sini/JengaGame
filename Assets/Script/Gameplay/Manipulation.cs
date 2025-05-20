@@ -1,4 +1,4 @@
-using System.Collections;
+п»їusing System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -6,7 +6,9 @@ public class Manipulation : MonoBehaviour
 {
     [SerializeField] private PauseMenu _pauseMenu;
     [SerializeField] private BlockSpawner _blockSpawner;
+    [SerializeField] private Material _ghostMaterial;
 
+    private ProjectionGhost _projectionGhost;
     private Pick _pick;
     private Release _release;
     private MouseWorldPosition _mouseWorldPosition;
@@ -18,10 +20,11 @@ public class Manipulation : MonoBehaviour
     private IPauseManager _pauseManager;
 
     private bool _blockScored = false;
-    private Vector3 _offset; // Смещение мыши относительно центра блока
-    private Plane _movementPlane; // Плоскость движения для блока
+    private Vector3 _offset; // РЎРјРµС‰РµРЅРёРµ РјС‹С€Рё РѕС‚РЅРѕСЃРёС‚РµР»СЊРЅРѕ С†РµРЅС‚СЂР° Р±Р»РѕРєР°
+    private Plane _movementPlane; // РџР»РѕСЃРєРѕСЃС‚СЊ РґРІРёР¶РµРЅРёСЏ РґР»СЏ Р±Р»РѕРєР°
     private Rigidbody _selectedBlock;
     private Vector3 _initialBlockPosition;
+    private float _previousMaxHeight;
 
     public bool IsBlockHeld { get; private set; } = false;
 
@@ -36,6 +39,7 @@ public class Manipulation : MonoBehaviour
         _movement = new Movement(_mouseWorldPosition, this);
         _scoreUI = GameObject.FindObjectOfType<ScoreUI>();
         _deck = GameObject.FindObjectOfType<Deck>();
+        _projectionGhost = gameObject.AddComponent<ProjectionGhost>();
     }
 
     private void Update()
@@ -54,81 +58,36 @@ public class Manipulation : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             _blockScored = false;
-            _pick.Select(ref _selectedBlock, ref _offset, ref _movementPlane, ref _initialBlockPosition);
+            _pick.Select(ref _selectedBlock, ref _offset, ref _initialBlockPosition);
 
             if (_selectedBlock != null)
             {
-                // Проверяем, можно ли брать только текущий заспавненный блок
-                if (_blockSpawner.CurrentSpawnedBlock == null || _selectedBlock.gameObject != _blockSpawner.CurrentSpawnedBlock)
+                if (_blockSpawner.CurrentSpawnedBlock != null && _selectedBlock.gameObject == _blockSpawner.CurrentSpawnedBlock)
                 {
-                    Debug.Log("Можно брать только свежий блок");
-                    _selectedBlock = null;
-                    return;
+                    _blockSpawner.ReleaseBlock();
                 }
 
+                _previousMaxHeight = GetCurrentTowerHeight();
+
                 IsBlockHeld = true;
-                Debug.Log("БЛОК ВЫБРАН: " + _selectedBlock.name);
-            }
-            else
-            {
-                Debug.Log("Блок НЕ выбран");
+                _projectionGhost.Initialize(_selectedBlock, _ghostMaterial);
             }
         }
 
         if (_selectedBlock != null && Input.GetMouseButton(0))
         {
-            _movement.MoveMouse(
-                _selectedBlock,
-                _offset,
-                _movementPlane,
-                _initialBlockPosition,
-                _pick._initialCameraRight
-            );
-
+            _movement.MoveMouse(_selectedBlock, _offset);
             _rotate.Twist(_selectedBlock);
         }
 
         if (Input.GetMouseButtonUp(0) && _selectedBlock != null)
         {
             _release.FreeBlock(_selectedBlock);
-            //_checkingUpperBlock.UpdateTopBlock();
-            // Запускаем корутину, чтобы дождаться остановки блока
             StartCoroutine(WaitForBlockToSettle(_selectedBlock, _initialBlockPosition));
 
             _selectedBlock = null;
             IsBlockHeld = false;
-        }
-    }
-
-    // Корутина для ожидания, пока блок перестанет двигаться
-    private IEnumerator WaitForBlockToSettle(Rigidbody block, Vector3 initialPosition)
-    {
-        // Дополнительно ждём, пока блок не окажется на другом блоке
-        ContactMonitor monitor = block.GetComponent<ContactMonitor>();
-
-        while (!monitor.IsOnBlock())
-        {
-            yield return null; // Ждём один кадр
-        }
-
-        //yield return new WaitForSeconds(1f);
-
-        // Проверяем, был ли блок установлен выше начальной позиции
-        if (block.transform.position.y > initialPosition.y + 1 && !_blockScored)
-        {
-            //Начисляем очки только если блок выше начальной позиции
-            _scoreUI.CalculateScore(initialPosition, block.transform.position, block);
-
-            if (SceneManager.GetActiveScene().name == Scenes.GAMEPLAYNEWCHALLENGES)
-            {
-                _deck.OnTurnEnd();
-            }
-
-            _blockScored = true;
-        }
-        else
-        {
-            Debug.Log("Блок не был установлен выше начальной позиции. Очки не начисляются.");
+            _projectionGhost.DestroyGhost();
         }
     }
 
@@ -136,7 +95,6 @@ public class Manipulation : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(1))
         {
-            // Используем луч для определения блока, на который направлена мышь
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
 
@@ -145,14 +103,79 @@ public class Manipulation : MonoBehaviour
                 Rigidbody hitBlock = hit.rigidbody;
                 if (hitBlock != null)
                 {
-                    // Применяем толчок по осям Z и X, учитывая направление камеры
                     Vector3 forceDirection = Camera.main.transform.forward;
-                    forceDirection.y = 0.5f; // Убираем компонент по оси Y
-                    forceDirection.Normalize(); // Нормализуем вектор
+                    forceDirection.y = 0.5f;
+                    forceDirection.Normalize();
                     Vector3 force = forceDirection * 3000f;
                     hitBlock.AddForce(force, ForceMode.Impulse);
                 }
             }
         }
+    }
+
+    private IEnumerator WaitForBlockToSettle(Rigidbody block, Vector3 initialPosition)
+    {
+        ContactMonitor monitor = block.GetComponent<ContactMonitor>();
+
+        while (!monitor.IsOnValidSurface())
+        {
+            yield return null;
+        }
+
+        BlockState blockState = block.GetComponent<BlockState>();
+        if (blockState != null)
+        {
+            blockState.SetPlaced();
+        }
+
+        float blockTopY = block.GetComponent<Renderer>().bounds.max.y;
+        Debug.Log($"blockTopY: {blockTopY}, _previousMaxHeight: {_previousMaxHeight}");
+
+        if (blockTopY > _previousMaxHeight + 0.01f && !_blockScored)
+        {
+            Debug.Log("РЈСЃР»РѕРІРёРµ РґР»СЏ РЅР°С‡РёСЃР»РµРЅРёСЏ РѕС‡РєРѕРІ РІС‹РїРѕР»РЅРµРЅРѕ.");
+            _scoreUI.CalculateScore(initialPosition, block.transform.position, block);
+
+            if (SceneManager.GetActiveScene().name == Scenes.GAMEPLAYNEWCHALLENGES)
+            {
+                _deck.OnTurnEnd();
+            }
+
+            _blockScored = true;
+
+            // вњ… РћР±РЅРѕРІР»СЏРµРј РІС‹СЃРѕС‚Сѓ Р±Р°С€РЅРё РІ СЃРїР°РІРЅРµСЂРµ
+            _blockSpawner.UpdateTowerHeight(blockTopY);
+        }
+        else
+        {
+            Debug.Log("Р‘Р»РѕРє РЅРµ РїРѕРґРЅСЏР» Р±Р°С€РЅСЋ РІС‹С€Рµ. РћС‡РєРё РЅРµ РЅР°С‡РёСЃР»СЏСЋС‚СЃСЏ.");
+        }
+
+        _blockSpawner.SpawnBlock();
+    }
+
+    private float GetCurrentTowerHeight()
+    {
+        GameObject[] blocks = GameObject.FindGameObjectsWithTag("Block");
+        if (blocks.Length == 0) return 0f;
+
+        float maxY = float.MinValue;
+
+        foreach (GameObject block in blocks)
+        {
+            BlockState blockState = block.GetComponent<BlockState>();
+            if (blockState == null || blockState.CurrentState != BlockState.State.Placed)
+                continue;
+
+            Renderer renderer = block.GetComponent<Renderer>();
+            if (renderer != null)
+            {
+                float topY = renderer.bounds.max.y;
+                if (topY > maxY)
+                    maxY = topY;
+            }
+        }
+
+        return maxY == float.MinValue ? 0f : maxY;
     }
 }

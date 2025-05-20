@@ -1131,7 +1131,7 @@ GameObject:
   - component: {fileID: 205476905}
   m_Layer: 0
   m_Name: Base
-  m_TagString: Untagged
+  m_TagString: Base
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1177,7 +1177,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: -1604327250343900329, guid: 09a57f3f4500ab84b802883af025ed10, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1217,7 +1217,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -12.78, y: 2.5, z: 1.21}
-  m_LocalScale: {x: 7.5, y: 0.5, z: 7.5}
+  m_LocalScale: {x: 15.5, y: 0.5, z: 15.5}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -1838,33 +1838,40 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u0412\u0430\u0448\u0430 \u0437\u0430\u0434\u0430\u0447\u0430 \u2014 \u0438\u0437\u0432\u043B\u0435\u043A\u0430\u0442\u044C
-    \u0431\u043B\u043E\u043A\u0438 \u0438\u0437 \u0431\u0430\u0448\u043D\u0438 \u0438
-    \u0440\u0430\u0437\u043C\u0435\u0441\u0442\u0438\u0442\u044C \u043D\u0430 \u0432\u0435\u0440\u0448\u0438\u043D\u0435
-    \u0438\u043B\u0438 \u0432 \u0441\u0432\u043E\u0431\u043E\u0434\u043D\u044B\u0435
+  m_text: "\u0412\u0430\u0448\u0430 \u0437\u0430\u0434\u0430\u0447\u0430 \u2014 \u0441\u0442\u0440\u043E\u0438\u0442\u044C
+    \u0431\u0430\u0448\u043D\u044E \u043D\u0430 \u0447\u0435\u0440\u043D\u043E\u043C
+    \u043A\u0432\u0430\u0434\u0440\u0430\u0442\u0435 \u0432 \u0441\u0435\u0440\u0435\u0434\u0438\u043D\u0435
+    \u0441\u0442\u043E\u043B\u0430, \u0430\u043A\u043A\u0443\u0440\u0430\u0442\u043D\u043E
+    \u0434\u043E\u0431\u0430\u0432\u043B\u044F\u044F \u0431\u043B\u043E\u043A\u0438
+    \u043E\u0434\u0438\u043D \u0437\u0430 \u0434\u0440\u0443\u0433\u0438\u043C. \u0420\u0430\u0437\u043C\u0435\u0449\u0430\u0439\u0442\u0435
+    \u0438\u0445 \u043D\u0430 \u0432\u0435\u0440\u0448\u0438\u043D\u0435 \u0438\u043B\u0438
+    \u0432 \u0434\u043E\u0441\u0442\u0443\u043F\u043D\u044B\u0435 \u0441\u0432\u043E\u0431\u043E\u0434\u043D\u044B\u0435
     \u043C\u0435\u0441\u0442\u0430, \u0441\u0442\u0430\u0440\u0430\u044F\u0441\u044C
-    \u043D\u0435 \u0443\u0440\u043E\u043D\u0438\u0442\u044C \u0431\u0430\u0448\u043D\u044E.
-    \u041A\u0430\u0436\u0434\u0430\u044F \u043F\u043E\u043F\u044B\u0442\u043A\u0430
-    \u043F\u0435\u0440\u0435\u043C\u0435\u0441\u0442\u0438\u0442\u044C \u0431\u043B\u043E\u043A
-    \u043C\u043E\u0436\u0435\u0442 \u043E\u0431\u0435\u0440\u043D\u0443\u0442\u044C\u0441\u044F
-    \u043D\u0435\u043E\u0436\u0438\u0434\u0430\u043D\u043D\u044B\u043C \u043F\u0440\u043E\u0438\u0441\u0448\u0435\u0441\u0442\u0432\u0438\u0435\u043C:
+    \u0441\u043E\u0445\u0440\u0430\u043D\u0438\u0442\u044C \u0440\u0430\u0432\u043D\u043E\u0432\u0435\u0441\u0438\u0435
+    \u043A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0446\u0438\u0438. \u041A\u0430\u0436\u0434\u0430\u044F
+    \u043F\u043E\u043F\u044B\u0442\u043A\u0430 \u0443\u0441\u0442\u0430\u043D\u043E\u0432\u0438\u0442\u044C
+    \u043D\u043E\u0432\u044B\u0439 \u0431\u043B\u043E\u043A \u043C\u043E\u0436\u0435\u0442
+    \u0441\u043E\u043F\u0440\u043E\u0432\u043E\u0436\u0434\u0430\u0442\u044C\u0441\u044F
+    \u043D\u0435\u043E\u0436\u0438\u0434\u0430\u043D\u043D\u044B\u043C\u0438 \u043F\u0440\u043E\u0438\u0441\u0448\u0435\u0441\u0442\u0432\u0438\u044F\u043C\u0438:
     \u0437\u0435\u043C\u043B\u0435\u0442\u0440\u044F\u0441\u0435\u043D\u0438\u0435\u043C,
-    \u0442\u043E\u0440\u043D\u0430\u0434\u043E \u0438\u043B\u0438 \u0434\u0440\u0443\u0433\u0438\u043C
-    \u0441\u043E\u0431\u044B\u0442\u0438\u0435\u043C. \u0414\u0435\u0440\u0436\u0438\u0442\u0435
-    \u0431\u0430\u0448\u043D\u044E \u0432 \u0440\u0430\u0432\u043D\u043E\u0432\u0435\u0441\u0438\u0438
-    \u043A\u0430\u043A \u043C\u043E\u0436\u043D\u043E \u0434\u043E\u043B\u044C\u0448\u0435
-    \u0438 \u043D\u0435 \u0434\u0430\u0439\u0442\u0435 \u0435\u0439 \u0443\u043F\u0430\u0441\u0442\u044C.\r\n\r\n\u0423\u043F\u0440\u0430\u0432\u043B\u0435\u043D\u0438\u0435:\r\n\r\n\u041B\u041A\u041C
+    \u0442\u043E\u0440\u043D\u0430\u0434\u043E \u0438\u043B\u0438 \u0434\u0440\u0443\u0433\u0438\u043C\u0438
+    \u0441\u044E\u0440\u043F\u0440\u0438\u0437\u0430\u043C\u0438. \u041F\u043E\u0441\u0442\u0430\u0440\u0430\u0439\u0442\u0435\u0441\u044C
+    \u0432\u043E\u0437\u0432\u0435\u0441\u0442\u0438 \u0431\u0430\u0448\u043D\u044E
+    \u043A\u0430\u043A \u043C\u043E\u0436\u043D\u043E \u0432\u044B\u0448\u0435 \u0438
+    \u043D\u0435 \u0434\u0430\u0439\u0442\u0435 \u0435\u0439 \u0440\u0443\u0445\u043D\u0443\u0442\u044C!\n\r\n\u0423\u043F\u0440\u0430\u0432\u043B\u0435\u043D\u0438\u0435:\r\n\r\n\u043B\u043A\u043C
     \u0437\u0430\u0436\u0430\u0442\u044C \u2014 \u0412\u0437\u044F\u0442\u044C \u0431\u043B\u043E\u043A.\r\nA
     \u2014 \u041F\u043E\u0432\u0435\u0440\u043D\u0443\u0442\u044C \u0431\u043B\u043E\u043A
     \u043D\u0430\u043B\u0435\u0432\u043E.\r\nD \u2014 \u041F\u043E\u0432\u0435\u0440\u043D\u0443\u0442\u044C
     \u0431\u043B\u043E\u043A \u043D\u0430\u043F\u0440\u0430\u0432\u043E\nQ \u2014
     \u041F\u043E\u0432\u0435\u0440\u043D\u0443\u0442\u044C \u043A\u0430\u043C\u0435\u0440\u0443
     \u043D\u0430\u043B\u0435\u0432\u043E.\r\nE \u2014 \u041F\u043E\u0432\u0435\u0440\u043D\u0443\u0442\u044C
-    \u043A\u0430\u043C\u0435\u0440\u0443 \u043D\u0430\u043F\u0440\u0430\u0432\u043E.\r\n\u0421\u041A\u041C
+    \u043A\u0430\u043C\u0435\u0440\u0443 \u043D\u0430\u043F\u0440\u0430\u0432\u043E.\r\n\u0441\u043A\u043C
     (\u0441\u0440\u0435\u0434\u043D\u044F\u044F \u043A\u043D\u043E\u043F\u043A\u0430
     \u043C\u044B\u0448\u0438) \u2014 \u041E\u043F\u0443\u0441\u0442\u0438\u0442\u044C
-    \u0438\u043B\u0438 \u043F\u043E\u0434\u043D\u044F\u0442\u044C \u043A\u0430\u043C\u0435\u0440\u0443.\n\u041F\u041A\u041C
-    - \u0442\u043E\u043B\u043A\u043D\u0443\u0442\u044C \u0431\u043B\u043E\u043A \u0432\u043F\u0435\u0440\u0435\u0434"
+    \u0438\u043B\u0438 \u043F\u043E\u0434\u043D\u044F\u0442\u044C \u043A\u0430\u043C\u0435\u0440\u0443.\n\u043F\u043A\u043C
+    - \u0442\u043E\u043B\u043A\u043D\u0443\u0442\u044C \u0431\u043B\u043E\u043A \u0432\u043F\u0435\u0440\u0435\u0434\nW
+    \u2014 \u0434\u0432\u0438\u0433\u0430\u0442\u044C \u0431\u043B\u043E\u043A \u0432\u043F\u0435\u0440\u0435\u0434\r\nS
+    \u2014 \u0434\u0432\u0438\u0433\u0430\u0442\u044C \u0431\u043B\u043E\u043A \u043D\u0430\u0437\u0430\u0434"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 2d1094862de91164ca168a654d4e1fd5, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: 163a1442b0975b54aa4974766ffd747a, type: 2}
@@ -1891,15 +1898,15 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 23.45
+  m_fontSize: 19.75
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 0
-  m_HorizontalAlignment: 1
-  m_VerticalAlignment: 256
+  m_HorizontalAlignment: 2
+  m_VerticalAlignment: 512
   m_textAlignment: 65535
   m_characterSpacing: 0
   m_wordSpacing: 0
@@ -1958,50 +1965,63 @@ MonoBehaviour:
   textLComponent: {fileID: 0}
   infoYG: {fileID: 11400000, guid: 162644796a8b0d044bce3d6fda0641e3, type: 2}
   text: 
-  ru: "\u0412\u0430\u0448\u0430 \u0437\u0430\u0434\u0430\u0447\u0430 \u2014 \u0438\u0437\u0432\u043B\u0435\u043A\u0430\u0442\u044C
-    \u0431\u043B\u043E\u043A\u0438 \u0438\u0437 \u0431\u0430\u0448\u043D\u0438 \u0438
-    \u0440\u0430\u0437\u043C\u0435\u0441\u0442\u0438\u0442\u044C \u043D\u0430 \u0432\u0435\u0440\u0448\u0438\u043D\u0435
-    \u0438\u043B\u0438 \u0432 \u0441\u0432\u043E\u0431\u043E\u0434\u043D\u044B\u0435
+  ru: "\u0412\u0430\u0448\u0430 \u0437\u0430\u0434\u0430\u0447\u0430 \u2014 \u0441\u0442\u0440\u043E\u0438\u0442\u044C
+    \u0431\u0430\u0448\u043D\u044E \u043D\u0430 \u0447\u0435\u0440\u043D\u043E\u043C
+    \u043A\u0432\u0430\u0434\u0440\u0430\u0442\u0435 \u0432 \u0441\u0435\u0440\u0435\u0434\u0438\u043D\u0435
+    \u0441\u0442\u043E\u043B\u0430, \u0430\u043A\u043A\u0443\u0440\u0430\u0442\u043D\u043E
+    \u0434\u043E\u0431\u0430\u0432\u043B\u044F\u044F \u0431\u043B\u043E\u043A\u0438
+    \u043E\u0434\u0438\u043D \u0437\u0430 \u0434\u0440\u0443\u0433\u0438\u043C. \u0420\u0430\u0437\u043C\u0435\u0449\u0430\u0439\u0442\u0435
+    \u0438\u0445 \u043D\u0430 \u0432\u0435\u0440\u0448\u0438\u043D\u0435 \u0438\u043B\u0438
+    \u0432 \u0434\u043E\u0441\u0442\u0443\u043F\u043D\u044B\u0435 \u0441\u0432\u043E\u0431\u043E\u0434\u043D\u044B\u0435
     \u043C\u0435\u0441\u0442\u0430, \u0441\u0442\u0430\u0440\u0430\u044F\u0441\u044C
-    \u043D\u0435 \u0443\u0440\u043E\u043D\u0438\u0442\u044C \u0431\u0430\u0448\u043D\u044E.
-    \u041A\u0430\u0436\u0434\u0430\u044F \u043F\u043E\u043F\u044B\u0442\u043A\u0430
-    \u043F\u0435\u0440\u0435\u043C\u0435\u0441\u0442\u0438\u0442\u044C \u0431\u043B\u043E\u043A
-    \u043C\u043E\u0436\u0435\u0442 \u043E\u0431\u0435\u0440\u043D\u0443\u0442\u044C\u0441\u044F
-    \u043D\u0435\u043E\u0436\u0438\u0434\u0430\u043D\u043D\u044B\u043C \u043F\u0440\u043E\u0438\u0441\u0448\u0435\u0441\u0442\u0432\u0438\u0435\u043C:
+    \u0441\u043E\u0445\u0440\u0430\u043D\u0438\u0442\u044C \u0440\u0430\u0432\u043D\u043E\u0432\u0435\u0441\u0438\u0435
+    \u043A\u043E\u043D\u0441\u0442\u0440\u0443\u043A\u0446\u0438\u0438. \u041A\u0430\u0436\u0434\u0430\u044F
+    \u043F\u043E\u043F\u044B\u0442\u043A\u0430 \u0443\u0441\u0442\u0430\u043D\u043E\u0432\u0438\u0442\u044C
+    \u043D\u043E\u0432\u044B\u0439 \u0431\u043B\u043E\u043A \u043C\u043E\u0436\u0435\u0442
+    \u0441\u043E\u043F\u0440\u043E\u0432\u043E\u0436\u0434\u0430\u0442\u044C\u0441\u044F
+    \u043D\u0435\u043E\u0436\u0438\u0434\u0430\u043D\u043D\u044B\u043C\u0438 \u043F\u0440\u043E\u0438\u0441\u0448\u0435\u0441\u0442\u0432\u0438\u044F\u043C\u0438:
     \u0437\u0435\u043C\u043B\u0435\u0442\u0440\u044F\u0441\u0435\u043D\u0438\u0435\u043C,
-    \u0442\u043E\u0440\u043D\u0430\u0434\u043E \u0438\u043B\u0438 \u0434\u0440\u0443\u0433\u0438\u043C
-    \u0441\u043E\u0431\u044B\u0442\u0438\u0435\u043C. \u0414\u0435\u0440\u0436\u0438\u0442\u0435
-    \u0431\u0430\u0448\u043D\u044E \u0432 \u0440\u0430\u0432\u043D\u043E\u0432\u0435\u0441\u0438\u0438
-    \u043A\u0430\u043A \u043C\u043E\u0436\u043D\u043E \u0434\u043E\u043B\u044C\u0448\u0435
-    \u0438 \u043D\u0435 \u0434\u0430\u0439\u0442\u0435 \u0435\u0439 \u0443\u043F\u0430\u0441\u0442\u044C.\r\n\r\n\u0423\u043F\u0440\u0430\u0432\u043B\u0435\u043D\u0438\u0435:\r\n\r\n\u041B\u041A\u041C
+    \u0442\u043E\u0440\u043D\u0430\u0434\u043E \u0438\u043B\u0438 \u0434\u0440\u0443\u0433\u0438\u043C\u0438
+    \u0441\u044E\u0440\u043F\u0440\u0438\u0437\u0430\u043C\u0438. \u041F\u043E\u0441\u0442\u0430\u0440\u0430\u0439\u0442\u0435\u0441\u044C
+    \u0432\u043E\u0437\u0432\u0435\u0441\u0442\u0438 \u0431\u0430\u0448\u043D\u044E
+    \u043A\u0430\u043A \u043C\u043E\u0436\u043D\u043E \u0432\u044B\u0448\u0435 \u0438
+    \u043D\u0435 \u0434\u0430\u0439\u0442\u0435 \u0435\u0439 \u0440\u0443\u0445\u043D\u0443\u0442\u044C!\n\n\u0423\u043F\u0440\u0430\u0432\u043B\u0435\u043D\u0438\u0435:\r\n\r\n\u043B\u043A\u043C
     \u0437\u0430\u0436\u0430\u0442\u044C \u2014 \u0412\u0437\u044F\u0442\u044C \u0431\u043B\u043E\u043A.\r\nA
     \u2014 \u041F\u043E\u0432\u0435\u0440\u043D\u0443\u0442\u044C \u0431\u043B\u043E\u043A
     \u043D\u0430\u043B\u0435\u0432\u043E.\r\nD \u2014 \u041F\u043E\u0432\u0435\u0440\u043D\u0443\u0442\u044C
     \u0431\u043B\u043E\u043A \u043D\u0430\u043F\u0440\u0430\u0432\u043E\nQ \u2014
     \u041F\u043E\u0432\u0435\u0440\u043D\u0443\u0442\u044C \u043A\u0430\u043C\u0435\u0440\u0443
     \u043D\u0430\u043B\u0435\u0432\u043E.\r\nE \u2014 \u041F\u043E\u0432\u0435\u0440\u043D\u0443\u0442\u044C
-    \u043A\u0430\u043C\u0435\u0440\u0443 \u043D\u0430\u043F\u0440\u0430\u0432\u043E.\r\n\u0421\u041A\u041C
+    \u043A\u0430\u043C\u0435\u0440\u0443 \u043D\u0430\u043F\u0440\u0430\u0432\u043E.\r\n\u0441\u043A\u043C
     (\u0441\u0440\u0435\u0434\u043D\u044F\u044F \u043A\u043D\u043E\u043F\u043A\u0430
     \u043C\u044B\u0448\u0438) \u2014 \u041E\u043F\u0443\u0441\u0442\u0438\u0442\u044C
-    \u0438\u043B\u0438 \u043F\u043E\u0434\u043D\u044F\u0442\u044C \u043A\u0430\u043C\u0435\u0440\u0443.\n\u041F\u041A\u041C
-    - \u0442\u043E\u043B\u043A\u043D\u0443\u0442\u044C \u0431\u043B\u043E\u043A \u0432\u043F\u0435\u0440\u0435\u0434"
-  en: "Your task is to extract blocks from the tower and place them on top or in
-    free places, trying not to drop the tower. Every attempt move a block It may
-    result in an unexpected event: an earthquake, tornado, or other event. Keep the
-    tower in balance as long as possible and don't let it fall.\r\n\r\nManagement:\r\n\r\nTo
-    pinch the LMB is to take a block.\r\nA \u2014 Turn the block to the left.\r\nD
-    \u2014 Turn the block to the right\nQ \u2014 Turn the camera to the left.\r\nE
-    \u2014 Turn the camera to the right.\r\nSCM (middle mouse button) \u2014 Lower
-    or raise the camera.\nPCM - push the block forward"
-  tr: "G\xF6reviniz, kuleden bloklar\u0131 \xE7\u0131karmak ve kuleyi d\xFC\u015F\xFCrmemeye
-    \xE7al\u0131\u015Fmak, \xFCste veya serbest yerlere yerle\u015Ftirmektir. Blo\u011Fu
-    hareket ettirme giri\u015Fimi beklenmedik bir olaya d\xF6n\xFC\u015Febilir: bir
-    deprem, kas\u0131rga veya ba\u015Fka bir olay. Kuleyi dengede olabildi\u011Fince
-    uzun tutun ve d\xFC\u015Fmesine izin vermeyin.\r\n\r\nKontrol:\r\n\r\nLCM S\u0131kma
-    - Blo\u011Fu al\u0131n.\r\nA - Blo\u011Fu sola \xE7evirin.\r\nD - Blo\u011Fu
-    sa\u011Fa \xE7evirin\nS - Kameray\u0131 sola \xE7evirin.\r\nE - Kameray\u0131
+    \u0438\u043B\u0438 \u043F\u043E\u0434\u043D\u044F\u0442\u044C \u043A\u0430\u043C\u0435\u0440\u0443.\n\u043F\u043A\u043C
+    - \u0442\u043E\u043B\u043A\u043D\u0443\u0442\u044C \u0431\u043B\u043E\u043A \u0432\u043F\u0435\u0440\u0435\u0434\nW
+    \u2014 \u0434\u0432\u0438\u0433\u0430\u0442\u044C \u0431\u043B\u043E\u043A \u0432\u043F\u0435\u0440\u0435\u0434\r\nS
+    \u2014 \u0434\u0432\u0438\u0433\u0430\u0442\u044C \u0431\u043B\u043E\u043A \u043D\u0430\u0437\u0430\u0434"
+  en: "Your task is to build a tower on a black square in the middle of the table,
+    carefully adding blocks one by one. Place them on top or in the available free
+    spaces, trying to maintain the balance of the structure. Each attempt to install
+    a new unit may be accompanied by unexpected events: an earthquake, a tornado,
+    or other surprises. Try to build the tower as high as possible and don't let
+    it collapse!\n\nManagement:\r\n\r\nTo pinch the LMB is to take a block.\r\nA
+    \u2014 Turn the block to the left.\r\nD \u2014 Turn the block to the right\nQ
+    \u2014 Turn the camera to the left.\r\nE \u2014 Turn the camera to the right.\r\nMMB
+    (middle mouse button) \u2014 Lower or raise the camera.\nRMB - push the block
+    forward\nW \u2014 move the block forward\r\nS \u2014 move the block back"
+  tr: "G\xF6reviniz, masan\u0131n ortas\u0131ndaki beyaz bir kare \xFCzerine bir
+    kule in\u015Fa etmek, birbiri ard\u0131na bloklar\u0131 dikkatlice eklemektir.
+    Yap\u0131n\u0131n dengesini korumaya \xE7al\u0131\u015Farak onlar\u0131 tepeye
+    veya eri\u015Filebilir bo\u015F yerlere yerle\u015Ftirin. Yeni bir blok kurmaya
+    y\xF6nelik her giri\u015Fime beklenmedik olaylar e\u015Flik edebilir: deprem,
+    kas\u0131rga veya di\u011Fer s\xFCrprizler. Kuleyi m\xFCmk\xFCn oldu\u011Funca
+    y\xFCkse\u011Fe dikmeye \xE7al\u0131\u015F\u0131n ve \xE7\xF6kmesine izin vermeyin!\n\nKontrol:\r\n\r\nLCM
+    S\u0131kma - Blo\u011Fu al\u0131n.\r\nA - Blo\u011Fu sola \xE7evirin.\r\nD -
+    Blo\u011Fu sa\u011Fa \xE7evirin\nS - Kameray\u0131 sola \xE7evirin.\r\nE - Kameray\u0131
     sa\u011Fa \xE7evirin.\r\nSCM (Ortalama Fare d\xFC\u011Fmesi) - Kameray\u0131
-    indirin veya kald\u0131r\u0131n.\nPKM - Blo\u011Fu \xF6ne do\u011Fru itin"
+    indirin veya kald\u0131r\u0131n.\nPKM - Blo\u011Fu \xF6ne do\u011Fru itin\nW
+    - \xFCniteyi ileriye ta\u015F\u0131mak\r\nS - \xFCniteyi geriye do\u011Fru hareket
+    ettirmek"
   az: 
   be: 
   he: 
@@ -2747,13 +2767,13 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 33
-  m_fontSizeBase: 33
+  m_fontSize: 27
+  m_fontSizeBase: 27
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 8
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
@@ -2783,7 +2803,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: -6.4915314, y: -13.028336, z: -7.215164, w: -8.017471}
+  m_margin: {x: -2.148346, y: -13.028336, z: -1.3953018, w: -8.017471}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -3508,7 +3528,7 @@ MonoBehaviour:
   m_enableAutoSizing: 1
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 8
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 256
   m_textAlignment: 65535
@@ -4570,37 +4590,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 729357029}
   m_CullTransparentMesh: 1
---- !u!1 &750497329
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 750497330}
-  m_Layer: 0
-  m_Name: PyramidStart
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &750497330
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 750497329}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -27.33, y: 5.89, z: 2.44}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &788283229
 GameObject:
   m_ObjectHideFlags: 0
@@ -5184,7 +5173,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 8
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
@@ -5401,7 +5390,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _rotationSpeed: 5
-  _target: {fileID: 0}
+  _target: {fileID: 629075973}
   _rotatingPlatformSound: {fileID: 8300000, guid: b3248140e7f418847811d799826caed5, type: 3}
 --- !u!114 &817975416
 MonoBehaviour:
@@ -5416,7 +5405,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _pauseMenu: {fileID: 797585024}
-  _blockSpawner: {fileID: 0}
+  _blockSpawner: {fileID: 1708356347}
+  _ghostMaterial: {fileID: 2100000, guid: 72ec0e208c5add046b39ffa55e04b6c2, type: 2}
 --- !u!114 &817975417
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12977,7 +12967,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 90d4c0cdc5080ad449b245ba33229956, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _blockSpawner: {fileID: 1708356347}
 --- !u!114 &1708356347
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13015,7 +13004,7 @@ Transform:
   m_GameObject: {fileID: 1708356345}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6.39, y: 16.26, z: 1.15}
+  m_LocalPosition: {x: 6.39, y: 8.4, z: 1.15}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -15211,7 +15200,7 @@ MonoBehaviour:
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 8
   m_HorizontalAlignment: 2
   m_VerticalAlignment: 512
   m_textAlignment: 65535
@@ -15515,6 +15504,5 @@ SceneRoots:
   - {fileID: 257104917}
   - {fileID: 1110259509}
   - {fileID: 1708356349}
-  - {fileID: 750497330}
   - {fileID: 1779338253}
   - {fileID: 205476904}

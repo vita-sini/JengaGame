@@ -28,16 +28,27 @@ public class Explosive : MonoBehaviour, IEffect
     {
         GameObject[] blocks = GameObject.FindGameObjectsWithTag("Block");
 
-        if (blocks.Length > 0)
-        {
-            int randomIndex = Random.Range(0, blocks.Length);
-            GameObject randomBlock = blocks[randomIndex];
-            _explosiveBlock = randomBlock.GetComponent<Rigidbody>();
+        // Фильтруем блоки, у которых состояние Placed
+        List<Rigidbody> placedBlocks = new List<Rigidbody>();
 
-            if (_explosiveBlock != null)
+        foreach (GameObject block in blocks)
+        {
+            BlockState blockState = block.GetComponent<BlockState>();
+            Rigidbody rb = block.GetComponent<Rigidbody>();
+
+            if (blockState != null && rb != null && blockState.CurrentState == BlockState.State.Placed)
             {
-                StartCoroutine(ExplodeBlock());
+                placedBlocks.Add(rb);
             }
+        }
+
+        // Выбираем случайный из подходящих блоков
+        if (placedBlocks.Count > 0)
+        {
+            int randomIndex = Random.Range(0, placedBlocks.Count);
+            _explosiveBlock = placedBlocks[randomIndex];
+
+            StartCoroutine(ExplodeBlock());
         }
     }
 

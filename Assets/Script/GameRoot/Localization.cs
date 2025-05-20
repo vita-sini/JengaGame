@@ -21,7 +21,8 @@ public static class LocalizationManager
                 { "SlipperyCard", "Блоки становятся скользкими" },
                 { "ExplosiveCard", "Один блок взорвется" },
                 { "SmokeCard", "Стало дымно" },
-                { "Score", "Очки: " }
+                { "Score", "Очки: " },
+                { "The light block", "Светлый блок: " }
             }
         },
         {
@@ -37,7 +38,8 @@ public static class LocalizationManager
                 { "SlipperyCard", "Blocks become slippery" },
                 { "ExplosiveCard", "One block will explode" },
                 { "SmokeCard", "It's smoky now" },
-                { "Score", "Score: " }
+                { "Score", "Score: " },
+                { "The light block", "The light block: " }
             }
         },
         {

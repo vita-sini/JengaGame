@@ -4,8 +4,9 @@ using UnityEngine;
 
 public class Movement
 {
-    private float _maxMoveSpeed = 7f; // Максимальная скорость перемещения
- 
+    private float _maxMoveSpeed = 17f;
+    private float _verticalMoveSpeed = 15f;
+
     private MouseWorldPosition _mouseWorldPosition;
     private Manipulation _manipulation;
 
@@ -15,26 +16,36 @@ public class Movement
         _manipulation = manipulation;
     }
 
-    public void MoveMouse(Rigidbody selectedBlock, Vector3 offset, Plane movementPlane, Vector3 initialBlockPosition, Vector3 initialCameraRight)
+    public void MoveMouse(Rigidbody selectedBlock, Vector3 offset)
     {
-        Vector3 newMousePosition = _mouseWorldPosition.GetMouseWorldPosition(movementPlane) + offset;
+        // === 1. Горизонтальное перемещение (по X и Z) ===
+        Plane movementPlane = new Plane(Vector3.up, selectedBlock.position);
+        Vector3 mouseTargetPosition = _mouseWorldPosition.GetMouseWorldPosition(movementPlane) + offset;
 
-        // Направление движения остаётся зафиксированным
-        Vector3 horizontalMovement = Vector3.Project(newMousePosition - initialBlockPosition, initialCameraRight);
+        // Оставляем Y от текущей позиции (чтобы не прыгал)
+        Vector3 horizontalTarget = new Vector3(mouseTargetPosition.x, selectedBlock.position.y, mouseTargetPosition.z);
+        Vector3 horizontalDirection = horizontalTarget - selectedBlock.position;
+        Vector3 horizontalVelocity = horizontalDirection / Time.fixedDeltaTime;
 
-        Vector3 targetPosition = initialBlockPosition + horizontalMovement;
-        targetPosition.y = newMousePosition.y;
-
-        Vector3 direction = targetPosition - selectedBlock.position;
-        Vector3 velocity = direction / Time.fixedDeltaTime;
-
-        if (velocity.magnitude > _maxMoveSpeed)
+        if (horizontalVelocity.magnitude > _maxMoveSpeed)
         {
-            velocity = velocity.normalized * _maxMoveSpeed;
+            horizontalVelocity = horizontalVelocity.normalized * _maxMoveSpeed;
         }
 
-        selectedBlock.velocity = velocity;
+        // === 2. Строгое вертикальное перемещение по глобальной оси Y ===
+        float verticalInput = 0f;
+        if (Input.GetKey(KeyCode.W)) verticalInput = 1f;
+        else if (Input.GetKey(KeyCode.S)) verticalInput = -1f;
 
-        Debug.Log("Move");
+        float verticalVelocity = verticalInput * _verticalMoveSpeed;
+
+        // === 3. Комбинируем горизонтальную и вертикальную скорости ===
+        Vector3 finalVelocity = new Vector3(
+            horizontalVelocity.x,
+            verticalVelocity,
+            horizontalVelocity.z
+        );
+
+        selectedBlock.velocity = finalVelocity;
     }
 }

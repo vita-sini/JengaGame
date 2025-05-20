@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Rotate
 {
-    public float _rotationAnglePositive = 10f;
-    public float _rotationAngleNegative = -10f;
+    public float _rotationAnglePositive = 15f;
+    public float _rotationAngleNegative = -15f;
 
     public void Twist(Rigidbody selectedBlock)
     {
