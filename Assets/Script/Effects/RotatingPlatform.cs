@@ -1,12 +1,10 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using static UnityEngine.GraphicsBuffer;
 
 public class RotatingPlatform : MonoBehaviour, IEffect
 {
     [SerializeField] private float _rotationSpeed;
-    [SerializeField] private Transform _target; // —юда можно вставить объект, вокруг которого вращаетс€ камера
+    [SerializeField] private Transform _target;
     [SerializeField] private AudioClip _rotatingPlatformSound;
 
     private Coroutine _rotationEffectCoroutine;
@@ -26,9 +24,7 @@ public class RotatingPlatform : MonoBehaviour, IEffect
     public void Execute()
     {
         if (_rotationEffectCoroutine != null)
-        {
             StopCoroutine(_rotationEffectCoroutine);
-        }
 
         _rotationEffectCoroutine = StartCoroutine(RotationEffectCoroutine());
     }
@@ -42,17 +38,11 @@ public class RotatingPlatform : MonoBehaviour, IEffect
         }
 
         if (_audioSource != null)
-        {
             _audioSource.Stop();
-        }
-
-        Debug.Log("RotatingPlatformEffect stopped");
     }
 
     private IEnumerator RotationEffectCoroutine()
     {
-        Debug.Log("RotatingPlatformEffect started");
-
         if (_audioSource != null && _rotatingPlatformSound != null)
         {
             _audioSource.clip = _rotatingPlatformSound;

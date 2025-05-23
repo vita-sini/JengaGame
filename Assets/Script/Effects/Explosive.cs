@@ -4,12 +4,12 @@ using UnityEngine;
 
 public class Explosive : MonoBehaviour, IEffect
 {
-    [SerializeField] private float _explosionForce; // Сила взрыва
-    [SerializeField] private float _explosionRadius; // Радиус взрыва
-    [SerializeField] private ParticleSystem _explosiveParticlesPrefab; // Префаб ParticleSystem
-    [SerializeField] private AudioClip _explosiveSound; // Звук взрыва
-    private Transform _particleSpawnPoint; // Точка спауна системы частиц
+    [SerializeField] private float _explosionForce;
+    [SerializeField] private float _explosionRadius;
+    [SerializeField] private ParticleSystem _explosiveParticlesPrefab;
+    [SerializeField] private AudioClip _explosiveSound;
 
+    private Transform _particleSpawnPoint;
     private Rigidbody _explosiveBlock;
     private AudioSource _audioSource;
 
@@ -42,7 +42,6 @@ public class Explosive : MonoBehaviour, IEffect
             }
         }
 
-        // Выбираем случайный из подходящих блоков
         if (placedBlocks.Count > 0)
         {
             int randomIndex = Random.Range(0, placedBlocks.Count);
@@ -57,43 +56,34 @@ public class Explosive : MonoBehaviour, IEffect
         _explosiveBlock = null;
 
         if (_audioSource != null)
-        {
             _audioSource.Stop();
-        }
     }
 
     private IEnumerator ExplodeBlock()
     {
-        yield return new WaitForSeconds(2f); // Задержка перед взрывом
+        yield return new WaitForSeconds(2f);
 
         if (_explosiveBlock != null)
         {
-            // Создаём взрывные силы
             Collider[] colliders = Physics.OverlapSphere(_explosiveBlock.transform.position, _explosionRadius);
 
             foreach (var nearbyCollider in colliders)
             {
                 Rigidbody nearbyRb = nearbyCollider.GetComponent<Rigidbody>();
+
                 if (nearbyRb != null)
-                {
                     nearbyRb.AddExplosionForce(_explosionForce, _explosiveBlock.transform.position, _explosionRadius);
-                }
             }
 
-            // Создаём эффект частиц в месте взрыва
             if (_explosiveParticlesPrefab != null)
             {
                 Vector3 spawnPosition = _particleSpawnPoint != null ? _particleSpawnPoint.position : _explosiveBlock.transform.position;
                 Instantiate(_explosiveParticlesPrefab, spawnPosition, Quaternion.identity);
             }
 
-            // Воспроизводим звук взрыва
             if (_audioSource != null && _explosiveSound != null)
-            {
                 _audioSource.PlayOneShot(_explosiveSound);
-            }
 
-            // Уничтожаем блок
             Destroy(_explosiveBlock.gameObject);
         }
     }

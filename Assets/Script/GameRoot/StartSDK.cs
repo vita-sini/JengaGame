@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using YG;
 
 public class StartSDK : MonoBehaviour
@@ -11,7 +8,6 @@ public class StartSDK : MonoBehaviour
         YandexGame.GetDataEvent += GetLoad;
     }
 
-    // Отписываемся от события GetDataEvent в OnDisable.
     private void OnDisable()
     {
         YandexGame.GetDataEvent -= GetLoad;
@@ -32,9 +28,5 @@ public class StartSDK : MonoBehaviour
         LocalizationManager.SetLanguage(lang);
     }
 
-    //Ваш метод для загрузки, который будет запускаться после загрузки SDK.
-    public void GetLoad()
-    {
-        YandexGame.GameReadyAPI();
-    }
+    public void GetLoad(){ YandexGame.GameReadyAPI();}
 }

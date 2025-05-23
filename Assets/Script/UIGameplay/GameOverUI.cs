@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -38,21 +35,18 @@ public class GameOverUI : MonoBehaviour
 
     private void BlockOtherUIInteraction()
     {
-        // Найдите все Canvas в сцене и отключите их взаимодействие
+        // находим все Canvas в сцене и отключаем их взаимодействие
         Canvas[] canvases = FindObjectsOfType<Canvas>();
-        foreach (var canvas in canvases)
-        {
-            if (canvas != _gameOverUIElement.GetComponent<Canvas>())
-            {
-                canvas.enabled = false;
-            }
-        }
 
+        foreach (var canvas in canvases)
+            if (canvas != _gameOverUIElement.GetComponent<Canvas>())
+                canvas.enabled = false;
     }
+
     private void LoadMainMenu()
     {
         Time.timeScale = 1f;
-        Advertisement.LoadSceneWithAd("MainMenu");
+        SceneManager.LoadScene("MainMenu");
     }
 
     private void RestartGame()
@@ -64,12 +58,8 @@ public class GameOverUI : MonoBehaviour
         Scene currentScene = SceneManager.GetActiveScene();
 
         if (currentScene.name == "GameplayNewChallenges")
-        {
-            Advertisement.LoadSceneWithAd("GameplayNewChallenges");
-        }
+            SceneManager.LoadScene("GameplayNewChallenges");
         else if (currentScene.name == "GameplayClassic")
-        {
-            Advertisement.LoadSceneWithAd("GameplayClassic");
-        }
+            SceneManager.LoadScene("GameplayClassic");
     }
 }

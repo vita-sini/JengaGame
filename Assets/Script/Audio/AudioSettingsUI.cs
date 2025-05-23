@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -45,16 +43,12 @@ public class AudioSettingsUI : MonoBehaviour
     private void UpdateMusicVolume()
     {
         if (_musicAudioSource != null)
-        {
             _musicAudioSource.volume = AudioManager.MusicVolume * AudioManager.GlobalVolume;
-        }
     }
 
     private void UpdateEffectsVolume()
     {
         if (_effectsAudioSource != null)
-        {
             _effectsAudioSource.volume = AudioManager.EffectsVolume;
-        }
     }
 }

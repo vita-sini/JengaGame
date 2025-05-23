@@ -14,7 +14,6 @@ public class Manipulation : MonoBehaviour
     private MouseWorldPosition _mouseWorldPosition;
     private Rotate _rotate;
     private Movement _movement;
-    //private CheckingUpperBlock _checkingUpperBlock;
     private ScoreUI _scoreUI;
     private Deck _deck;
     private IPauseManager _pauseManager;
@@ -31,7 +30,6 @@ public class Manipulation : MonoBehaviour
     private void Awake()
     {
         _pauseManager = _pauseMenu;
-        //_checkingUpperBlock = new CheckingUpperBlock();
         _mouseWorldPosition = new MouseWorldPosition();
         _pick = new Pick(_mouseWorldPosition);
         _release = new Release();
@@ -45,9 +43,7 @@ public class Manipulation : MonoBehaviour
     private void Update()
     {
         if (_pauseManager.IsPaused)
-        {
-            return; 
-        }
+            return;
 
         ClickLeftMouseButton();
         ClickRightMouseButton();
@@ -63,9 +59,7 @@ public class Manipulation : MonoBehaviour
             if (_selectedBlock != null)
             {
                 if (_blockSpawner.CurrentSpawnedBlock != null && _selectedBlock.gameObject == _blockSpawner.CurrentSpawnedBlock)
-                {
                     _blockSpawner.ReleaseBlock();
-                }
 
                 _previousMaxHeight = GetCurrentTowerHeight();
 
@@ -101,6 +95,7 @@ public class Manipulation : MonoBehaviour
             if (Physics.Raycast(ray, out hit))
             {
                 Rigidbody hitBlock = hit.rigidbody;
+
                 if (hitBlock != null)
                 {
                     Vector3 forceDirection = Camera.main.transform.forward;
@@ -118,18 +113,14 @@ public class Manipulation : MonoBehaviour
         ContactMonitor monitor = block.GetComponent<ContactMonitor>();
 
         while (!monitor.IsOnValidSurface())
-        {
             yield return null;
-        }
 
         BlockState blockState = block.GetComponent<BlockState>();
+
         if (blockState != null)
-        {
             blockState.SetPlaced();
-        }
 
         float blockTopY = block.GetComponent<Renderer>().bounds.max.y;
-        Debug.Log($"blockTopY: {blockTopY}, _previousMaxHeight: {_previousMaxHeight}");
 
         if (blockTopY > _previousMaxHeight + 0.01f && !_blockScored)
         {
@@ -137,18 +128,12 @@ public class Manipulation : MonoBehaviour
             _scoreUI.CalculateScore(initialPosition, block.transform.position, block);
 
             if (SceneManager.GetActiveScene().name == Scenes.GAMEPLAYNEWCHALLENGES)
-            {
                 _deck.OnTurnEnd();
-            }
 
             _blockScored = true;
 
-            // ✅ Обновляем высоту башни в спавнере
+            // Обновляем высоту башни в спавнере
             _blockSpawner.UpdateTowerHeight(blockTopY);
-        }
-        else
-        {
-            Debug.Log("Блок не поднял башню выше. Очки не начисляются.");
         }
 
         _blockSpawner.SpawnBlock();
@@ -157,6 +142,7 @@ public class Manipulation : MonoBehaviour
     private float GetCurrentTowerHeight()
     {
         GameObject[] blocks = GameObject.FindGameObjectsWithTag("Block");
+
         if (blocks.Length == 0) return 0f;
 
         float maxY = float.MinValue;
@@ -164,10 +150,12 @@ public class Manipulation : MonoBehaviour
         foreach (GameObject block in blocks)
         {
             BlockState blockState = block.GetComponent<BlockState>();
+
             if (blockState == null || blockState.CurrentState != BlockState.State.Placed)
                 continue;
 
             Renderer renderer = block.GetComponent<Renderer>();
+
             if (renderer != null)
             {
                 float topY = renderer.bounds.max.y;

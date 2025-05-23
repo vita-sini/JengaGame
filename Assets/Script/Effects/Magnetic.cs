@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Magnetic : MonoBehaviour, IEffect
 {
-    [SerializeField] private int _numberOfMagneticBlocks; //  оличество магнитных блоков
-    [SerializeField] private int _strengthGap; // сила разрыва
+    [SerializeField] private int _numberOfMagneticBlocks;
+    [SerializeField] private int _strengthGap;
     [SerializeField] private AudioClip _magneticSound;
 
     private List<FixedJoint> _magneticJoints = new List<FixedJoint>();
@@ -26,9 +26,7 @@ public class Magnetic : MonoBehaviour, IEffect
     public void Execute()
     {
         if (_magneticEffectCoroutine != null)
-        {
             StopCoroutine(_magneticEffectCoroutine);
-        }
 
         _magneticEffectCoroutine = StartCoroutine(MagneticEffectCoroutine());
     }
@@ -42,9 +40,7 @@ public class Magnetic : MonoBehaviour, IEffect
         }
 
         if (_audioSource != null)
-        {
             _audioSource.Stop();
-        }
 
         ResetBlocks();
     }
@@ -68,10 +64,9 @@ public class Magnetic : MonoBehaviour, IEffect
                 GameObject randomBlock = blocks[randomIndex];
                 Debug.Log(blocks[randomIndex]);
                 Rigidbody rb = randomBlock.GetComponent<Rigidbody>();
+
                 if (rb != null)
-                {
                     CreateMagneticJoint(rb);
-                }
             }
         }
 
@@ -86,6 +81,7 @@ public class Magnetic : MonoBehaviour, IEffect
         if (Physics.Raycast(rb.transform.position, direction, out hit, 10f))
         {
             Rigidbody otherRigidbody = hit.collider.GetComponent<Rigidbody>();
+
             if (otherRigidbody != null && hit.collider.CompareTag("Block"))
             {
                 FixedJoint joint = rb.gameObject.AddComponent<FixedJoint>();
@@ -99,6 +95,7 @@ public class Magnetic : MonoBehaviour, IEffect
     private Vector3 GetRandomDirection()
     {
         int randomDirection = Random.Range(0, 4);
+
         switch (randomDirection)
         {
             case 0:

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Slippery : MonoBehaviour, IEffect
 {
-    [SerializeField] private PhysicMaterial _slipperyMaterial; // —сылка на ваш новый скользкий Physics Material
+    [SerializeField] private PhysicMaterial _slipperyMaterial; 
     [SerializeField] private AudioClip _slipperySound;
 
     private AudioSource _audioSource;
@@ -26,9 +26,7 @@ public class Slippery : MonoBehaviour, IEffect
     public void Execute()
     {
         if (_slipperyEffectCoroutine != null)
-        {
             StopCoroutine(_slipperyEffectCoroutine);
-        }
 
         _slipperyEffectCoroutine = StartCoroutine(SlipperyEffectCoroutine());
     }
@@ -42,9 +40,7 @@ public class Slippery : MonoBehaviour, IEffect
         }
 
         if (_audioSource != null)
-        {
             _audioSource.Stop();
-        }
 
         ResetBlocks();
     }

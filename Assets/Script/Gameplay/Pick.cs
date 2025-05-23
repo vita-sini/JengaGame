@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Pick
 {
@@ -15,8 +13,6 @@ public class Pick
 
     public void Select(ref Rigidbody selectedBlock, ref Vector3 offset, ref Vector3 initialBlockPosition)
     {
-        Debug.Log("Select() called");
-
         if (TryGetRaycastHitBlock(out RaycastHit hit, out Rigidbody rb, out ContactMonitor monitor))
         {
             if (CanBlockBeSelected(rb, monitor, hit))
@@ -31,9 +27,7 @@ public class Pick
                 offset = selectedBlock.position - mouseWorldPos;
 
                 selectedBlock.constraints = RigidbodyConstraints.FreezeRotation;
-                selectedBlock.GetComponent<ContactMonitor>().ClearContacts();
-
-                Debug.Log("Selected block: " + selectedBlock.name);
+                selectedBlock.GetComponent<ContactMonitor>().ClearContacts(); ;
             }
         }
     }
@@ -43,6 +37,7 @@ public class Pick
         if (rb == null) return false;
 
         BlockState blockState = rb.GetComponent<BlockState>();
+
         if (blockState == null) return false;
 
         return blockState.CurrentState == BlockState.State.Spawning ||

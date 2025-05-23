@@ -4,7 +4,6 @@ using UnityEngine;
 public class ContactMonitor : MonoBehaviour
 {
     private Rigidbody _rb;
-
     private List<Collider> _contacts = new List<Collider>();
 
     private void Start()
@@ -15,9 +14,7 @@ public class ContactMonitor : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         if (!_contacts.Contains(collision.collider))
-        {
             _contacts.Add(collision.collider);
-        }
     }
 
     private void OnCollisionExit(Collision collision)
@@ -28,12 +25,8 @@ public class ContactMonitor : MonoBehaviour
     public bool IsOnValidSurface()
     {
         foreach (var contact in _contacts)
-        {
             if (contact.gameObject.CompareTag("Block") || contact.gameObject.CompareTag("Base"))
-            {
                 return true;
-            }
-        }
 
         return false;
     }

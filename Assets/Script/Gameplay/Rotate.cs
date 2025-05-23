@@ -1,23 +1,18 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Rotate
 {
-    public float _rotationAnglePositive = 15f;
-    public float _rotationAngleNegative = -15f;
+    private float _rotationAnglePositive = 15f;
+    private float _rotationAngleNegative = -15f;
 
     public void Twist(Rigidbody selectedBlock)
     {
         if (Input.GetKeyDown(KeyCode.A))
-        {
-            // ѕоворачиваем блок на определенный угол влево
             selectedBlock.MoveRotation(selectedBlock.rotation * Quaternion.Euler(0, _rotationAnglePositive, 0));
-        }
+        // ѕоворачиваем блок на определенный угол влево
+
         if (Input.GetKeyDown(KeyCode.D))
-        {
-            // ѕоворачиваем блок на определенный угол вправо
             selectedBlock.MoveRotation(selectedBlock.rotation * Quaternion.Euler(0, _rotationAngleNegative, 0));
-        }
+        // ѕоворачиваем блок на определенный угол вправо
     }
 }

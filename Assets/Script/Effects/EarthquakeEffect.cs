@@ -9,7 +9,6 @@ public class EarthquakeEffect : MonoBehaviour, IEffect
     [SerializeField] private float _startTime = 3f;
 
     private AudioSource _audioSource;
-
     private Coroutine _earthquakeEffectCoroutine;
 
     private void Awake()
@@ -20,9 +19,8 @@ public class EarthquakeEffect : MonoBehaviour, IEffect
     public void Execute()
     {
         if (_earthquakeEffectCoroutine != null)
-        {
             StopCoroutine(_earthquakeEffectCoroutine);
-        }
+
         _earthquakeEffectCoroutine = StartCoroutine(EarthquakeEffectCoroutine());
     }
 
@@ -35,9 +33,7 @@ public class EarthquakeEffect : MonoBehaviour, IEffect
         }
 
         if (_audioSource != null)
-        {
             _audioSource.Stop();
-        }
     }
 
     private IEnumerator EarthquakeEffectCoroutine()

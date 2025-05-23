@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public static class AudioManager
@@ -34,42 +32,28 @@ public static class AudioManager
         AudioSource effectsAudioSource = GetEffectsAudioSource();
 
         if (musicAudioSource != null)
-        {
             musicAudioSource.volume = MusicVolume * GlobalVolume;
-        }
 
         if (effectsAudioSource != null)
-        {
             effectsAudioSource.volume = EffectsVolume * GlobalVolume;
-        }
     }
 
     private static AudioSource GetMusicAudioSource()
     {
-        // Здесь вы можете вернуть ссылку на ваш AudioSource для музыки
-        // Например, если у вас есть GameObject с именем "MusicPlayer"
-
         GameObject musicPlayer = GameObject.Find("BackgroundMusic");
 
         if (musicPlayer != null)
-        {
             return musicPlayer.GetComponent<AudioSource>();
-        }
 
         return null;
     }
 
     private static AudioSource GetEffectsAudioSource()
     {
-        // Здесь вы можете вернуть ссылку на ваш AudioSource для звуковых эффектов
-        // Например, если у вас есть GameObject с именем "EffectsPlayer"
-
         GameObject effectsPlayer = GameObject.Find("GameObject");
 
         if (effectsPlayer != null)
-        {
             return effectsPlayer.GetComponent<AudioSource>();
-        }
 
         return null;
     }

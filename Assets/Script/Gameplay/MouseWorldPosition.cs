@@ -14,9 +14,7 @@ public class MouseWorldPosition
         Ray mouseRay = _mainCamera.ScreenPointToRay(Input.mousePosition);
 
         if (movementPlane.Raycast(mouseRay, out float distance))
-        {
             return mouseRay.GetPoint(distance);
-        }
 
         return Vector3.zero;
     }

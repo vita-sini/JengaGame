@@ -4,7 +4,7 @@ using UnityEngine.UI;
 using YG;
 using YG.Utils.Pay;
 
-public class ImageSlider : MonoBehaviour
+public class MaterialSelector : MonoBehaviour
 {
     [SerializeField] private Image[] _images;
     [SerializeField] private TMP_Text _priceText;
@@ -35,10 +35,11 @@ public class ImageSlider : MonoBehaviour
         YandexGame.PurchaseSuccessEvent += OnPurchaseSuccess;
 
         _currentIndex = YandexGame.savesData.selectedMaterialIndex;
-        ShowImage(_currentIndex);          // отобразили нужную картинку
-        UpdateSelectBuyButtons();          // и кнопки
 
-        YandexGame.GetPayments();          // запросили список покупок
+        ShowImage(_currentIndex);       
+        UpdateSelectBuyButtons();          
+
+        YandexGame.GetPayments();         
     }
 
     private void OnDisable()
@@ -47,8 +48,17 @@ public class ImageSlider : MonoBehaviour
         YandexGame.PurchaseSuccessEvent -= OnPurchaseSuccess;
     }
 
-    private void OnLeft() { _currentIndex = (_currentIndex - 1 + _images.Length) % _images.Length; ShowImage(_currentIndex); }
-    private void OnRight() { _currentIndex = (_currentIndex + 1) % _images.Length; ShowImage(_currentIndex); }
+    private void OnLeft() 
+    { 
+        _currentIndex = (_currentIndex - 1 + _images.Length) % _images.Length; 
+        ShowImage(_currentIndex); 
+    }
+
+    private void OnRight() 
+    {
+        _currentIndex = (_currentIndex + 1) % _images.Length; 
+        ShowImage(_currentIndex); 
+    }
 
     private void ShowImage(int index)
     {
@@ -58,7 +68,11 @@ public class ImageSlider : MonoBehaviour
         UpdateSelectBuyButtons();
     }
 
-    private void OnSelect() { YandexGame.savesData.selectedMaterialIndex = _currentIndex; YandexGame.SaveProgress(); }
+    private void OnSelect() 
+    { 
+        YandexGame.savesData.selectedMaterialIndex = _currentIndex; 
+        YandexGame.SaveProgress(); 
+    }
 
     private void OnBuy() { YandexGame.BuyPayments(_paidProductId); }
 

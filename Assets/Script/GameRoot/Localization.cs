@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public static class LocalizationManager
@@ -63,25 +62,17 @@ public static class LocalizationManager
     public static void SetLanguage(string langCode)
     {
         if (_texts.ContainsKey(langCode))
-        {
             CurrentLanguage = langCode;
-        }
         else
-        {
-            CurrentLanguage = "en"; // fallback
-        }
+            CurrentLanguage = "en";
     }
 
     public static string GetText(string key)
     {
         if (_texts.TryGetValue(CurrentLanguage, out var langDict))
-        {
             if (langDict.TryGetValue(key, out var text))
-            {
                 return text;
-            }
-        }
 
-        return key; // если ключ не найден
+        return key;
     }
 }

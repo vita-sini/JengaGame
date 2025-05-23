@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Heavy : MonoBehaviour, IEffect
 {
-    [SerializeField] private int _numberOfHeavyBlocks; // Количество усиленных блоков
+    [SerializeField] private int _numberOfHeavyBlocks;
     [SerializeField] private float _heavyMass; // Увеличенная масса для усиленных блоков
     [SerializeField] private AudioClip _heavySound;
 
@@ -26,9 +26,7 @@ public class Heavy : MonoBehaviour, IEffect
     public void Execute()
     {
         if (_heavyEffectCoroutine != null)
-        {
             StopCoroutine(_heavyEffectCoroutine);
-        }
 
         _heavyEffectCoroutine = StartCoroutine(HeavyEffectCoroutine());
     }
@@ -42,9 +40,7 @@ public class Heavy : MonoBehaviour, IEffect
         }
 
         if (_audioSource != null)
-        {
             _audioSource.Stop();
-        }
 
         ResetBlocks();
     }

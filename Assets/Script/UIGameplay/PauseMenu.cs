@@ -25,14 +25,10 @@ public class PauseMenu : MonoBehaviour, IPauseManager
     {
         // Проверяем нажатие кнопки "Menu" или клавиши Escape
         if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            TogglePauseMenu();
-        }
+        TogglePauseMenu();
 
         if (_isPaused)
-        {
-            return;
-        }
+        return;
     }
 
     public void TogglePauseMenu()
@@ -42,9 +38,7 @@ public class PauseMenu : MonoBehaviour, IPauseManager
         Time.timeScale = _isPaused ? 0 : 1; // Ставим игру на паузу или возобновляем
 
         foreach (var uiElement in _gameplayUIElements)
-        {
             uiElement.SetActive(!_isPaused);
-        }
     }
 
     public void ContinueGame()

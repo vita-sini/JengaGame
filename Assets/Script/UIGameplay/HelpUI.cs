@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,14 +11,9 @@ public class HelpUI : MonoBehaviour
         _initialUIElement.SetActive(false);
 
         foreach (GameObject uiElement in _otherUIElements)
-        {
             if (uiElement != null)
-            {
                 uiElement.SetActive(true);
-            }
-        }
 
-        // Возвращаем игру в нормальное состояние
         Time.timeScale = 1f; // Возобновляет игровое время
     }
 
@@ -29,14 +22,9 @@ public class HelpUI : MonoBehaviour
         _initialUIElement.SetActive(true);
 
         foreach (GameObject uiElement in _otherUIElements)
-        {
             if (uiElement != null)
-            {
                 uiElement.SetActive(false);
-            }
-        }
 
-        // Ставим игру на паузу
         Time.timeScale = 0f; // Останавливает игровое время
     }
 }

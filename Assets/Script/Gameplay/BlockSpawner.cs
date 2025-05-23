@@ -1,19 +1,18 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class BlockSpawner : MonoBehaviour
 {
     [SerializeField] private Transform _spawnPoint;
     [SerializeField] private BlockPool _blockPool;
+
     private float _currentTowerHeight;
 
     public GameObject CurrentSpawnedBlock { get; private set; }
 
     private void Start()
     {
-        _currentTowerHeight = _spawnPoint.position.y;    // Изначально — на уровне точки спавна
-        SpawnBlock();                                    // Спавним первый блок при старте игры
+        _currentTowerHeight = _spawnPoint.position.y;
+        SpawnBlock();
     }
 
     public void SpawnBlock()
@@ -21,12 +20,12 @@ public class BlockSpawner : MonoBehaviour
         if (CurrentSpawnedBlock != null) return;
 
         GameObject block = _blockPool.GetBlock();
+
         if (block == null) return;
 
         Vector3 spawnPos = _spawnPoint.position;
 
-        // Спавним блок чуть выше: либо на уровне точки спавна, либо над башней
-        spawnPos.y = Mathf.Max(_spawnPoint.position.y, _currentTowerHeight + 2f); // +1f — отступ
+        spawnPos.y = Mathf.Max(_spawnPoint.position.y, _currentTowerHeight + 2f);
 
         block.transform.position = spawnPos;
         block.transform.rotation = Quaternion.identity;
@@ -37,10 +36,9 @@ public class BlockSpawner : MonoBehaviour
         rb.isKinematic = true;
 
         var blockState = block.GetComponent<BlockState>();
+
         if (blockState != null)
-        {
             blockState.SetSpawning(); // Пока блок не взят — состояние Spawning
-        }
 
         CurrentSpawnedBlock = block;
     }
@@ -58,8 +56,6 @@ public class BlockSpawner : MonoBehaviour
     public void UpdateTowerHeight(float newHeight)
     {
         if (newHeight > _currentTowerHeight)
-        {
             _currentTowerHeight = newHeight;
-        }
     }
 }

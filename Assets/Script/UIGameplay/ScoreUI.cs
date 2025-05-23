@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -7,18 +5,16 @@ using YG;
 
 public class ScoreUI : MonoBehaviour
 {
-    public TextMeshProUGUI _scoreText; // Текстовый элемент для отображения очков
+    public TextMeshProUGUI _scoreText; 
 
     private void OnEnable()
     {
-        // подписываемся при каждом включении
         ScoreManager.Instance.OnScoreChanged += UpdateScoreText;
         UpdateScoreText(ScoreManager.Instance.CurrentScore);
     }
 
     private void OnDisable()
     {
-        // отписываемся, чтобы избежать утечки
         if (ScoreManager.Instance != null)
             ScoreManager.Instance.OnScoreChanged -= UpdateScoreText;
     }
@@ -44,9 +40,7 @@ public class ScoreUI : MonoBehaviour
 
     public void CalculateScore(Vector3 initialPos, Vector3 currentPos, Rigidbody block)
     {
-        //if (currentPos.y <= initialPos.y + 1) return;
-
-        ScoreManager.Instance.Add(1);   // вместо AddScore
+        ScoreManager.Instance.Add(1); 
         GameEvents.InvokeTurnEnd();
     }
 }

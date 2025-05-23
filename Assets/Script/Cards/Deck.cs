@@ -1,14 +1,12 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using Random = System.Random;
 
 public class Deck : MonoBehaviour
 {
     [SerializeField] private CardUI _cardUI;
     [SerializeField] private float _probability;
-    
+
     private List<Card> _cards = new List<Card>();
     private Random _random = new Random();
 
@@ -20,7 +18,6 @@ public class Deck : MonoBehaviour
 
     private void InitializeDeck()
     {
-        // Получаем ссылки на эффекты
         WindEffect windEffect = GetComponent<WindEffect>();
         EarthquakeEffect earthquakeEffect = GetComponent<EarthquakeEffect>();
         Glitch glitchEffect = GetComponent<Glitch>();
@@ -32,7 +29,6 @@ public class Deck : MonoBehaviour
         Explosive explosiveEffect = GetComponent<Explosive>();
         Smoke smokeEffect = GetComponent<Smoke>();
 
-        // Создаем карты с эффектами
         _cards.Add(new WindCard(windEffect));
         _cards.Add(new EarthquakeCard(earthquakeEffect));
         _cards.Add(new GlitchCard(glitchEffect));
@@ -58,12 +54,10 @@ public class Deck : MonoBehaviour
 
     public void OnTurnEnd()
     {
-        float chance = UnityEngine.Random.Range(0f, 1f); // Генерируем число от 0 до 1
-        Debug.Log(chance);
-        if (chance <= _probability) // вероятность
-        {
+        float chance = UnityEngine.Random.Range(0f, 1f);
+
+        if (chance <= _probability)
             DrawCard();
-        }
     }
 
     private void DrawCard()

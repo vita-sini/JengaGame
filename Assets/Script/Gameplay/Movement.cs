@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Movement
@@ -18,7 +16,7 @@ public class Movement
 
     public void MoveMouse(Rigidbody selectedBlock, Vector3 offset)
     {
-        // === 1. √оризонтальное перемещение (по X и Z) ===
+        //√оризонтальное перемещение по X и Z
         Plane movementPlane = new Plane(Vector3.up, selectedBlock.position);
         Vector3 mouseTargetPosition = _mouseWorldPosition.GetMouseWorldPosition(movementPlane) + offset;
 
@@ -32,14 +30,14 @@ public class Movement
             horizontalVelocity = horizontalVelocity.normalized * _maxMoveSpeed;
         }
 
-        // === 2. —трогое вертикальное перемещение по глобальной оси Y ===
+        //вертикальное перемещение по оси Y 
         float verticalInput = 0f;
         if (Input.GetKey(KeyCode.W)) verticalInput = 1f;
         else if (Input.GetKey(KeyCode.S)) verticalInput = -1f;
 
         float verticalVelocity = verticalInput * _verticalMoveSpeed;
 
-        // === 3.  омбинируем горизонтальную и вертикальную скорости ===
+        // омбинируем горизонтальную и вертикальную скорости
         Vector3 finalVelocity = new Vector3(
             horizontalVelocity.x,
             verticalVelocity,

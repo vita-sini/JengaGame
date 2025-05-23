@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Glitch : MonoBehaviour, IEffect
 {
-    [SerializeField] private int _numberOfGlitchedBlocks; // Количество блоков для эффекта
+    [SerializeField] private int _numberOfGlitchedBlocks;
     [SerializeField] private float _dragMultiplier; // Множитель линейного сопротивления
     [SerializeField] private float _angularDragMultiplier; // Множитель углового сопротивления
     [SerializeField] private AudioClip _glitchSound;
@@ -29,9 +29,7 @@ public class Glitch : MonoBehaviour, IEffect
     public void Execute()
     {
         if (_glitchEffectCoroutine != null)
-        {
             StopCoroutine(_glitchEffectCoroutine);
-        }
 
         _glitchEffectCoroutine = StartCoroutine(GlitchEffectCoroutine());
     }

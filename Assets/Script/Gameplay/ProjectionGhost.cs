@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ProjectionGhost : MonoBehaviour
@@ -26,18 +24,14 @@ public class ProjectionGhost : MonoBehaviour
 
         // Применяем прозрачный материал
         foreach (var renderer in ghostInstance.GetComponentsInChildren<Renderer>())
-        {
             renderer.material = ghostMaterial;
-        }
 
-        // Назначаем слой Ignore Raycast
         ghostInstance.gameObject.layer = LayerMask.NameToLayer("Ignore Raycast");
 
         MaterialApplier applier = ghostInstance.GetComponent<MaterialApplier>();
+
         if (applier != null)
-        {
-            Destroy(applier);
-        }
+        Destroy(applier);
     }
 
     private void Update()
@@ -61,8 +55,6 @@ public class ProjectionGhost : MonoBehaviour
     public void DestroyGhost()
     {
         if (ghostInstance != null)
-        {
-            Destroy(ghostInstance.gameObject);
-        }
+        Destroy(ghostInstance.gameObject);
     }
 }

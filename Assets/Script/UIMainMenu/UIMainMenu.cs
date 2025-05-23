@@ -40,7 +40,6 @@ public class UIMainMenu : MonoBehaviour
         _authorizatioButton.onClick.AddListener(OnAuthPromptAuth);
         _authorizatioCancelButton.onClick.AddListener(() => SetCanvasActive(_authorizationPanel, false));
 
-        // подписываемся на событие SDK – вызывается, когда игрок залогинен и данные получены
         YandexGame.GetDataEvent += OnYandexLoggedIn;
     }
 
@@ -57,39 +56,29 @@ public class UIMainMenu : MonoBehaviour
             SetCanvasActive(_authorizationPanel, true);
     }
 
-    private void OnAuthPromptAuth()
-    {
-        // Показываем нативное окно авторизации Яндекса
-        YandexGame.AuthDialog();
-    }
+    private void OnAuthPromptAuth(){ YandexGame.AuthDialog(); }
 
     private void OnYandexLoggedIn()
     {
         if (!YandexGame.auth) return;
 
-        // Если окно запроса авторизации было открыто – прячем его
         if (_authorizationPanel.activeSelf)
             SetCanvasActive(_authorizationPanel, false);
 
-        // И сразу открываем лидерборд
         SetCanvasActive(_leaderboardCanvas, true);
     }
 
     public void StartNewGameChallenges()
     {
         ScoreManager.Instance.ResetScore();
-        Advertisement.LoadSceneWithAd("GameplayNewChallenges");
+        SceneManager.LoadScene("GameplayNewChallenges");
     }
 
     public void StartNewGameClassic()
     {
-        Debug.Log("Нажата кнопка 'Новая игра (Классика)'");
         ScoreManager.Instance.ResetScore();
-        Advertisement.LoadSceneWithAd("GameplayClassic");
+        SceneManager.LoadScene("GameplayClassic");
     }
 
-    private void SetCanvasActive(GameObject canvas, bool isActive)
-    {
-        canvas.SetActive(isActive);
-    }
+     private void SetCanvasActive(GameObject canvas, bool isActive){ canvas.SetActive(isActive); }
 }

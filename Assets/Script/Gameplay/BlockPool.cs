@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -22,10 +21,7 @@ public class BlockPool : MonoBehaviour
     public GameObject GetBlock()
     {
         if (_pool.Count == 0)
-        {
-            Debug.LogWarning("Pool is empty!");
             return null;
-        }
 
         GameObject block = _pool.Dequeue();
         block.SetActive(true);

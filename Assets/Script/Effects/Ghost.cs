@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class Ghost : MonoBehaviour, IEffect
 {
-    [SerializeField] private int _numberOfGhostBlocks; // Количество призрачных блоков
-    [SerializeField] private Material _ghostMaterial; // Материал для призрачных блоков
+    [SerializeField] private int _numberOfGhostBlocks;
+    [SerializeField] private Material _ghostMaterial;
     [SerializeField] private AudioClip _ghostSound;
 
     private List<Renderer> _ghostBlocks = new List<Renderer>();
@@ -27,9 +27,7 @@ public class Ghost : MonoBehaviour, IEffect
     public void Execute()
     {
         if (_ghostEffectCoroutine != null)
-        {
             StopCoroutine(_ghostEffectCoroutine);
-        }
 
         _ghostEffectCoroutine = StartCoroutine(GhostEffectCoroutine());
     }
@@ -43,9 +41,7 @@ public class Ghost : MonoBehaviour, IEffect
         }
 
         if (_audioSource != null)
-        {
             _audioSource.Stop();
-        }
 
         ResetBlocks();
     }
@@ -67,6 +63,7 @@ public class Ghost : MonoBehaviour, IEffect
                 int randomIndex = Random.Range(0, blocks.Length);
                 GameObject randomBlock = blocks[randomIndex];
                 Renderer renderer = randomBlock.GetComponent<Renderer>();
+
                 if (renderer != null)
                 {
                     if (!_ghostBlocks.Contains(renderer))
@@ -87,9 +84,8 @@ public class Ghost : MonoBehaviour, IEffect
         for (int i = 0; i < _ghostBlocks.Count; i++)
         {
             if (_ghostBlocks[i] != null && _originalMaterials[i] != null)
-            {
                 _ghostBlocks[i].material = _originalMaterials[i]; // Возвращаем блоки в исходное состояние
-            }
+
         }
 
         _ghostBlocks.Clear();

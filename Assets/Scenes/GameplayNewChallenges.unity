@@ -5593,6 +5593,7 @@ MonoBehaviour:
   _smokeSound: {fileID: 8300000, guid: 2b1a70f7c13bb5a428504d95a3e6850c, type: 3}
   _smokeParticles: {fileID: 19800000, guid: 6f8449a4663a4fd44b6140772d4f39f9, type: 3}
   _offsetY: -1.5
+  _distanceFrontCamera: 2
 --- !u!114 &817975425
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12947,7 +12948,6 @@ GameObject:
   - component: {fileID: 1708356349}
   - component: {fileID: 1708356348}
   - component: {fileID: 1708356347}
-  - component: {fileID: 1708356346}
   m_Layer: 0
   m_Name: PoolBlock
   m_TagString: Untagged
@@ -12955,18 +12955,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1708356346
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1708356345}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 90d4c0cdc5080ad449b245ba33229956, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1708356347
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13172,7 +13160,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _cardDescriptionText: {fileID: 424080749}
   _cardPanel: {fileID: 1794370673}
-  _cardAnimator: {fileID: 0}
 --- !u!1 &1794370673 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 870790712574140958, guid: c0ee180aaf63945408135b653d06d167, type: 3}

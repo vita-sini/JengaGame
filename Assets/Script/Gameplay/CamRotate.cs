@@ -2,16 +2,14 @@ using UnityEngine;
 
 public class CamRotate : MonoBehaviour
 {
-    [SerializeField] private Transform _target; // Сюда можно вставить объект, вокруг которого вращается камера
-    // Скорость вращения камеры
+    [SerializeField] private Transform _target;
+
     private float _rotationSpeed = 50f;
-    // Скорость перемещения камеры по оси Y (вверх/вниз при прокрутке колесика)
-    private float _scrollSpeed = 10f;
+    private float _scrollSpeed = 10f; // Скорость перемещения камеры по оси Y (вверх/вниз при прокрутке колесика)
 
     // Ограничение по минимальной и максимальной высоте (по оси Y)
     private float _minHeight = 4f;
     private float _maxHeight = 60f;
-    // Объект, вокруг которого будет вращаться камера
 
     private Manipulation _manipulation;
 
@@ -23,35 +21,26 @@ public class CamRotate : MonoBehaviour
     private void Update()
     {
         if (_manipulation != null && _manipulation.IsBlockHeld)
-        {
             return;
-        }
 
         if (Input.GetKey(KeyCode.Q))
-        {
             RotateAroundTarget(-1);
-        }
 
         if (Input.GetKey(KeyCode.E))
-        {
             RotateAroundTarget(1);
-        }
 
         float scroll = Input.GetAxis("Mouse ScrollWheel");
+
         if (scroll != 0f)
-        {
             MoveCameraVertically(scroll);
-        }
     }
 
-    // Метод для вращения камеры вокруг цели
     private void RotateAroundTarget(float direction)
     {
         // Вращаем вокруг оси Y
         transform.RotateAround(_target.position, Vector3.up, direction * _rotationSpeed * Time.deltaTime);
     }
 
-    // Метод для перемещения камеры по оси Y (вверх/вниз)
     private void MoveCameraVertically(float scrollAmount)
     {
         // Получаем текущее положение камеры
