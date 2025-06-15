@@ -1,5 +1,7 @@
-public interface IPauseManager
+namespace UIGameplay
 {
-    bool IsPaused { get; }
-    void TogglePauseMenu();
+    public interface IPauseManager
+    {
+        bool IsPaused { get; }
+    }
 }

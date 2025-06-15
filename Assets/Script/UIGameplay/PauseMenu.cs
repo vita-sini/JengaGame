@@ -1,85 +1,89 @@
+using Gameplay;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class PauseMenu : MonoBehaviour, IPauseManager
+namespace UIGameplay
 {
-    [SerializeField] private GameObject[] _gameplayUIElements;
-    [SerializeField] private GameObject _pauseMenuCanvas;
-    [SerializeField] private GameObject _settingsCanvas;
-    [SerializeField] private Button _continueButton;
-    [SerializeField] private Button _newGameButton;
-    [SerializeField] private Button _settingsButton;
-    [SerializeField] private Button _quitButton;
-
-    private bool _isPaused = false;
-    public bool IsPaused => _isPaused;
-
-    private void Start()
+    public class PauseMenu : MonoBehaviour, IPauseManager
     {
-        _pauseMenuCanvas.SetActive(false);
-        _settingsCanvas.SetActive(false);
-    }
+        [SerializeField] private GameObject[] _gameplayUIElements;
+        [SerializeField] private GameObject _pauseMenuCanvas;
+        [SerializeField] private GameObject _settingsCanvas;
+        [SerializeField] private Button _continueButton;
+        [SerializeField] private Button _newGameButton;
+        [SerializeField] private Button _settingsButton;
+        [SerializeField] private Button _quitButton;
+        [SerializeField] private ScoreManager _scoreManager;
 
-    private void Update()
-    {
-        // Проверяем нажатие кнопки "Menu" или клавиши Escape
-        if (Input.GetKeyDown(KeyCode.Escape))
-        TogglePauseMenu();
+        private bool _isPaused = false;
+        public bool IsPaused => _isPaused;
 
-        if (_isPaused)
-        return;
-    }
-
-    public void TogglePauseMenu()
-    {
-        _isPaused = !_isPaused;
-        _pauseMenuCanvas.SetActive(_isPaused);
-        Time.timeScale = _isPaused ? 0 : 1; // Ставим игру на паузу или возобновляем
-
-        foreach (var uiElement in _gameplayUIElements)
-            uiElement.SetActive(!_isPaused);
-    }
-
-    public void ContinueGame()
-    {
-        TogglePauseMenu();
-    }
-
-    public void StartNewGame()
-    {
-        Time.timeScale = 1; // Возобновляем время
-
-        ScoreManager.Instance.ResetScore();
-
-        Scene currentScene = SceneManager.GetActiveScene();
-
-        if (currentScene.name == "GameplayNewChallenges")
+        private void Start()
         {
-            SceneManager.LoadScene("GameplayNewChallenges");
+            _pauseMenuCanvas.SetActive(false);
+            _settingsCanvas.SetActive(false);
         }
-        else if (currentScene.name == "GameplayClassic")
+
+        private void Update()
         {
-            SceneManager.LoadScene("GameplayClassic");
+            if (Input.GetKeyDown(KeyCode.Escape))
+                TogglePauseMenu();
+
+            if (_isPaused)
+                return;
         }
-    }
 
-    public void OpenSettings()
-    {
-        _settingsCanvas.SetActive(true);
-        _pauseMenuCanvas.SetActive(false);
-    }
+        public void TogglePauseMenu()
+        {
+            _isPaused = !_isPaused;
+            _pauseMenuCanvas.SetActive(_isPaused);
+            Time.timeScale = _isPaused ? 0 : 1;
+
+            foreach (var uiElement in _gameplayUIElements)
+                uiElement.SetActive(!_isPaused);
+        }
+
+        public void ContinueGame()
+        {
+            TogglePauseMenu();
+        }
+
+        public void StartNewGame()
+        {
+            Time.timeScale = 1;
+
+            _scoreManager.ResetScore();
+
+            Scene currentScene = SceneManager.GetActiveScene();
+
+            if (currentScene.name == "GameplayNewChallenges")
+            {
+                SceneManager.LoadScene("GameplayNewChallenges");
+            }
+            else if (currentScene.name == "GameplayClassic")
+            {
+                SceneManager.LoadScene("GameplayClassic");
+            }
+        }
+
+        public void OpenSettings()
+        {
+            _settingsCanvas.SetActive(true);
+            _pauseMenuCanvas.SetActive(false);
+        }
 
 
-    public void CloseSettings()
-    {
-        _settingsCanvas.SetActive(false);
-        _pauseMenuCanvas.SetActive(true);
-    }
+        public void CloseSettings()
+        {
+            _settingsCanvas.SetActive(false);
+            _pauseMenuCanvas.SetActive(true);
+        }
 
-    public void QuitGame()
-    {
-        Time.timeScale = 1;
-        SceneManager.LoadScene("MAINMENU");
+        public void QuitGame()
+        {
+            Time.timeScale = 1;
+            SceneManager.LoadScene("MainMenu");
+        }
     }
 }

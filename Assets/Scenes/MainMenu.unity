@@ -143,8 +143,7 @@ MonoBehaviour:
   _globalVolumeSlider: {fileID: 1955771248}
   _musicVolumeSlider: {fileID: 1282280851}
   _effectsVolumeSlider: {fileID: 1968158789}
-  _musicAudioSource: {fileID: 1074460323}
-  _effectsAudioSource: {fileID: 0}
+  _audio: {fileID: 1074460326}
 --- !u!1 &92105297
 GameObject:
   m_ObjectHideFlags: 0
@@ -2301,7 +2300,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 483810423}
-  - component: {fileID: 483810422}
   m_Layer: 0
   m_Name: GameObject (1)
   m_TagString: Untagged
@@ -2309,18 +2307,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &483810422
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 483810421}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bde2908814c815d458a4d119f360e4f1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &483810423
 Transform:
   m_ObjectHideFlags: 0
@@ -3224,6 +3210,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 2438688998313208749, guid: 60e5fc3c191adc94691ace950b06fe74, type: 3}
       insertIndex: -1
       addedObject: {fileID: 76677447}
+    - targetCorrespondingSourceObject: {fileID: 2438688998313208749, guid: 60e5fc3c191adc94691ace950b06fe74, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 946597211}
     - targetCorrespondingSourceObject: {fileID: 5910732831467453656, guid: 60e5fc3c191adc94691ace950b06fe74, type: 3}
       insertIndex: -1
       addedObject: {fileID: 547319528}
@@ -3584,6 +3573,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f2c223316b875d4d9ff72d46f86fb75, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _localization: {fileID: 1074460327}
 --- !u!4 &709685357
 Transform:
   m_ObjectHideFlags: 0
@@ -3748,6 +3738,20 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 8465364512318915383, guid: 60e5fc3c191adc94691ace950b06fe74, type: 3}
   m_PrefabInstance: {fileID: 547319518}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &946597211
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 76677445}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21e34db12728fdc4f93dda319b790306, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _audioManager: {fileID: 1074460326}
+  _soundEffects: []
 --- !u!114 &1010996990 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 1376302239356410192, guid: e12a40d64b4d2ac4383aebe669f77d26, type: 3}
@@ -3772,6 +3776,8 @@ GameObject:
   - component: {fileID: 1074460324}
   - component: {fileID: 1074460323}
   - component: {fileID: 1074460325}
+  - component: {fileID: 1074460326}
+  - component: {fileID: 1074460327}
   m_Layer: 0
   m_Name: UIMainMenu
   m_TagString: Untagged
@@ -3940,6 +3946,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4554e32084a3b2d4eab0c85abe596d8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1074460326
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1074460320}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 311632e76f0f35b498105f18216b343f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalVolume: 1
+  MusicVolume: 1
+  EffectsVolume: 1
+  _musicSource: {fileID: 0}
+  _effectsSource: {fileID: 0}
+--- !u!114 &1074460327
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1074460320}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f606ae50cffc04419ba5989438cd308, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _defaultLanguage: ru
 --- !u!114 &1077082966 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7664341078129618669, guid: 6c341c34553d73840942e4e0a71ed0b7, type: 3}

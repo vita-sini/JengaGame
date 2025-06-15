@@ -1,13 +1,19 @@
+using GameRoot;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class GameOverTrigger : MonoBehaviour
+namespace Gameplay
 {
-    public string blockTag = "Block";
-
-    private void OnTriggerEnter(Collider other)
+    public class GameOverTrigger : MonoBehaviour
     {
-        if (other.CompareTag(blockTag))
-            GameEvents.InvokeGameOver();
+        [SerializeField] private GameEvents _gameEvents;
+
+        public string blockTag = "Block";
+
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.CompareTag(blockTag))
+                _gameEvents.OnInvokeGameOver();
+        }
     }
 }

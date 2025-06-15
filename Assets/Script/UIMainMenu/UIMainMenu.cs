@@ -1,84 +1,91 @@
+using Gameplay;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using YG;
 
-public class UIMainMenu : MonoBehaviour
+namespace UIMainMenu
 {
-    [SerializeField] private GameObject _settingsCanvas;
-    [SerializeField] private GameObject _leaderboardCanvas;
-    [SerializeField] private GameObject _shopCanvas;
-    [SerializeField] private GameObject _authorizationPanel;
-
-    [SerializeField] private Button _newGameChallengesButton;
-    [SerializeField] private Button _newGameClassicButton;
-    [SerializeField] private Button _settingsButton;
-    [SerializeField] private Button _closeSettingsButton;
-    [SerializeField] private Button _leaderboardButton;
-    [SerializeField] private Button _closeLeaderboardButton;
-    [SerializeField] private Button _shopButton;
-    [SerializeField] private Button _closeShopButton;
-    [SerializeField] private Button _authorizatioButton;         
-    [SerializeField] private Button _authorizatioCancelButton;
-
-    private void Start()
+    public class UIMainMenu : MonoBehaviour
     {
-        SetCanvasActive(_settingsCanvas, false);
-        SetCanvasActive(_leaderboardCanvas, false);
-        SetCanvasActive(_shopCanvas, false);
-        SetCanvasActive(_authorizationPanel, false);
+        [SerializeField] private GameObject _settingsCanvas;
+        [SerializeField] private GameObject _leaderboardCanvas;
+        [SerializeField] private GameObject _shopCanvas;
+        [SerializeField] private GameObject _authorizationPanel;
 
-        // Привязываем методы к кнопкам
-        _shopButton.onClick.AddListener(() => SetCanvasActive(_shopCanvas, true));
-        _settingsButton.onClick.AddListener(() => SetCanvasActive(_settingsCanvas, true));
-        _closeSettingsButton.onClick.AddListener(() => SetCanvasActive(_settingsCanvas, false));
-        _closeShopButton.onClick.AddListener(() => SetCanvasActive(_shopCanvas, false));
-        _leaderboardButton.onClick.AddListener(OnLeaderboardClick);
-        _closeLeaderboardButton.onClick.AddListener(() => SetCanvasActive(_leaderboardCanvas, false));
-        _newGameChallengesButton.onClick.AddListener(StartNewGameChallenges);
-        _newGameClassicButton.onClick.AddListener(StartNewGameClassic);
-        _authorizatioButton.onClick.AddListener(OnAuthPromptAuth);
-        _authorizatioCancelButton.onClick.AddListener(() => SetCanvasActive(_authorizationPanel, false));
+        [SerializeField] private Button _newGameChallengesButton;
+        [SerializeField] private Button _newGameClassicButton;
+        [SerializeField] private Button _settingsButton;
+        [SerializeField] private Button _closeSettingsButton;
+        [SerializeField] private Button _leaderboardButton;
+        [SerializeField] private Button _closeLeaderboardButton;
+        [SerializeField] private Button _shopButton;
+        [SerializeField] private Button _closeShopButton;
+        [SerializeField] private Button _authorizatioButton;
+        [SerializeField] private Button _authorizatioCancelButton;
 
-        YandexGame.GetDataEvent += OnYandexLoggedIn;
-    }
-
-    private void OnDestroy()
-    {
-        YandexGame.GetDataEvent -= OnYandexLoggedIn;
-    }
-
-    private void OnLeaderboardClick()
-    {
-        if (YandexGame.auth)                
-            SetCanvasActive(_leaderboardCanvas, true);
-        else                                
-            SetCanvasActive(_authorizationPanel, true);
-    }
-
-    private void OnAuthPromptAuth(){ YandexGame.AuthDialog(); }
-
-    private void OnYandexLoggedIn()
-    {
-        if (!YandexGame.auth) return;
-
-        if (_authorizationPanel.activeSelf)
+        private void Start()
+        {
+            SetCanvasActive(_settingsCanvas, false);
+            SetCanvasActive(_leaderboardCanvas, false);
+            SetCanvasActive(_shopCanvas, false);
             SetCanvasActive(_authorizationPanel, false);
 
-        SetCanvasActive(_leaderboardCanvas, true);
-    }
+            _shopButton.onClick.AddListener(() => SetCanvasActive(_shopCanvas, true));
+            _settingsButton.onClick.AddListener(() => SetCanvasActive(_settingsCanvas, true));
+            _closeSettingsButton.onClick.AddListener(() => SetCanvasActive(_settingsCanvas, false));
+            _closeShopButton.onClick.AddListener(() => SetCanvasActive(_shopCanvas, false));
+            _leaderboardButton.onClick.AddListener(OnLeaderboardClick);
+            _closeLeaderboardButton.onClick.AddListener(() => SetCanvasActive(_leaderboardCanvas, false));
+            _newGameChallengesButton.onClick.AddListener(StartNewGameChallenges);
+            _newGameClassicButton.onClick.AddListener(StartNewGameClassic);
+            _authorizatioButton.onClick.AddListener(OnAuthPromptAuth);
+            _authorizatioCancelButton.onClick.AddListener(() => SetCanvasActive(_authorizationPanel, false));
 
-    public void StartNewGameChallenges()
-    {
-        ScoreManager.Instance.ResetScore();
-        SceneManager.LoadScene("GameplayNewChallenges");
-    }
+            YandexGame.GetDataEvent += OnYandexLoggedIn;
+        }
 
-    public void StartNewGameClassic()
-    {
-        ScoreManager.Instance.ResetScore();
-        SceneManager.LoadScene("GameplayClassic");
-    }
+        private void OnDestroy()
+        {
+            YandexGame.GetDataEvent -= OnYandexLoggedIn;
+        }
 
-     private void SetCanvasActive(GameObject canvas, bool isActive){ canvas.SetActive(isActive); }
+        private void OnLeaderboardClick()
+        {
+            if (YandexGame.auth)
+                SetCanvasActive(_leaderboardCanvas, true);
+            else
+                SetCanvasActive(_authorizationPanel, true);
+        }
+
+        private void OnAuthPromptAuth()
+        {
+            YandexGame.AuthDialog();
+        }
+
+        private void OnYandexLoggedIn()
+        {
+            if (!YandexGame.auth) return;
+
+            if (_authorizationPanel.activeSelf)
+                SetCanvasActive(_authorizationPanel, false);
+
+            SetCanvasActive(_leaderboardCanvas, true);
+        }
+
+        public void StartNewGameChallenges()
+        {
+            SceneManager.LoadScene("GameplayNewChallenges");
+        }
+
+        public void StartNewGameClassic()
+        {
+            SceneManager.LoadScene("GameplayClassic");
+        }
+
+        private void SetCanvasActive(GameObject canvas, bool isActive)
+        {
+            canvas.SetActive(isActive);
+        }
+    }
 }

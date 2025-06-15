@@ -1,25 +1,28 @@
 using UnityEngine;
 using YG;
 
-public class AudioPauseManager : MonoBehaviour
+namespace Audio
 {
-    private void OnEnable()
+    public class AudioPauseManager : MonoBehaviour
     {
-        YandexGame.onShowWindowGame += OnShowWindowGame; 
-        YandexGame.onHideWindowGame += OnHideWindowGame; 
-    }
-    private void OnDisable()
-    {
-        YandexGame.onShowWindowGame -= OnShowWindowGame; 
-        YandexGame.onHideWindowGame -= OnHideWindowGame; 
-    }
+        private void OnEnable()
+        {
+            YandexGame.onShowWindowGame += OnShowWindowGame;
+            YandexGame.onHideWindowGame += OnHideWindowGame;
+        }
+        private void OnDisable()
+        {
+            YandexGame.onShowWindowGame -= OnShowWindowGame;
+            YandexGame.onHideWindowGame -= OnHideWindowGame;
+        }
 
-    private void OnShowWindowGame()
-    {
-        AudioListener.pause = false;
-    }
-    private void OnHideWindowGame()
-    {
-        AudioListener.pause = true; 
+        private void OnShowWindowGame()
+        {
+            AudioListener.pause = false;
+        }
+        private void OnHideWindowGame()
+        {
+            AudioListener.pause = true;
+        }
     }
 }

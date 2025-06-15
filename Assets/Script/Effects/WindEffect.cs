@@ -1,78 +1,54 @@
 using System.Collections;
 using UnityEngine;
 
-public class WindEffect : MonoBehaviour, IEffect
+namespace Effects
 {
-    [SerializeField] private float _windForce;
-    [SerializeField] private float _effectDuration;
-    [SerializeField] private ParticleSystem _windParticlesPrefab;
-    [SerializeField] private Transform _particleSpawnPoint;
-
-    private ParticleSystem _windParticlesInstance;
-    private Coroutine _windEffectCoroutine;
-
-    public void Execute()
+    public class WindEffect : BaseEffect
     {
-        if (_windEffectCoroutine != null)
-            StopCoroutine(_windEffectCoroutine);
+        [SerializeField] private float _particleTravelSpeed = 10f;
+        [SerializeField] private float _gustOscillationFrequency = 0.01f;
+        [SerializeField] private float _windForce;
+        [SerializeField] private float _effectDuration;
+        [SerializeField] private ParticleSystem _windParticlesPrefab;
+        [SerializeField] private Transform _particleSpawnPoint;
 
-        _windEffectCoroutine = StartCoroutine(WindEffectCoroutine());
-    }
+        private ParticleSystem _windParticlesInstance;
 
-    public void Stop()
-    {
-        if (_windEffectCoroutine != null)
+        protected override IEnumerator EffectCoroutine()
         {
-            StopCoroutine(_windEffectCoroutine);
-            _windEffectCoroutine = null;
-        }
-
-        if (_windParticlesInstance != null)
-        {
-            _windParticlesInstance.Stop();
-            Destroy(_windParticlesInstance.gameObject);
-        }
-    }
-
-    private IEnumerator WindEffectCoroutine()
-    {
-        if (_windParticlesPrefab != null)
-        {
-            _windParticlesInstance = Instantiate(_windParticlesPrefab, _particleSpawnPoint.position, Quaternion.identity);
-            _windParticlesInstance.transform.rotation = Quaternion.LookRotation(Vector3.up); // Направляем вверх
-            _windParticlesInstance.Play();
-        }
-
-        float elapsedTime = 0f;
-
-        while (elapsedTime < _effectDuration)
-        {
-            if (_windParticlesInstance != null)
-                _windParticlesInstance.transform.Translate(Vector3.right * Time.deltaTime * 10f);
-
-            GameObject[] blocks = GameObject.FindGameObjectsWithTag("Block");
-
-            foreach (GameObject block in blocks)
+            if (_windParticlesPrefab)
             {
-                if (block.TryGetComponent(out Rigidbody rb))
-                {
-                    // Синусоидальный ветер для более реалистичного эффекта
-                    float windStrength = _windForce * Mathf.Sin(Time.time * 0.01f);
-                    Vector3 windDirection = Vector3.right * windStrength;
-                    rb.AddForce(windDirection, ForceMode.Force);
-                }
+                _windParticlesInstance = Instantiate(_windParticlesPrefab, _particleSpawnPoint.position, Quaternion.LookRotation(Vector3.up));
+                _windParticlesInstance.Play();
             }
 
-            elapsedTime += Time.deltaTime;
-            yield return null;
-        }
+            float elapsed = 0f;
 
-        if (_windParticlesInstance != null)
-        {
-            _windParticlesInstance.Stop();
-            Destroy(_windParticlesInstance.gameObject);
-        }
+            while (elapsed < _effectDuration)
+            {
+                if (_windParticlesInstance != null)
+                    _windParticlesInstance.transform.Translate(Vector3.right * Time.deltaTime * _particleTravelSpeed);
 
-        Stop();
+                foreach (GameObject block in GetBlocks())
+                {
+                    if (block.TryGetComponent(out Rigidbody rb))
+                    {
+                        float strength = _windForce * Mathf.Sin(Time.time * _gustOscillationFrequency);
+                        rb.AddForce(Vector3.right * strength, ForceMode.Force);
+                    }
+                }
+
+                elapsed += Time.deltaTime;
+                yield return null;
+            }
+
+            if (_windParticlesInstance)
+            {
+                _windParticlesInstance.Stop();
+                Destroy(_windParticlesInstance.gameObject);
+            }
+
+            Stop();
+        }
     }
 }

@@ -1,37 +1,24 @@
 using System;
 using UnityEngine;
 
-public class ScoreManager : MonoBehaviour
+namespace Gameplay
 {
-    public static ScoreManager Instance { get; private set; }
-
-    public int CurrentScore { get; private set; }
-
-    public event Action<int> OnScoreChanged; 
-
-    private void Awake()
+    public class ScoreManager : MonoBehaviour
     {
-        if (Instance == null)
+        public int CurrentScore { get; private set; }
+
+        public event Action<int> ScoreChanged;
+
+        public void Add(int points)
         {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);      // живём во всех сценах
+            CurrentScore += points;
+            ScoreChanged?.Invoke(CurrentScore);
         }
-        else
+
+        public void ResetScore()
         {
-            Destroy(gameObject);
-            return;
+            CurrentScore = 0;
+            ScoreChanged?.Invoke(CurrentScore);
         }
-    }
-
-    public void Add(int points)
-    {
-        CurrentScore += points;
-        OnScoreChanged?.Invoke(CurrentScore);
-    }
-
-    public void ResetScore()
-    {
-        CurrentScore = 0;
-        OnScoreChanged?.Invoke(CurrentScore);
     }
 }

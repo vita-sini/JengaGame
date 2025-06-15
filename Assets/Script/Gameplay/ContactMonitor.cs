@@ -1,38 +1,41 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ContactMonitor : MonoBehaviour
+namespace Gameplay
 {
-    private Rigidbody _rb;
-    private List<Collider> _contacts = new List<Collider>();
-
-    private void Start()
+    public class ContactMonitor : MonoBehaviour
     {
-        _rb = GetComponent<Rigidbody>();
-    }
+        private Rigidbody _rigidbody;
+        private List<Collider> _contacts = new List<Collider>();
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (!_contacts.Contains(collision.collider))
-            _contacts.Add(collision.collider);
-    }
+        private void Start()
+        {
+            _rigidbody = GetComponent<Rigidbody>();
+        }
 
-    private void OnCollisionExit(Collision collision)
-    {
-        _contacts.Remove(collision.collider);
-    }
+        public bool IsOnValidSurface()
+        {
+            foreach (var contact in _contacts)
+                if (contact.gameObject.CompareTag("Block") || contact.gameObject.CompareTag("Base"))
+                    return true;
 
-    public bool IsOnValidSurface()
-    {
-        foreach (var contact in _contacts)
-            if (contact.gameObject.CompareTag("Block") || contact.gameObject.CompareTag("Base"))
-                return true;
+            return false;
+        }
 
-        return false;
-    }
+        public void ClearContacts()
+        {
+            _contacts.Clear();
+        }
 
-    public void ClearContacts()
-    {
-        _contacts.Clear();
+        private void OnCollisionEnter(Collision collision)
+        {
+            if (!_contacts.Contains(collision.collider))
+                _contacts.Add(collision.collider);
+        }
+
+        private void OnCollisionExit(Collision collision)
+        {
+            _contacts.Remove(collision.collider);
+        }
     }
 }

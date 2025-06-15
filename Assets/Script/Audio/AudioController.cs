@@ -1,39 +1,24 @@
 using UnityEngine;
 
-public class AudioController : MonoBehaviour
+namespace Audio
 {
-    [SerializeField] private AudioSource _musicAudioSource;
-    [SerializeField] private AudioSource _effectsAudioSource;
-    [SerializeField] private AudioClip[] _soundEffects;
-
-    private void Start()
+    public class AudioController : MonoBehaviour
     {
-        AudioManager.ApplyVolumes();
-        UpdateMusicVolume();
-        UpdateEffectsVolume();
-    }
+        [SerializeField] private AudioManager _audioManager;
+        [SerializeField] private AudioClip[] _soundEffects;
 
-    private void Update()
-    {
-        UpdateMusicVolume();
-        UpdateEffectsVolume();
-    }
+        private void Start()
+        {
+            _audioManager.ApplyVolumes();
+        }
 
-    private void UpdateMusicVolume()
-    {
-        if (_musicAudioSource != null)
-            _musicAudioSource.volume = AudioManager.MusicVolume * AudioManager.GlobalVolume;
-    }
+        public void PlaySoundEffect(int index)
+        {
+            if (index < 0 || index >= _soundEffects.Length)
+                return;
 
-    private void UpdateEffectsVolume()
-    {
-        if (_effectsAudioSource != null)
-            _effectsAudioSource.volume = AudioManager.EffectsVolume * AudioManager.GlobalVolume;
-    }
-
-    public void PlaySoundEffect(int index)
-    {
-        if (index >= 0 && index < _soundEffects.Length)
-            AudioSource.PlayClipAtPoint(_soundEffects[index], Camera.main.transform.position, AudioManager.EffectsVolume * AudioManager.GlobalVolume);
+            float volume = _audioManager.EffectsVolume * _audioManager.GlobalVolume;
+            AudioSource.PlayClipAtPoint(_soundEffects[index], Camera.main.transform.position, volume);
+        }
     }
 }

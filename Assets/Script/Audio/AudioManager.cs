@@ -1,60 +1,54 @@
 using UnityEngine;
 
-public static class AudioManager
+namespace Audio
 {
-    private const string GlobalVolumeKey = "GlobalVolume";
-    private const string MusicVolumeKey = "MusicVolume";
-    private const string EffectsVolumeKey = "EffectsVolume";
-
-    public static float GlobalVolume
+    public class AudioManager : MonoBehaviour
     {
-        get { return PlayerPrefs.GetFloat(GlobalVolumeKey, 1.0f); }
-        set { PlayerPrefs.SetFloat(GlobalVolumeKey, value); }
-    }
+        [Header("Volume Settings")]
+        [Range(0f, 1f)] public float GlobalVolume = 1f;
+        [Range(0f, 1f)] public float MusicVolume = 1f;
+        [Range(0f, 1f)] public float EffectsVolume = 1f;
 
-    public static float MusicVolume
-    {
-        get { return PlayerPrefs.GetFloat(MusicVolumeKey, 1.0f); }
-        set { PlayerPrefs.SetFloat(MusicVolumeKey, value); }
-    }
+        [Header("Audio Sources")]
+        [SerializeField] private AudioSource _musicSource;
+        [SerializeField] private AudioSource _effectsSource;
 
-    public static float EffectsVolume
-    {
-        get { return PlayerPrefs.GetFloat(EffectsVolumeKey, 1.0f); }
-        set { PlayerPrefs.SetFloat(EffectsVolumeKey, value); }
-    }
+        private const string GlobalVolumeKey = "GlobalVolume";
+        private const string MusicVolumeKey = "MusicVolume";
+        private const string EffectsVolumeKey = "EffectsVolume";
 
-    public static void ApplyVolumes()
-    {
-        AudioListener.volume = GlobalVolume;
+        private void Awake()
+        {
+            LoadVolumes();
+            ApplyVolumes();
+        }
 
-        AudioSource musicAudioSource = GetMusicAudioSource();
-        AudioSource effectsAudioSource = GetEffectsAudioSource();
+        public void LoadVolumes()
+        {
+            GlobalVolume = PlayerPrefs.GetFloat(GlobalVolumeKey, 1f);
+            MusicVolume = PlayerPrefs.GetFloat(MusicVolumeKey, 1f);
+            EffectsVolume = PlayerPrefs.GetFloat(EffectsVolumeKey, 1f);
+        }
 
-        if (musicAudioSource != null)
-            musicAudioSource.volume = MusicVolume * GlobalVolume;
+        public void SaveVolumes()
+        {
+            PlayerPrefs.SetFloat(GlobalVolumeKey, GlobalVolume);
+            PlayerPrefs.SetFloat(MusicVolumeKey, MusicVolume);
+            PlayerPrefs.SetFloat(EffectsVolumeKey, EffectsVolume);
+        }
 
-        if (effectsAudioSource != null)
-            effectsAudioSource.volume = EffectsVolume * GlobalVolume;
-    }
+        public void ApplyVolumes()
+        {
+            AudioListener.volume = GlobalVolume;
 
-    private static AudioSource GetMusicAudioSource()
-    {
-        GameObject musicPlayer = GameObject.Find("BackgroundMusic");
+            if (_musicSource != null)
+                _musicSource.volume = MusicVolume * GlobalVolume;
 
-        if (musicPlayer != null)
-            return musicPlayer.GetComponent<AudioSource>();
+            if (_effectsSource != null)
+                _effectsSource.volume = EffectsVolume * GlobalVolume;
+        }
 
-        return null;
-    }
-
-    private static AudioSource GetEffectsAudioSource()
-    {
-        GameObject effectsPlayer = GameObject.Find("GameObject");
-
-        if (effectsPlayer != null)
-            return effectsPlayer.GetComponent<AudioSource>();
-
-        return null;
+        public void SetMusicSource(AudioSource source) => _musicSource = source;
+        public void SetEffectsSource(AudioSource source) => _effectsSource = source;
     }
 }

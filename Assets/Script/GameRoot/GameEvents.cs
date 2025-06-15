@@ -1,18 +1,20 @@
 using System;
+using UIGameplay;
 using UnityEngine;
 
-public static class GameEvents
+namespace GameRoot
 {
-    public static event Action OnTurnEnd;
-    public static event Action OnGameOver;
-
-    public static void InvokeTurnEnd()
+    public class GameEvents : MonoBehaviour
     {
-        OnTurnEnd?.Invoke();
-    }
+        public event Action TurnEnd;
+        public event Action GameOver;
 
-    public static void InvokeGameOver()
-    {
-        OnGameOver?.Invoke();
+        public event Action CameraControlsLock;
+        public event Action CameraControlsUnlock;
+
+        public void OnTriggerCameraControlsLock() => CameraControlsLock?.Invoke();
+        public void OnTriggerCameraControlsUnlock() => CameraControlsUnlock?.Invoke();
+        public void OnInvokeTurnEnd() => TurnEnd?.Invoke();
+        public void OnInvokeGameOver() => GameOver?.Invoke();
     }
 }
