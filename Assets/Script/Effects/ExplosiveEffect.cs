@@ -1,5 +1,4 @@
 using Gameplay;
-using GameRoot;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,17 +14,15 @@ namespace Effects
 
         private Rigidbody _targetBlock;
 
-        public override void Execute()
+        protected override IEnumerator PlayEffect()
         {
-            base.Execute();
-
             List<Rigidbody> candidates = new();
 
             foreach (var block in GetBlocks())
             {
                 if (block.TryGetComponent(out BlockState state) &&
                     block.TryGetComponent(out Rigidbody rb) &&
-                    state.CurrentState == BlockState.State.Placed)
+                    state.CurrentState == BlockStatus.Placed)
                 {
                     candidates.Add(rb);
                 }
@@ -34,39 +31,34 @@ namespace Effects
             if (candidates.Count > 0)
             {
                 _targetBlock = candidates[Random.Range(0, candidates.Count)];
-                StartCoroutine(ExplodeBlock());
-            }
-        }
 
-        private IEnumerator ExplodeBlock()
-        {
-            yield return new WaitForSeconds(_explosionDelay);
 
-            if (_targetBlock)
-            {
-                Collider[] affected = Physics.OverlapSphere(_targetBlock.transform.position, _explosionRadius);
+                yield return new WaitForSeconds(_explosionDelay);
 
-                foreach (var col in affected)
+                if (_targetBlock != null)
                 {
-                    if (col.TryGetComponent(out Rigidbody rb) && rb != _targetBlock)
-                        rb.AddExplosionForce(_explosionForce, _targetBlock.position, _explosionRadius);
+                    Vector3 position = _targetBlock.transform.position;
+
+                    Collider[] affected = Physics.OverlapSphere(position, _explosionRadius);
+
+                    foreach (var col in affected)
+                    {
+                        if (col.TryGetComponent(out Rigidbody rb) && rb != _targetBlock)
+                            rb.AddExplosionForce(_explosionForce, position, _explosionRadius);
+                    }
+
+                    if (_explosionPrefab)
+                        Instantiate(_explosionPrefab, position, Quaternion.identity);
+
+                    if (AudioSource && EffectSound)
+                        AudioSource.PlayOneShot(EffectSound);
+
+                    Destroy(_targetBlock.gameObject);
                 }
-
-                if (_explosionPrefab)
-                {
-                    Instantiate(_explosionPrefab, _targetBlock.transform.position, Quaternion.identity);
-                }
-
-                if (audioSource && effectSound)
-                    audioSource.PlayOneShot(effectSound);
-
-                Destroy(_targetBlock.gameObject);
             }
-        }
 
-        protected override IEnumerator EffectCoroutine()
-        {
-            yield return null;
+            _targetBlock = null;
+            yield break;
         }
     }
 }

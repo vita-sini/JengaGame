@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -21,7 +20,5 @@ namespace Gameplay
             if (_placedBlocks.Contains(block))
                 _placedBlocks.Remove(block);
         }
-
-        public void Clear() => _placedBlocks.Clear();
     }
 }

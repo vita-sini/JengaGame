@@ -41,8 +41,8 @@ namespace Gameplay
 
             if (blockState == null) return false;
 
-            return blockState.CurrentState == BlockState.State.Spawning ||
-           blockState.CurrentState == BlockState.State.Placed;
+            return blockState.CurrentState == BlockStatus.Spawning ||
+           blockState.CurrentState == BlockStatus.Placed;
         }
 
         private bool TryGetRaycastHitBlock(out RaycastHit hit, out Rigidbody rb, out ContactMonitor monitor)

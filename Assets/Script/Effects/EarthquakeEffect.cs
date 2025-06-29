@@ -16,13 +16,13 @@ namespace Effects
         [SerializeField] private float _shakeVerticalComponent = 0f;
         [SerializeField] private float _cameraShakeZAmplitude = 0f;
 
-        protected override IEnumerator EffectCoroutine()
+        protected override IEnumerator PlayEffect()
         {
-            if (audioSource && effectSound)
+            if (AudioSource && EffectSound)
             {
-                audioSource.clip = effectSound;
-                audioSource.time = _startTime;
-                audioSource.Play();
+                AudioSource.clip = EffectSound;
+                AudioSource.time = _startTime;
+                AudioSource.Play();
             }
 
             var camera = Camera.main;

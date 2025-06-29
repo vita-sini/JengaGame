@@ -1,11 +1,12 @@
 using Gameplay;
+using GameRoot;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 namespace UIGameplay
 {
-    public class PauseMenu : MonoBehaviour, IPauseManager
+    public class PauseMenu : MonoBehaviour
     {
         [SerializeField] private GameObject[] _gameplayUIElements;
         [SerializeField] private GameObject _pauseMenuCanvas;
@@ -17,6 +18,7 @@ namespace UIGameplay
         [SerializeField] private ScoreManager _scoreManager;
 
         private bool _isPaused = false;
+
         public bool IsPaused => _isPaused;
 
         private void Start()
@@ -57,13 +59,13 @@ namespace UIGameplay
 
             Scene currentScene = SceneManager.GetActiveScene();
 
-            if (currentScene.name == "GameplayNewChallenges")
+            if (currentScene.name == Scenes.GAMEPLAYNEWCHALLENGES)
             {
-                SceneManager.LoadScene("GameplayNewChallenges");
+                SceneManager.LoadScene(Scenes.GAMEPLAYNEWCHALLENGES);
             }
-            else if (currentScene.name == "GameplayClassic")
+            else if (currentScene.name == Scenes.GAMEPLAYCLASSIC)
             {
-                SceneManager.LoadScene("GameplayClassic");
+                SceneManager.LoadScene(Scenes.GAMEPLAYCLASSIC);
             }
         }
 
@@ -83,7 +85,7 @@ namespace UIGameplay
         public void QuitGame()
         {
             Time.timeScale = 1;
-            SceneManager.LoadScene("MainMenu");
+            SceneManager.LoadScene(Scenes.MAIN_MENU);
         }
     }
 }

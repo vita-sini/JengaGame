@@ -3,6 +3,7 @@ using System.Collections;
 using UIGameplay;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using GameRoot;
 
 namespace Gameplay
 {
@@ -12,6 +13,7 @@ namespace Gameplay
         [SerializeField] private ScoreUI _scoreUI;
         [SerializeField] private Deck _deck;
         [SerializeField] private BlockSpawner _blockSpawner;
+        [SerializeField] private BlockRegistry _blockRegistry;
 
         private float _previousMaxHeight;
 
@@ -33,18 +35,14 @@ namespace Gameplay
 
         private float GetCurrentTowerHeight()
         {
-            GameObject[] blocks = GameObject.FindGameObjectsWithTag("Block");
-
-            if (blocks.Length == 0) return 0f;
+            if (_blockRegistry == null || _blockRegistry.PlacedBlocks.Count == 0)
+                return 0f;
 
             float maxY = float.MinValue;
 
-            foreach (GameObject block in blocks)
+            foreach (GameObject block in _blockRegistry.PlacedBlocks)
             {
-                BlockState blockState = block.GetComponent<BlockState>();
-
-                if (blockState == null || blockState.CurrentState != BlockState.State.Placed)
-                    continue;
+                if (block == null) continue;
 
                 Renderer renderer = block.GetComponent<Renderer>();
 
@@ -81,9 +79,9 @@ namespace Gameplay
 
             if (blockTopY > _previousMaxHeight + 0.01f) 
             {
-                _scoreUI.CalculateScore(initialPosition, block.transform.position, block);
+                _scoreUI.CalculateScore();
 
-                if (SceneManager.GetActiveScene().name == "GameplayNewChallenges")
+                if (SceneManager.GetActiveScene().name == Scenes.GAMEPLAYNEWCHALLENGES)
                     _deck.OnTurnEnd();
 
                 _blockSpawner.UpdateTowerHeight(blockTopY);

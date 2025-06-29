@@ -5,9 +5,9 @@ namespace Gameplay
 {
     public class ScoreManager : MonoBehaviour
     {
-        public int CurrentScore { get; private set; }
-
         public event Action<int> ScoreChanged;
+
+        public int CurrentScore { get; private set; }
 
         public void Add(int points)
         {

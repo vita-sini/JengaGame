@@ -4,9 +4,10 @@ namespace Gameplay
 {
     public class BlockState : MonoBehaviour
     {
+        private BlockStatus _currentState = BlockStatus.Base;
         private BlockRegistry _blockRegistry;
 
-        public State CurrentState = State.Base;
+        public BlockStatus CurrentState => _currentState;
 
         private void OnDisable()
         {
@@ -18,19 +19,12 @@ namespace Gameplay
             _blockRegistry = registry;
         }
 
-        public void SetSpawning() => CurrentState = State.Spawning;
+        public void SetSpawning() => _currentState = BlockStatus.Spawning;
 
         public void SetPlaced()
         {
-            CurrentState = State.Placed;
+            _currentState = BlockStatus.Placed;
             _blockRegistry?.Register(gameObject);
-        }
-
-        public enum State
-        {
-            Base,
-            Spawning,
-            Placed
         }
     }
 }

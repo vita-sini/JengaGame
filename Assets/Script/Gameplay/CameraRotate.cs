@@ -6,7 +6,6 @@ namespace Gameplay
     public class CameraRotate : MonoBehaviour
     {
         [SerializeField] private Transform _target;
-
         [SerializeField] private float _rotationSpeed = 50f;
         [SerializeField] private float _scrollSpeed = 10f;
         [SerializeField] private float _minHeight = 4f;

@@ -1,8 +1,8 @@
-using GameRoot;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using GameRoot;
 
 namespace Effects
 {
@@ -34,7 +34,7 @@ namespace Effects
 
             if (Physics.Raycast(rb.position, direction, out RaycastHit hit, _rayDistance))
             {
-                if (hit.collider.CompareTag("Block") && hit.collider.TryGetComponent(out Rigidbody otherRb))
+                if (hit.collider.CompareTag(Tags.Block) && hit.collider.TryGetComponent(out Rigidbody otherRb))
                 {
                     FixedJoint joint = rb.gameObject.AddComponent<FixedJoint>();
                     joint.connectedBody = otherRb;
@@ -44,7 +44,7 @@ namespace Effects
             }
         }
 
-        protected override IEnumerator EffectCoroutine()
+        protected override IEnumerator PlayEffect()
         {
             PlayEffectSound(loop: true);
 

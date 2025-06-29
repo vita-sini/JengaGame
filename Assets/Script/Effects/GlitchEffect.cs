@@ -1,4 +1,3 @@
-using GameRoot;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -30,7 +29,7 @@ namespace Effects
             _origAngularDrags.Clear();
         }
 
-        protected override IEnumerator EffectCoroutine()
+        protected override IEnumerator PlayEffect()
         {
             PlayEffectSound();
 

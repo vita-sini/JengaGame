@@ -50,7 +50,7 @@ namespace UIGameplay
         private void LoadMainMenu()
         {
             Time.timeScale = 1f;
-            SceneManager.LoadScene("MainMenu");
+            SceneManager.LoadScene(Scenes.MAIN_MENU);
         }
 
         private void RestartGame()
@@ -61,10 +61,10 @@ namespace UIGameplay
 
             Scene currentScene = SceneManager.GetActiveScene();
 
-            if (currentScene.name == "GameplayNewChallenges")
-                SceneManager.LoadScene("GameplayNewChallenges");
-            else if (currentScene.name == "GameplayClassic")
-                SceneManager.LoadScene("GameplayClassic");
+            if (currentScene.name == Scenes.GAMEPLAYNEWCHALLENGES)
+                SceneManager.LoadScene(Scenes.GAMEPLAYNEWCHALLENGES);
+            else if (currentScene.name == Scenes.GAMEPLAYCLASSIC)
+                SceneManager.LoadScene(Scenes.GAMEPLAYCLASSIC);
         }
     }
 }

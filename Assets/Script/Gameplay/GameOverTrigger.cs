@@ -1,6 +1,5 @@
 using GameRoot;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace Gameplay
 {
@@ -8,11 +7,9 @@ namespace Gameplay
     {
         [SerializeField] private GameEvents _gameEvents;
 
-        public string blockTag = "Block";
-
         private void OnTriggerEnter(Collider other)
         {
-            if (other.CompareTag(blockTag))
+            if (other.CompareTag(Tags.Block))
                 _gameEvents.OnInvokeGameOver();
         }
     }

@@ -1,4 +1,3 @@
-using GameRoot;
 using System.Collections;
 using UnityEngine;
 
@@ -48,7 +47,7 @@ namespace Effects
             _smokeParticlesInstance.transform.rotation = Quaternion.LookRotation(forward);
         }
 
-        protected override IEnumerator EffectCoroutine()
+        protected override IEnumerator PlayEffect()
         {
             if (_smokeParticlesInstance == null && _smokeParticles != null)
             {
@@ -60,7 +59,7 @@ namespace Effects
 
             PlayEffectSound(loop: true);
 
-            while (true)
+            while (IsPlaying)
             {
                 UpdateParticlePosition();
                 yield return null;

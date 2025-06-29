@@ -1,4 +1,3 @@
-using GameRoot;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,8 +6,8 @@ namespace Effects
 {
     public class GhostEffect : BaseEffect
     {
-        [SerializeField] private int _count;
         [SerializeField] private Material _ghostMaterial;
+        [SerializeField] private int _count;
 
         private List<Renderer> _affected = new();
         private List<Material> _originalMats = new();
@@ -16,6 +15,7 @@ namespace Effects
         public override void Stop()
         {
             base.Stop();
+
             for (int i = 0; i < _affected.Count; i++)
             {
                 if (_affected[i] != null)
@@ -26,7 +26,7 @@ namespace Effects
             _originalMats.Clear();
         }
 
-        protected override IEnumerator EffectCoroutine()
+        protected override IEnumerator PlayEffect()
         {
             PlayEffectSound();
 

@@ -1,4 +1,3 @@
-using GameRoot;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -27,7 +26,7 @@ namespace Effects
             _originalMasses.Clear();
         }
 
-        protected override IEnumerator EffectCoroutine()
+        protected override IEnumerator PlayEffect()
         {
             PlayEffectSound();
 

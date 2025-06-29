@@ -5,16 +5,16 @@ namespace Effects
 {
     public class WindEffect : BaseEffect
     {
+        [SerializeField] private ParticleSystem _windParticlesPrefab;
+        [SerializeField] private Transform _particleSpawnPoint;
         [SerializeField] private float _particleTravelSpeed = 10f;
         [SerializeField] private float _gustOscillationFrequency = 0.01f;
         [SerializeField] private float _windForce;
         [SerializeField] private float _effectDuration;
-        [SerializeField] private ParticleSystem _windParticlesPrefab;
-        [SerializeField] private Transform _particleSpawnPoint;
 
         private ParticleSystem _windParticlesInstance;
 
-        protected override IEnumerator EffectCoroutine()
+        protected override IEnumerator PlayEffect()
         {
             if (_windParticlesPrefab)
             {

@@ -443,7 +443,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _gameEvents: {fileID: 817975441}
-  blockTag: Block
 --- !u!65 &131780382
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -566,7 +565,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _gameEvents: {fileID: 817975441}
-  blockTag: Block
 --- !u!65 &155941374
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1236,7 +1234,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0930e94d163afe64d85c910854ad0400, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CurrentState: 0
 --- !u!1 &210263628
 GameObject:
   m_ObjectHideFlags: 0
@@ -1637,7 +1634,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _gameEvents: {fileID: 817975441}
-  blockTag: Block
 --- !u!65 &276742847
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -4376,7 +4372,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _gameEvents: {fileID: 817975441}
-  blockTag: Block
 --- !u!65 &711183396
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -5368,14 +5363,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e4f81d876d64a14f88439e3729df2d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  effectSound: {fileID: 8300000, guid: 53c0d43ec271a1e4dabf78a10d22b9af, type: 3}
+  _effectSound: {fileID: 0}
   _gameEvents: {fileID: 817975441}
+  _windParticlesPrefab: {fileID: 1865603112017772763, guid: 8e329fe21c043a1459b57cfea18d3f50, type: 3}
+  _particleSpawnPoint: {fileID: 1525476672}
   _particleTravelSpeed: 10
   _gustOscillationFrequency: 0.01
   _windForce: 1100
   _effectDuration: 4
-  _windParticlesPrefab: {fileID: 1865603112017772763, guid: 8e329fe21c043a1459b57cfea18d3f50, type: 3}
-  _particleSpawnPoint: {fileID: 1525476672}
 --- !u!114 &817975412
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5388,7 +5383,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95a502821597263419f7348a28d3f71c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  effectSound: {fileID: 8300000, guid: f1daa51c2f44c01448c7c829a5daf7e6, type: 3}
+  _effectSound: {fileID: 0}
   _gameEvents: {fileID: 817975441}
   _earthquakeForce: 70
   _effectDuration: 5
@@ -5411,10 +5406,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e7d90025093b9844b2609d8176b93b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  effectSound: {fileID: 8300000, guid: b3248140e7f418847811d799826caed5, type: 3}
+  _effectSound: {fileID: 0}
   _gameEvents: {fileID: 817975441}
-  _rotationSpeed: 45
   _target: {fileID: 629075973}
+  _rotationSpeed: 45
 --- !u!82 &817975422
 AudioSource:
   m_ObjectHideFlags: 0
@@ -5590,6 +5585,7 @@ MonoBehaviour:
   _scoreUI: {fileID: 1998710584}
   _deck: {fileID: 817975409}
   _blockSpawner: {fileID: 1708356347}
+  _blockRegistry: {fileID: 817975440}
 --- !u!114 &817975429
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5630,7 +5626,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 66712a76fdebe05498ab8fb334859cdc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  effectSound: {fileID: 8300000, guid: 2b1a70f7c13bb5a428504d95a3e6850c, type: 3}
+  _effectSound: {fileID: 0}
   _gameEvents: {fileID: 817975441}
   _smokeParticles: {fileID: 19800000, guid: 6f8449a4663a4fd44b6140772d4f39f9, type: 3}
   _offsetY: 100
@@ -5651,7 +5647,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e384ab30a7ef1546b0090102f13443a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  effectSound: {fileID: 8300000, guid: 280e79697d315a64dafa2b942eec4664, type: 3}
+  _effectSound: {fileID: 0}
   _gameEvents: {fileID: 817975441}
   _slipperyMaterial: {fileID: 13400000, guid: 906db7a0a8205d8469aa51539af0e398, type: 2}
 --- !u!114 &817975433
@@ -5666,7 +5662,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c1d5ea799514c448bdd384dedcf5390, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  effectSound: {fileID: 8300000, guid: 25cd1eaf7f08bfb419efa4bcb7cc104f, type: 3}
+  _effectSound: {fileID: 0}
   _gameEvents: {fileID: 817975441}
   _numberOfMagneticBlocks: 30
   _strengthGap: 10
@@ -5683,7 +5679,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 278e95f68870aba4abdd37af9f51b742, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  effectSound: {fileID: 8300000, guid: 90110d31f9c4ae045aa5269f62a6969c, type: 3}
+  _effectSound: {fileID: 0}
   _gameEvents: {fileID: 817975441}
   _affectedCount: 100
   _heavyMass: 200
@@ -5699,7 +5695,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2bad993b8402a3549adea50586abf9a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  effectSound: {fileID: 8300000, guid: 9bb9dc406d80eef40995d905caa645f9, type: 3}
+  _effectSound: {fileID: 0}
   _gameEvents: {fileID: 817975441}
   _affectedCount: 100
   _dragMultiplier: 100
@@ -5716,10 +5712,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2279e53c7c02be14681ea4809a99f508, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  effectSound: {fileID: 8300000, guid: 86ee8559db4d8d2418edc8ad36098cdc, type: 3}
+  _effectSound: {fileID: 0}
   _gameEvents: {fileID: 817975441}
-  _count: 30
   _ghostMaterial: {fileID: 2100000, guid: 72ec0e208c5add046b39ffa55e04b6c2, type: 2}
+  _count: 30
 --- !u!114 &817975437
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5732,7 +5728,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e4742d1c8d5d07b4590d4333b1ee9cab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  effectSound: {fileID: 8300000, guid: e704a16042e566249b01e313f8f4c53f, type: 3}
+  _effectSound: {fileID: 0}
   _gameEvents: {fileID: 817975441}
   _explosionPrefab: {fileID: 19800006, guid: a49596ebf788acd4ab1281bffea444b1, type: 3}
   _explosionForce: 100
@@ -5750,9 +5746,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 311632e76f0f35b498105f18216b343f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalVolume: 1
-  MusicVolume: 1
-  EffectsVolume: 1
   _musicSource: {fileID: 1104962353}
   _effectsSource: {fileID: 817975422}
 --- !u!114 &817975439
@@ -6806,7 +6799,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _initialUIElement: {fileID: 641741898}
   _otherUIElements:
-  - {fileID: 333638316}
+  - {fileID: 1783918948}
 --- !u!1 &1027474339 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -6348514270411508961, guid: 09a57f3f4500ab84b802883af025ed10, type: 3}
@@ -6854,20 +6847,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 110.21434, y: 74.40149, z: 110.21431}
   m_Center: {x: 0, y: 0, z: 0.0000038146973}
---- !u!114 &1027474346
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1027474339}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4f205ecc88b27a746b1262b55a0773ef, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _gameEvents: {fileID: 0}
-  blockTag: Block
 --- !u!1 &1089616960
 GameObject:
   m_ObjectHideFlags: 0
@@ -11610,7 +11589,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _gameEvents: {fileID: 817975441}
-  blockTag: Block
 --- !u!65 &1426909885
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -12663,7 +12641,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _gameEvents: {fileID: 817975441}
-  blockTag: Block
 --- !u!65 &1631201025
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -13737,9 +13714,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: -6348514270411508961, guid: 09a57f3f4500ab84b802883af025ed10, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1027474341}
-    - targetCorrespondingSourceObject: {fileID: -6348514270411508961, guid: 09a57f3f4500ab84b802883af025ed10, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1027474346}
   m_SourcePrefab: {fileID: 100100000, guid: 09a57f3f4500ab84b802883af025ed10, type: 3}
 --- !u!1 &1907787881
 GameObject:

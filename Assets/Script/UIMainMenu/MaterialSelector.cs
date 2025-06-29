@@ -20,7 +20,6 @@ namespace UIMainMenu
         [SerializeField] private int _paidMaterialIndex;
         [SerializeField] private int _freeMaterialIndex;
 
-        private const string SelectedMaterialKey = "SelectedMaterialIndex";
         private int _currentIndex;
 
         private void Awake()

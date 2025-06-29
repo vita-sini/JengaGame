@@ -8,56 +8,72 @@ namespace Effects
 {
     public abstract class BaseEffect : MonoBehaviour
     {
-        [SerializeField] protected AudioClip effectSound;
+        [SerializeField] private AudioClip _effectSound;
         [SerializeField] private GameEvents _gameEvents;
 
-        protected BlockRegistry _blockRegistry;
-        protected Coroutine effectCoroutine;
-        protected AudioSource audioSource;
+        private BlockRegistry _blockRegistry;
+        private AudioSource _audioSource;
+        private Coroutine _effectCoroutine;
+        private bool _isPlaying = false;
+
+        protected BlockRegistry BlockRegistry => _blockRegistry;
+        protected AudioSource AudioSource => _audioSource;
+        protected Coroutine EffectCoroutine => _effectCoroutine;
+        protected bool IsPlaying => _isPlaying;
+        protected AudioClip EffectSound => _effectSound;
 
         protected virtual void Awake()
         {
             _gameEvents.TurnEnd += Stop;
-            audioSource = GetComponent<AudioSource>();
+            _audioSource = GetComponent<AudioSource>();
         }
 
-        protected virtual void OnDisable()
+        private void OnDisable()
         {
             _gameEvents.TurnEnd -= Stop;
         }
 
-        protected virtual void OnDestroy()
+        private void OnDestroy()
         {
             _gameEvents.TurnEnd -= Stop;
         }
 
         public virtual void Execute()
         {
-            if (effectCoroutine != null)
-                StopCoroutine(effectCoroutine);
+            if (_effectCoroutine != null)
+                StopCoroutine(_effectCoroutine);
 
-            effectCoroutine = StartCoroutine(EffectCoroutine());
+            _isPlaying = true;
+
+            _effectCoroutine = StartCoroutine(PlayEffect());
         }
 
         public virtual void Stop()
         {
-            if (effectCoroutine != null)
+            if (_effectCoroutine != null)
             {
-                StopCoroutine(effectCoroutine);
-                effectCoroutine = null;
+                StopCoroutine(_effectCoroutine);
+                _effectCoroutine = null;
             }
 
-            if (audioSource != null)
-                audioSource.Stop();
+            _isPlaying = false;
+
+            if (AudioSource != null)
+                AudioSource.Stop();
+        }
+
+        public void InitEffect(BlockRegistry blockRegistry)
+        {
+            _blockRegistry = blockRegistry;
         }
 
         protected virtual void PlayEffectSound(bool loop = false)
         {
-            if (audioSource != null && effectSound != null)
+            if (AudioSource != null && EffectSound != null)
             {
-                audioSource.clip = effectSound;
-                audioSource.loop = loop;
-                audioSource.Play();
+                AudioSource.clip = EffectSound;
+                AudioSource.loop = loop;
+                AudioSource.Play();
             }
         }
 
@@ -66,12 +82,7 @@ namespace Effects
             return _blockRegistry?.PlacedBlocks ?? new List<GameObject>();
         }
 
-        protected abstract IEnumerator EffectCoroutine();
-
-        public void InitEffect(BlockRegistry blockRegistry)
-        {
-            _blockRegistry = blockRegistry;
-        }
+        protected abstract IEnumerator PlayEffect();
     }
 }
 

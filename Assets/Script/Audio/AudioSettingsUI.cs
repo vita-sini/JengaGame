@@ -24,26 +24,35 @@ namespace Audio
             _musicVolumeSlider.value = _audio.MusicVolume;
             _effectsVolumeSlider.value = _audio.EffectsVolume;
 
-            _globalVolumeSlider.onValueChanged.AddListener(v =>
-            {
-                _audio.GlobalVolume = v;
-                _audio.ApplyVolumes();
-                _audio.SaveVolumes();
-            });
+            _globalVolumeSlider.onValueChanged.AddListener(OnGlobalVolumeChanged);
+            _musicVolumeSlider.onValueChanged.AddListener(OnMusicVolumeChanged);
+            _effectsVolumeSlider.onValueChanged.AddListener(OnEffectsVolumeChanged);
+        }
 
-            _musicVolumeSlider.onValueChanged.AddListener(v =>
-            {
-                _audio.MusicVolume = v;
-                _audio.ApplyVolumes();
-                _audio.SaveVolumes();
-            });
 
-            _effectsVolumeSlider.onValueChanged.AddListener(v =>
-            {
-                _audio.EffectsVolume = v;
-                _audio.ApplyVolumes();
-                _audio.SaveVolumes();
-            });
+        private void OnDestroy()
+        {
+            _globalVolumeSlider.onValueChanged.RemoveListener(OnGlobalVolumeChanged);
+            _musicVolumeSlider.onValueChanged.RemoveListener(OnMusicVolumeChanged);
+            _effectsVolumeSlider.onValueChanged.RemoveListener(OnEffectsVolumeChanged);
+        }
+
+        private void OnGlobalVolumeChanged(float volume)
+        {
+            _audio.SetGlobalVolume(volume);
+            _audio.SaveVolumes();
+        }
+
+        private void OnMusicVolumeChanged(float volume)
+        {
+            _audio.SetMusicVolume(volume);
+            _audio.SaveVolumes();
+        }
+
+        private void OnEffectsVolumeChanged(float volume)
+        {
+            _audio.SetEffectsVolume(volume);
+            _audio.SaveVolumes();
         }
     }
 }

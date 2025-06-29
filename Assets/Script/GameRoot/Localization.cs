@@ -65,7 +65,5 @@ namespace GameRoot
         {
             return _texts != null && _texts.TryGetValue(key, out var value) ? value : key;
         }
-
-        public string GetCurrentLanguage() => _language;
     }
 }

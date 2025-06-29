@@ -4,7 +4,8 @@ using GameRoot;
 
 namespace Cards
 {
-    public class EffectCard<T> : Card where T : BaseEffect
+    public class EffectCard<T> : Card 
+        where T : BaseEffect
     {
         private T _effect;
 

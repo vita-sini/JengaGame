@@ -10,6 +10,7 @@ namespace Audio
             YandexGame.onShowWindowGame += OnShowWindowGame;
             YandexGame.onHideWindowGame += OnHideWindowGame;
         }
+
         private void OnDisable()
         {
             YandexGame.onShowWindowGame -= OnShowWindowGame;
@@ -20,6 +21,7 @@ namespace Audio
         {
             AudioListener.pause = false;
         }
+
         private void OnHideWindowGame()
         {
             AudioListener.pause = true;
