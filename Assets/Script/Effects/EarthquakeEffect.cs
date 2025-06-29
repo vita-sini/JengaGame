@@ -1,91 +1,67 @@
+using Gameplay;
 using System.Collections;
 using UnityEngine;
 
-public class EarthquakeEffect : MonoBehaviour, IEffect
+namespace Effects
 {
-    [SerializeField] private float _earthquakeForce;
-    [SerializeField] private float _effectDuration;
-    [SerializeField] private AudioClip _earthquakeSound;
-    [SerializeField] private float _startTime = 3f;
-
-    private AudioSource _audioSource;
-    private Coroutine _earthquakeEffectCoroutine;
-
-    private void Awake()
+    public class EarthquakeEffect : BaseEffect
     {
-        _audioSource = GetComponent<AudioSource>();
-    }
+        [SerializeField] private float _earthquakeForce;
+        [SerializeField] private float _effectDuration;
+        [SerializeField] private float _startTime = 3f;
+        [SerializeField] private float _cameraShakeSpeed = 20f;
+        [SerializeField] private float _cameraShakeAmplitude = 0.1f;
+        [SerializeField] private float _shakeDirectionMin = -1f;
+        [SerializeField] private float _shakeDirectionMax = 1f;
+        [SerializeField] private float _shakeVerticalComponent = 0f;
+        [SerializeField] private float _cameraShakeZAmplitude = 0f;
 
-    public void Execute()
-    {
-        if (_earthquakeEffectCoroutine != null)
-            StopCoroutine(_earthquakeEffectCoroutine);
-
-        _earthquakeEffectCoroutine = StartCoroutine(EarthquakeEffectCoroutine());
-    }
-
-    public void Stop()
-    {
-        if (_earthquakeEffectCoroutine != null)
+        protected override IEnumerator PlayEffect()
         {
-            StopCoroutine(_earthquakeEffectCoroutine);
-            _earthquakeEffectCoroutine = null;
-        }
-
-        if (_audioSource != null)
-            _audioSource.Stop();
-    }
-
-    private IEnumerator EarthquakeEffectCoroutine()
-    {
-        if (_audioSource != null && _earthquakeSound != null)
-        {
-            _audioSource.clip = _earthquakeSound;
-            _audioSource.time = _startTime;
-            _audioSource.Play();
-        }
-
-        float elapsedTime = 0f;
-
-        Vector3 initialCameraPosition = Camera.main.transform.position;
-
-        CamRotate camRotate = Camera.main.GetComponent<CamRotate>();
-
-        if (camRotate) camRotate.enabled = false;
-
-        while (elapsedTime < _effectDuration)
-        {
-            GameObject[] blocks = GameObject.FindGameObjectsWithTag("Block");
-
-            foreach (GameObject block in blocks)
+            if (AudioSource && EffectSound)
             {
-                if (block.TryGetComponent(out Rigidbody rb))
-                {
-                    Vector3 shakeDirection = new Vector3(
-                        Random.Range(-1f, 1f),
-                        0,
-                        Random.Range(-1f, 1f)
-                    ).normalized;
-
-                    rb.AddForce(shakeDirection * _earthquakeForce, ForceMode.Impulse);
-                }
+                AudioSource.clip = EffectSound;
+                AudioSource.time = _startTime;
+                AudioSource.Play();
             }
-            // Тряска камеры
-            Camera.main.transform.position = initialCameraPosition + new Vector3(
-                Mathf.Sin(Time.time * 20f) * 0.1f,
-                Mathf.Cos(Time.time * 20f) * 0.1f,
-                0
-            );
 
-            elapsedTime += Time.deltaTime;
+            var camera = Camera.main;
+            Vector3 initialPosition = camera.transform.position;
+            var cameraRotate = camera.GetComponent<CameraRotate>();
+            if (cameraRotate) cameraRotate.enabled = false;
 
-            yield return null;
+            float elapsed = 0f;
+
+            while (elapsed < _effectDuration)
+            {
+                foreach (var block in GetBlocks())
+                {
+                    if (block.TryGetComponent(out Rigidbody rb))
+                    {
+                        Vector3 shakeDirection = new Vector3(
+                            Random.Range(_shakeDirectionMin, _shakeDirectionMax),
+                            _shakeVerticalComponent,
+                            Random.Range(_shakeDirectionMin, _shakeDirectionMax)
+                        ).normalized;
+
+                        rb.AddForce(shakeDirection * _earthquakeForce, ForceMode.Impulse);
+                    }
+                }
+
+                camera.transform.position = initialPosition + new Vector3(
+                    Mathf.Sin(Time.time * _cameraShakeSpeed) * _cameraShakeAmplitude,
+                    Mathf.Cos(Time.time * _cameraShakeSpeed) * _cameraShakeAmplitude,
+                    _cameraShakeZAmplitude
+                );
+
+                elapsed += Time.deltaTime;
+                yield return null;
+            }
+
+            camera.transform.position = initialPosition;
+            if (cameraRotate) cameraRotate.enabled = true;
+
+            Stop();
         }
-        // Возвращение камеры в исходное положение
-        if (camRotate) camRotate.enabled = true;
-
-        Camera.main.transform.position = initialCameraPosition;
-
-        Stop();
     }
 }

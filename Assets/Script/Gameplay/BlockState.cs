@@ -1,16 +1,30 @@
 using UnityEngine;
 
-public class BlockState : MonoBehaviour
+namespace Gameplay
 {
-    public enum State
+    public class BlockState : MonoBehaviour
     {
-        Base,       // —тартовые блоки Ч нельз€ брать
-        Spawning,   // “олько что заспавненный Ч можно брать
-        Placed      // ”становленный Ч нельз€ брать
+        private BlockStatus _currentState = BlockStatus.Base;
+        private BlockRegistry _blockRegistry;
+
+        public BlockStatus CurrentState => _currentState;
+
+        private void OnDisable()
+        {
+            _blockRegistry?.Unregister(gameObject);
+        }
+
+        public void Initialize(BlockRegistry registry)
+        {
+            _blockRegistry = registry;
+        }
+
+        public void SetSpawning() => _currentState = BlockStatus.Spawning;
+
+        public void SetPlaced()
+        {
+            _currentState = BlockStatus.Placed;
+            _blockRegistry?.Register(gameObject);
+        }
     }
-
-    public State CurrentState = State.Base;
-
-    public void SetSpawning() => CurrentState = State.Spawning;
-    public void SetPlaced() => CurrentState = State.Placed;
 }

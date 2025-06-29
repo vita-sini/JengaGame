@@ -1,33 +1,35 @@
 using UnityEngine;
 using YG;
 
-public class MaterialApplier : MonoBehaviour
+namespace Gameplay
 {
-    [SerializeField] private Material[] _materials;
-    [SerializeField] private Renderer _renderer;
-
-    private void OnEnable()
+    public class MaterialApplier : MonoBehaviour
     {
-        YandexGame.GetDataEvent += ApplyMaterial;
-    }
+        [SerializeField] private Material[] _materials;
+        [SerializeField] private Renderer _renderer;
 
-    private void OnDisable()
-    {
-        YandexGame.GetDataEvent -= ApplyMaterial;
-    }
+        private void OnEnable()
+        {
+            YandexGame.GetDataEvent += ApplyMaterial;
+        }
 
-    private void Start()
-    {
-        // Если SDK уже загружен — сразу применяем материал
-        if (YandexGame.SDKEnabled)
-            ApplyMaterial();
-    }
+        private void OnDisable()
+        {
+            YandexGame.GetDataEvent -= ApplyMaterial;
+        }
 
-    private void ApplyMaterial()
-    {
-        int selectedIndex = YandexGame.savesData.selectedMaterialIndex;
+        private void Start()
+        {
+            if (YandexGame.SDKEnabled)
+                ApplyMaterial();
+        }
 
-        if (selectedIndex >= 0 && selectedIndex < _materials.Length)
-            _renderer.material = _materials[selectedIndex];
+        private void ApplyMaterial()
+        {
+            int selectedIndex = YandexGame.savesData.selectedMaterialIndex;
+
+            if (selectedIndex >= 0 && selectedIndex < _materials.Length)
+                _renderer.material = _materials[selectedIndex];
+        }
     }
 }

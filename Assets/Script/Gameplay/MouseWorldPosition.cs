@@ -1,21 +1,24 @@
 using UnityEngine;
 
-public class MouseWorldPosition
+namespace Gameplay
 {
-    private Camera _mainCamera;
-
-    public MouseWorldPosition()
+    public class MouseWorldPosition
     {
-        _mainCamera = Camera.main;
-    }
+        private Camera _mainCamera;
 
-    public Vector3 GetMouseWorldPosition(Plane movementPlane)
-    {
-        Ray mouseRay = _mainCamera.ScreenPointToRay(Input.mousePosition);
+        public MouseWorldPosition()
+        {
+            _mainCamera = Camera.main;
+        }
 
-        if (movementPlane.Raycast(mouseRay, out float distance))
-            return mouseRay.GetPoint(distance);
+        public Vector3 GetMouseWorldPosition(Plane movementPlane)
+        {
+            Ray mouseRay = _mainCamera.ScreenPointToRay(Input.mousePosition);
 
-        return Vector3.zero;
+            if (movementPlane.Raycast(mouseRay, out float distance))
+                return mouseRay.GetPoint(distance);
+
+            return Vector3.zero;
+        }
     }
 }

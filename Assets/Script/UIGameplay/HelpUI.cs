@@ -1,30 +1,32 @@
 using UnityEngine;
-using UnityEngine.UI;
 
-public class HelpUI : MonoBehaviour
+namespace UIGameplay
 {
-    [SerializeField] private GameObject _initialUIElement;
-    [SerializeField] private GameObject[] _otherUIElements;
-
-    public void CloseInitialUI()
+    public class HelpUI : MonoBehaviour
     {
-        _initialUIElement.SetActive(false);
+        [SerializeField] private GameObject _initialUIElement;
+        [SerializeField] private GameObject[] _otherUIElements;
 
-        foreach (GameObject uiElement in _otherUIElements)
-            if (uiElement != null)
-                uiElement.SetActive(true);
+        public void CloseInitialUI()
+        {
+            _initialUIElement.SetActive(false);
 
-        Time.timeScale = 1f; // Возобновляет игровое время
-    }
+            foreach (GameObject uiElement in _otherUIElements)
+                if (uiElement != null)
+                    uiElement.SetActive(true);
 
-    public void OpenInitialUI()
-    {
-        _initialUIElement.SetActive(true);
+            Time.timeScale = 1f;
+        }
 
-        foreach (GameObject uiElement in _otherUIElements)
-            if (uiElement != null)
-                uiElement.SetActive(false);
+        public void OpenInitialUI()
+        {
+            _initialUIElement.SetActive(true);
 
-        Time.timeScale = 0f; // Останавливает игровое время
+            foreach (GameObject uiElement in _otherUIElements)
+                if (uiElement != null)
+                    uiElement.SetActive(false);
+
+            Time.timeScale = 0f;
+        }
     }
 }

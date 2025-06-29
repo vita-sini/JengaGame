@@ -1,32 +1,40 @@
-using UnityEngine;
+п»їusing UnityEngine;
 using YG;
 
-public class StartSDK : MonoBehaviour
+namespace GameRoot
 {
-    private void OnEnable()
+    public class StartSDK : MonoBehaviour
     {
-        YandexGame.GetDataEvent += GetLoad;
-    }
+        [SerializeField] private Localization _localization;
 
-    private void OnDisable()
-    {
-        YandexGame.GetDataEvent -= GetLoad;
-    }
-
-    private void Start()
-    {
-        if (YandexGame.SDKEnabled == true) // Проверяем, запустился ли плагин.
+        private void OnEnable()
         {
-            GetLoad();
+            YandexGame.GetDataEvent += GetLoad;
         }
 
-        string lang = YandexGame.EnvironmentData.language;
+        private void OnDisable()
+        {
+            YandexGame.GetDataEvent -= GetLoad;
+        }
 
-        //Приводим к стандартному формату(например: "tr", "ru", "en")
-        lang = lang.ToLower();
+        private void Start()
+        {
+            if (YandexGame.SDKEnabled == true) 
+            {
+                GetLoad();
+            }
 
-        LocalizationManager.SetLanguage(lang);
+            string lang = YandexGame.EnvironmentData.language.ToLower();
+
+            PlayerPrefs.SetString("Language", lang);
+            PlayerPrefs.Save();
+
+            _localization.SetLanguage(lang);
+        }
+
+        public void GetLoad()
+        {
+            YandexGame.GameReadyAPI();
+        }
     }
-
-    public void GetLoad(){ YandexGame.GameReadyAPI();}
 }
