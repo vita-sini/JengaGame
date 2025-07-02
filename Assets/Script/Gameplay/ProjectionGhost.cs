@@ -1,4 +1,5 @@
 using UnityEngine;
+using GameRoot;
 
 public class ProjectionGhost : MonoBehaviour
 {

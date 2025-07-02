@@ -31,12 +31,21 @@ public static class AudioManager
         AudioSource musicAudioSource = GetMusicAudioSource();
         AudioSource effectsAudioSource = GetEffectsAudioSource();
 
+<<<<<<< Updated upstream
         if (musicAudioSource != null)
             musicAudioSource.volume = MusicVolume * GlobalVolume;
 
         if (effectsAudioSource != null)
             effectsAudioSource.volume = EffectsVolume * GlobalVolume;
     }
+=======
+        public void SaveVolumes()
+        {
+            PlayerPrefs.SetFloat(GlobalVolumeKey, _globalVolume);
+            PlayerPrefs.SetFloat(MusicVolumeKey, _musicVolume);
+            PlayerPrefs.SetFloat(EffectsVolumeKey, _effectsVolume);
+        }
+>>>>>>> Stashed changes
 
     private static AudioSource GetMusicAudioSource()
     {
@@ -55,6 +64,22 @@ public static class AudioManager
         if (effectsPlayer != null)
             return effectsPlayer.GetComponent<AudioSource>();
 
+<<<<<<< Updated upstream
         return null;
+=======
+        public void SetEffectsVolume(float value)
+        {
+            _effectsVolume = Mathf.Clamp01(value);
+            ApplyVolumes();
+            SaveVolumes();
+        }
+
+        private void LoadVolumes()
+        {
+            _globalVolume = PlayerPrefs.GetFloat(GlobalVolumeKey, 1f);
+            _musicVolume = PlayerPrefs.GetFloat(MusicVolumeKey, 1f);
+            _effectsVolume = PlayerPrefs.GetFloat(EffectsVolumeKey, 1f);
+        }
+>>>>>>> Stashed changes
     }
 }
