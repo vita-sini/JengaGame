@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class ContactMonitor : MonoBehaviour
 {
+<<<<<<< Updated upstream
     private Rigidbody _rb;
     private List<Collider> _contacts = new List<Collider>();
 
@@ -13,6 +14,12 @@ public class ContactMonitor : MonoBehaviour
 =======
         private List<Collider> _contacts = new List<Collider>();
 
+=======
+    public class ContactMonitor : MonoBehaviour
+    {
+        private List<Collider> _contacts = new List<Collider>();
+
+>>>>>>> Stashed changes
         private void OnCollisionEnter(Collision collision)
         {
             if (!_contacts.Contains(collision.collider))
