@@ -1,68 +1,61 @@
 ﻿using UnityEngine;
 
-namespace Gameplay
+public class BlockSpawner : MonoBehaviour
 {
-    public class BlockSpawner : MonoBehaviour
+    [SerializeField] private Transform _spawnPoint;
+    [SerializeField] private BlockPool _blockPool;
+
+    private float _currentTowerHeight;
+
+    public GameObject CurrentSpawnedBlock { get; private set; }
+
+    private void Start()
     {
-        [SerializeField] private Transform _spawnPoint;
-        [SerializeField] private BlockPool _blockPool;
-        [SerializeField] private BlockRegistry _blockRegistry;
+        _currentTowerHeight = _spawnPoint.position.y;
+        SpawnBlock();
+    }
 
-        private float _currentTowerHeight;
+    public void SpawnBlock()
+    {
+        if (CurrentSpawnedBlock != null) return;
 
-        public GameObject CurrentSpawnedBlock { get; private set; }
+        GameObject block = _blockPool.GetBlock();
 
-        private void Start()
-        {
-            _currentTowerHeight = _spawnPoint.position.y;
-            SpawnBlock();
-        }
+        if (block == null) return;
 
-        public void SpawnBlock()
-        {
-            if (CurrentSpawnedBlock != null) return;
+        Vector3 spawnPos = _spawnPoint.position;
 
-            GameObject block = _blockPool.GetBlock();
+        spawnPos.y = Mathf.Max(_spawnPoint.position.y, _currentTowerHeight + 2f);
 
-            if (block == null) return;
+        block.transform.position = spawnPos;
+        block.transform.rotation = Quaternion.identity;
 
-            Vector3 spawnPos = _spawnPoint.position;
+        Rigidbody rb = block.GetComponent<Rigidbody>();
+        rb.velocity = Vector3.zero;
+        rb.angularVelocity = Vector3.zero;
+        rb.isKinematic = true;
 
-            spawnPos.y = Mathf.Max(_spawnPoint.position.y, _currentTowerHeight + 2f);
+        var blockState = block.GetComponent<BlockState>();
 
-            block.transform.position = spawnPos;
-            block.transform.rotation = Quaternion.identity;
+        if (blockState != null)
+            blockState.SetSpawning(); // Пока блок не взят — состояние Spawning
 
-            Rigidbody rb = block.GetComponent<Rigidbody>();
-            rb.velocity = Vector3.zero;
-            rb.angularVelocity = Vector3.zero;
-            rb.isKinematic = true;
+        CurrentSpawnedBlock = block;
+    }
 
-            var blockState = block.GetComponent<BlockState>();
+    public void ReleaseBlock()
+    {
+        if (CurrentSpawnedBlock == null) return;
 
-            if (blockState != null)
-            {
-                blockState.Initialize(_blockRegistry); 
-                blockState.SetSpawning();
-            }
+        Rigidbody rb = CurrentSpawnedBlock.GetComponent<Rigidbody>();
+        rb.isKinematic = false;
 
-            CurrentSpawnedBlock = block;
-        }
+        CurrentSpawnedBlock = null;
+    }
 
-        public void ReleaseBlock()
-        {
-            if (CurrentSpawnedBlock == null) return;
-
-            Rigidbody rb = CurrentSpawnedBlock.GetComponent<Rigidbody>();
-            rb.isKinematic = false;
-
-            CurrentSpawnedBlock = null;
-        }
-
-        public void UpdateTowerHeight(float newHeight)
-        {
-            if (newHeight > _currentTowerHeight)
-                _currentTowerHeight = newHeight;
-        }
+    public void UpdateTowerHeight(float newHeight)
+    {
+        if (newHeight > _currentTowerHeight)
+            _currentTowerHeight = newHeight;
     }
 }

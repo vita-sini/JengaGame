@@ -1,13 +1,14 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
-namespace Gameplay
+public class Release
 {
-    public class Release
+    public void FreeBlock(Rigidbody selectedBlock)
     {
-        public void FreeBlock(Rigidbody selectedBlock)
-        {
-            selectedBlock.constraints = RigidbodyConstraints.None;
-            selectedBlock = null;
-        }
+        selectedBlock.constraints = RigidbodyConstraints.None;
+        selectedBlock = null;
+        Debug.Log("Release: FreeBlock");
     }
 }

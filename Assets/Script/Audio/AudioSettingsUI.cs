@@ -1,58 +1,54 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Audio
+public class AudioSettingsUI : MonoBehaviour
 {
-    public class AudioSettingsUI : MonoBehaviour
+    [SerializeField] private Slider _globalVolumeSlider;
+    [SerializeField] private Slider _musicVolumeSlider;
+    [SerializeField] private Slider _effectsVolumeSlider;
+    [SerializeField] private AudioSource _musicAudioSource;
+    [SerializeField] private AudioSource _effectsAudioSource;
+
+    private void Start()
     {
-        [Header("UI")]
-        [SerializeField] private Slider _globalVolumeSlider;
-        [SerializeField] private Slider _musicVolumeSlider;
-        [SerializeField] private Slider _effectsVolumeSlider;
+        _globalVolumeSlider.value = AudioManager.GlobalVolume;
+        _musicVolumeSlider.value = AudioManager.MusicVolume;
+        _effectsVolumeSlider.value = AudioManager.EffectsVolume;
 
-        [Header("Audio Manager")]
-        [SerializeField] private AudioManager _audio;
+        _globalVolumeSlider.onValueChanged.AddListener(OnGlobalVolumeChanged);
+        _musicVolumeSlider.onValueChanged.AddListener(OnMusicVolumeChanged);
+        _effectsVolumeSlider.onValueChanged.AddListener(OnEffectsVolumeChanged);
+    }
 
-        private void Start()
-        {
-            if (_audio == null)
-            {
-                return;
-            }
+    private void OnGlobalVolumeChanged(float value)
+    {
+        AudioManager.GlobalVolume = value;
+        AudioManager.ApplyVolumes();
+    }
 
-            _globalVolumeSlider.value = _audio.GlobalVolume;
-            _musicVolumeSlider.value = _audio.MusicVolume;
-            _effectsVolumeSlider.value = _audio.EffectsVolume;
+    private void OnMusicVolumeChanged(float value)
+    {
+        AudioManager.MusicVolume = value;
+        AudioManager.ApplyVolumes();
+        UpdateMusicVolume();
+    }
 
-            _globalVolumeSlider.onValueChanged.AddListener(OnGlobalVolumeChanged);
-            _musicVolumeSlider.onValueChanged.AddListener(OnMusicVolumeChanged);
-            _effectsVolumeSlider.onValueChanged.AddListener(OnEffectsVolumeChanged);
-        }
+    private void OnEffectsVolumeChanged(float value)
+    {
+        AudioManager.EffectsVolume = value;
+        AudioManager.ApplyVolumes();
+        UpdateEffectsVolume();
+    }
 
+    private void UpdateMusicVolume()
+    {
+        if (_musicAudioSource != null)
+            _musicAudioSource.volume = AudioManager.MusicVolume * AudioManager.GlobalVolume;
+    }
 
-        private void OnDestroy()
-        {
-            _globalVolumeSlider.onValueChanged.RemoveListener(OnGlobalVolumeChanged);
-            _musicVolumeSlider.onValueChanged.RemoveListener(OnMusicVolumeChanged);
-            _effectsVolumeSlider.onValueChanged.RemoveListener(OnEffectsVolumeChanged);
-        }
-
-        private void OnGlobalVolumeChanged(float volume)
-        {
-            _audio.SetGlobalVolume(volume);
-            _audio.SaveVolumes();
-        }
-
-        private void OnMusicVolumeChanged(float volume)
-        {
-            _audio.SetMusicVolume(volume);
-            _audio.SaveVolumes();
-        }
-
-        private void OnEffectsVolumeChanged(float volume)
-        {
-            _audio.SetEffectsVolume(volume);
-            _audio.SaveVolumes();
-        }
+    private void UpdateEffectsVolume()
+    {
+        if (_effectsAudioSource != null)
+            _effectsAudioSource.volume = AudioManager.EffectsVolume;
     }
 }

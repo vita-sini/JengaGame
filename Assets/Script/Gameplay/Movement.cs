@@ -1,49 +1,49 @@
 using UnityEngine;
 
-namespace Gameplay
+public class Movement
 {
-    public class Movement
+    private float _maxMoveSpeed = 17f;
+    private float _verticalMoveSpeed = 15f;
+
+    private MouseWorldPosition _mouseWorldPosition;
+    private Manipulation _manipulation;
+
+    public Movement(MouseWorldPosition mouseWorldPosition, Manipulation manipulation)
     {
-        private float _maxMoveSpeed = 17f;
-        private float _verticalMoveSpeed = 15f;
+        _mouseWorldPosition = mouseWorldPosition;
+        _manipulation = manipulation;
+    }
 
-        private MouseWorldPosition _mouseWorldPosition;
+    public void MoveMouse(Rigidbody selectedBlock, Vector3 offset)
+    {
+        //Горизонтальное перемещение по X и Z
+        Plane movementPlane = new Plane(Vector3.up, selectedBlock.position);
+        Vector3 mouseTargetPosition = _mouseWorldPosition.GetMouseWorldPosition(movementPlane) + offset;
 
-        public Movement(MouseWorldPosition mouseWorldPosition)
+        // Оставляем Y от текущей позиции (чтобы не прыгал)
+        Vector3 horizontalTarget = new Vector3(mouseTargetPosition.x, selectedBlock.position.y, mouseTargetPosition.z);
+        Vector3 horizontalDirection = horizontalTarget - selectedBlock.position;
+        Vector3 horizontalVelocity = horizontalDirection / Time.fixedDeltaTime;
+
+        if (horizontalVelocity.magnitude > _maxMoveSpeed)
         {
-            _mouseWorldPosition = mouseWorldPosition;
+            horizontalVelocity = horizontalVelocity.normalized * _maxMoveSpeed;
         }
 
-        public void MoveMouse(Rigidbody selectedBlock, Vector3 offset)
-        {
-            Plane movementPlane = new Plane(Vector3.up, selectedBlock.position);
-            Vector3 mouseTargetPosition = _mouseWorldPosition.GetMouseWorldPosition(movementPlane) + offset;
+        //вертикальное перемещение по оси Y 
+        float verticalInput = 0f;
+        if (Input.GetKey(KeyCode.W)) verticalInput = 1f;
+        else if (Input.GetKey(KeyCode.S)) verticalInput = -1f;
 
-            Vector3 horizontalTarget = new Vector3(mouseTargetPosition.x, selectedBlock.position.y, mouseTargetPosition.z);
-            Vector3 horizontalDirection = horizontalTarget - selectedBlock.position;
-            Vector3 horizontalVelocity = horizontalDirection / Time.fixedDeltaTime;
+        float verticalVelocity = verticalInput * _verticalMoveSpeed;
 
-            if (horizontalVelocity.magnitude > _maxMoveSpeed)
-            {
-                horizontalVelocity = horizontalVelocity.normalized * _maxMoveSpeed;
-            }
+        //Комбинируем горизонтальную и вертикальную скорости
+        Vector3 finalVelocity = new Vector3(
+            horizontalVelocity.x,
+            verticalVelocity,
+            horizontalVelocity.z
+        );
 
-            float verticalInput = 0f;
-            if (Input.GetKey(KeyCode.W)) verticalInput = 1f;
-            else if (Input.GetKey(KeyCode.S)) verticalInput = -1f;
-
-            float verticalVelocity = verticalInput * _verticalMoveSpeed;
-
-            Vector3 finalVelocity = new Vector3(
-                horizontalVelocity.x,
-                verticalVelocity,
-                horizontalVelocity.z
-            );
-
-            if (selectedBlock.isKinematic)
-                selectedBlock.isKinematic = false;
-
-            selectedBlock.velocity = finalVelocity;
-        }
+        selectedBlock.velocity = finalVelocity;
     }
 }

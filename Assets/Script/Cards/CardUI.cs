@@ -1,29 +1,24 @@
-using GameRoot;
 using System.Collections;
 using TMPro;
 using UnityEngine;
 
-namespace Cards
+public class CardUI : MonoBehaviour
 {
-    public class CardUI : MonoBehaviour
+    [SerializeField] private TextMeshProUGUI _cardDescriptionText;
+    [SerializeField] private GameObject _cardPanel;
+
+    public void ShowCard(Card card)
     {
-        [SerializeField] private TextMeshProUGUI _cardDescriptionText;
-        [SerializeField] private GameObject _cardPanel;
-        [SerializeField] private float _cardDisplayDuration = 3f;
-        [SerializeField] private Localization _localization;
+        _cardDescriptionText.text = card.Description;
+        _cardPanel.SetActive(true);
 
-        public void ShowCard(Card card)
-        {
-            _cardDescriptionText.text = card.GetDescription(_localization);
-            _cardPanel.SetActive(true);
-            StartCoroutine(HideCardAfterDelay(_cardDisplayDuration));
-        }
+        StartCoroutine(HideCardAfterDelay(3f));
+    }
 
-        private IEnumerator HideCardAfterDelay(float delay)
-        {
-            yield return new WaitForSeconds(delay);
+    private IEnumerator HideCardAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
 
-            _cardPanel.SetActive(false);
-        }
+        _cardPanel.SetActive(false);
     }
 }

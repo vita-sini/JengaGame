@@ -1,53 +1,46 @@
-using Gameplay;
-using GameRoot;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using YG;
 
-namespace UIGameplay
+public class ScoreUI : MonoBehaviour
 {
-    public class ScoreUI : MonoBehaviour
+    public TextMeshProUGUI _scoreText; 
+
+    private void OnEnable()
     {
-        [SerializeField] private ScoreManager _scoreManager;
-        [SerializeField] private GameEvents _gameEvents;
-        [SerializeField] private TextMeshProUGUI _scoreText;
+        ScoreManager.Instance.OnScoreChanged += UpdateScoreText;
+        UpdateScoreText(ScoreManager.Instance.CurrentScore);
+    }
 
-        private void OnEnable()
+    private void OnDisable()
+    {
+        if (ScoreManager.Instance != null)
+            ScoreManager.Instance.OnScoreChanged -= UpdateScoreText;
+    }
+
+    private void UpdateScoreText(int score)
+    {
+        _scoreText.text = $"{score}";
+
+        if (score <= 0)
+            return;
+
+        Scene currentScene = SceneManager.GetActiveScene();
+
+        if (currentScene.name == "GameplayNewChallenges")
         {
-            _scoreManager.ScoreChanged += UpdateScoreText;
-            UpdateScoreText(_scoreManager.CurrentScore);
+            YandexGame.NewLeaderboardScores("NewChallenges", score);
         }
-
-        private void OnDisable()
+        else if (currentScene.name == "GameplayClassic")
         {
-            if (_scoreManager != null)
-                _scoreManager.ScoreChanged -= UpdateScoreText;
+            YandexGame.NewLeaderboardScores("Classic", score);
         }
+    }
 
-        public void CalculateScore()
-        {
-            _scoreManager.Add(1);
-            _gameEvents.OnInvokeTurnEnd();
-        }
-
-        private void UpdateScoreText(int score)
-        {
-            _scoreText.text = $"{score}";
-
-            if (score <= 0)
-                return;
-
-            Scene currentScene = SceneManager.GetActiveScene();
-
-            if (currentScene.name == Scenes.GAMEPLAYNEWCHALLENGES)
-            {
-                YandexGame.NewLeaderboardScores("NewChallenges", score);
-            }
-            else if (currentScene.name == Scenes.GAMEPLAYCLASSIC)
-            {
-                YandexGame.NewLeaderboardScores("Classic", score);
-            }
-        }
+    public void CalculateScore(Vector3 initialPos, Vector3 currentPos, Rigidbody block)
+    {
+        ScoreManager.Instance.Add(1); 
+        GameEvents.InvokeTurnEnd();
     }
 }
